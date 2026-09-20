@@ -492,7 +492,6 @@
     "Token Usage": "Token 使用量",
     "Tokens": "Token",
     "Tokens:": "Token：",
-    "Token": "Token",
     "Your model does not support this media. Please select a different model to send this message, or remove the media.": "你当前的模型不支持此多媒体格式。请切换其他模型发送此消息，或移除多媒体附件。",
     "This error is likely temporary. You can prompt the model to try again after some time.": "此错误可能是暂时的。你可以稍后提示模型重试。",
     "You can prompt the model to try again or start a new conversation if the error persists.": "如果错误持续存在，你可以提示模型重试或开启新会话。",
@@ -1353,11 +1352,6 @@
       "flags": "u"
     },
     {
-      "source": "^了解更多关于\\s+Inherit Global$",
-      "target": "了解更多关于继承全局",
-      "flags": "u"
-    },
-    {
       "source": "^Agent settings and permissions for conversations outside of (.+)\\.$",
       "target": "$1外对话的智能体设置与权限。",
       "flags": "u"
@@ -1615,7 +1609,7 @@
     {
       "source": "^Updated\\s+(.+)$",
       "target": "更新于 $1",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Created\\s+(.+)$",
@@ -1625,112 +1619,77 @@
     {
       "source": "^Last active\\s+(.+)$",
       "target": "上次活跃于 $1",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)\\s*mins?\\s*ago$",
       "target": "$1 分钟前",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)\\s*hours?\\s*ago$",
       "target": "$1 小时前",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)\\s*days?\\s*ago$",
       "target": "$1 天前",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Folder doesn't exist$",
       "target": "文件夹不存在",
-      "flags": "ui"
-    },
-    {
-      "source": "将在\\s*(\\d+)d\\s*(\\d+)h\\s*后重置",
-      "target": "将在 $1 天 $2 小时后重置",
-      "flags": "u"
-    },
-    {
-      "source": "将在\\s*(\\d+)h\\s*(\\d+)m\\s*后重置",
-      "target": "将在 $1 小时 $2 分钟后重置",
-      "flags": "u"
-    },
-    {
-      "source": "将在\\s*(\\d+)m\\s*(\\d+)s\\s*后重置",
-      "target": "将在 $1 分钟 $2 秒后重置",
-      "flags": "u"
-    },
-    {
-      "source": "将在\\s*(\\d+)d\\s*后重置",
-      "target": "将在 $1 天后重置",
-      "flags": "u"
-    },
-    {
-      "source": "将在\\s*(\\d+)h\\s*后重置",
-      "target": "将在 $1 小时后重置",
-      "flags": "u"
-    },
-    {
-      "source": "将在\\s*(\\d+)m\\s*后重置",
-      "target": "将在 $1 分钟后重置",
-      "flags": "u"
-    },
-    {
-      "source": "将在\\s*(\\d+)s\\s*后重置",
-      "target": "将在 $1 秒后重置",
       "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)d\\s*(\\d+)h$",
       "target": "将在 $1 天 $2 小时后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)h\\s*(\\d+)m$",
       "target": "将在 $1 小时 $2 分钟后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)m\\s*(\\d+)s$",
       "target": "将在 $1 分钟 $2 秒后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)d$",
       "target": "将在 $1 天后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)h$",
       "target": "将在 $1 小时后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)m$",
       "target": "将在 $1 分钟后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^Resets in (\\d+)s$",
       "target": "将在 $1 秒后重置",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)d\\s+(\\d+)h$",
       "target": "$1 天 $2 小时",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)h\\s+(\\d+)m$",
       "target": "$1 小时 $2 分钟",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)m\\s+(\\d+)s$",
       "target": "$1 分钟 $2 秒",
-      "flags": "ui"
+      "flags": "u"
     },
     {
       "source": "^(\\d+)s$",
