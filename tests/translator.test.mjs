@@ -166,3 +166,143 @@ test("Antigravity 2.6.0 settings and plugin strings are covered", async () => {
     assert.match(translated, /[\u3400-\u9fff]/u, `translation is not Chinese: ${source}`);
   }
 });
+
+test("Antigravity 2.15.0 agent permission confirmation dialog strings and templates are covered", async () => {
+  const current = await loadDomTranslations();
+  const exactStrings = [
+    "Allow reading this URL?",
+    "Allow executing actions on this URL?",
+    "Allow read access to this path?",
+    "Allow write access to this path?",
+    "Allow running this command?",
+    "Allow running this command outside the sandbox?",
+    "Allow using this MCP tool?",
+    "Allow a one-time administrator (UAC) elevation?",
+    "Allow access to this resource?",
+    "Save rule to always allow reading this URL?",
+    "Save rule to always allow executing actions on this URL?",
+    "Save rule to always allow read access to this path?",
+    "Save rule to always allow write access to this path?",
+    "Save rule to always allow running this command?",
+    "Save rule to always allow running this command outside the sandbox?",
+    "Save rule to always allow using this MCP tool?",
+    "Save rule to always allow a one-time administrator (UAC) elevation?",
+    "Save rule to always allow access to this resource?",
+    "Yes, allow",
+    "Yes, allow this time",
+    "Yes, and always allow",
+    "Yes, and always allow in this conversation",
+    "Yes, and always allow in this project",
+    "Yes, and always allow in this workspace",
+    "Yes, and always allow when not in a project",
+    "Yes, save rule",
+    "Yes, save rule globally",
+    "Yes, save rule in this conversation",
+    "Yes, save rule in this project",
+    "Yes, save rule in this workspace",
+    "Yes, save rule when not in a project",
+    "No (tell the agent what to do instead)",
+    "(tell the agent what to do instead)",
+    "Skip",
+    "Skip All",
+    "Always Allow",
+    "Allow Once",
+    "Allow once",
+    "Deny",
+    "Edit permission target",
+    "Confirm the command is safe to run outside of the sandbox with full network and disk access.",
+    "Requesting a one-time administrator (UAC) elevation",
+    "Requires manual confirmation.",
+    "Agent needs permission to execute JavaScript",
+  ];
+
+  for (const source of exactStrings) {
+    const translated = translateDictionaryValue(source, current);
+    assert.ok(translated, `missing exact permission translation: ${source}`);
+    assert.match(translated, /[\u3400-\u9fff]/u, `translation is not Chinese: ${source}`);
+  }
+
+  const dynamicTemplates = [
+    {
+      source: "Allow custom tool execution on target?",
+      expected: "允许 custom tool execution on target？",
+    },
+    {
+      source: "Save rule to always allow custom tool execution on target?",
+      expected: "保存规则以始终允许 custom tool execution on target？",
+    },
+    {
+      source: "Yes, and always allow 'github.com' in this conversation",
+      expected: "是，并始终在当前对话中允许“github.com”",
+    },
+    {
+      source: "Yes, and always allow 'C:/dev/project' when not in a project",
+      expected: "是，并在非项目环境下始终允许“C:/dev/project”",
+    },
+    {
+      source: "Yes, and always allow 'npm test' in this project",
+      expected: "是，并在此项目中始终允许“npm test”",
+    },
+    {
+      source: "Yes, and always allow 'my-tool' in this workspace",
+      expected: "是，并在此工作区中始终允许“my-tool”",
+    },
+    {
+      source: "Yes, and always allow 'api.example.com'",
+      expected: "是，并始终允许“api.example.com”",
+    },
+    {
+      source: "Yes, save rule for 'github.com' in this conversation",
+      expected: "是，并在当前对话中为“github.com”保存规则",
+    },
+    {
+      source: "Yes, save rule for 'C:/dev/project' when not in a project",
+      expected: "是，并在非项目环境下为“C:/dev/project”保存规则",
+    },
+    {
+      source: "Yes, save rule for 'npm test' in this project",
+      expected: "是，并在此项目中为“npm test”保存规则",
+    },
+    {
+      source: "Yes, save rule for 'my-tool' in this workspace",
+      expected: "是，并在此工作区中为“my-tool”保存规则",
+    },
+    {
+      source: "Yes, save rule for 'api.example.com' globally",
+      expected: "是，并全局为“api.example.com”保存规则",
+    },
+    {
+      source: "Yes, save rule for 'api.example.com'",
+      expected: "是，并为“api.example.com”保存规则",
+    },
+    {
+      source: "Requesting permission to read C:/app/src",
+      expected: "正在请求权限以read C:/app/src",
+    },
+    {
+      source: "Conflicts with your configured Ask permission: read_file(/etc/hosts)",
+      expected: "与已配置的“询问”权限冲突：read_file(/etc/hosts)",
+    },
+    {
+      source: "Requires manual confirmation: command(rm -rf /)",
+      expected: "需要手动确认：command(rm -rf /)",
+    },
+    {
+      source: "Agent needs permission to execute JavaScript on docs.anthropic.com",
+      expected: "智能体需要权限以在 docs.anthropic.com 上执行 JavaScript",
+    },
+    {
+      source: "Agent needs permission to act on example.com",
+      expected: "智能体需要权限以在 example.com 上执行操作",
+    },
+  ];
+
+  for (const { source, expected } of dynamicTemplates) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `dynamic pattern translation mismatch for: ${source}`,
+    );
+  }
+});

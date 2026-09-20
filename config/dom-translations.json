@@ -515,8 +515,8 @@
     "Global Rules": "全局规则",
     "Unnamed rule": "未命名规则",
     "Yes, save rule globally": "是，全局保存规则",
-    "Yes, save rule in this workspace": "是，在当前工作区保存规则",
-    "Yes, save rule in this conversation": "是，仅在当前会话保存规则",
+    "Yes, save rule in this workspace": "是，并在此工作区中保存规则",
+    "Yes, save rule in this conversation": "是，并在当前对话中保存规则",
     "Manage MCP Servers": "管理 MCP 服务器",
     "Add MCP Servers": "添加 MCP 服务器",
     "Add MCP": "添加 MCP",
@@ -1318,9 +1318,137 @@
     "The workspace has been successfully created.": "工作区已成功创建。",
     "Toggle dark / light theme appearance.": "切换深色 / 浅色主题外观。",
     "Use keyboard shortcuts to navigate faster.": "使用键盘快捷键更快地导航。",
-    "Workspace settings override global preferences.": "工作区设置将覆盖全局偏好设置。"
+    "Workspace settings override global preferences.": "工作区设置将覆盖全局偏好设置。",
+    "Allow a one-time administrator (UAC) elevation?": "允许单次管理员（UAC）权限提升？",
+    "Allow access to this resource?": "允许访问此资源？",
+    "Allow executing actions on this URL?": "允许在此 URL 上执行操作？",
+    "Allow Once": "仅允许一次",
+    "Allow once": "仅允许一次",
+    "Allow read access to this path?": "允许读取此路径？",
+    "Allow reading this URL?": "允许读取此 URL？",
+    "Allow running this command outside the sandbox?": "允许在沙箱外运行此命令？",
+    "Allow running this command?": "允许运行此命令？",
+    "Allow using this MCP tool?": "允许使用此 MCP 工具？",
+    "Always Allow": "始终允许",
+    "Agent needs permission to execute JavaScript": "智能体需要权限以执行 JavaScript",
+    "Confirm the command is safe to run outside of the sandbox with full network and disk access.": "确认该命令在具有完整网络和磁盘访问权限的沙箱外运行是安全的。",
+    "Edit permission target": "编辑权限目标",
+    "No (tell the agent what to do instead)": "否（改为告诉智能体应该怎么做）",
+    "(tell the agent what to do instead)": "（改为告诉智能体应该怎么做）",
+    "Requesting a one-time administrator (UAC) elevation": "正在请求单次管理员（UAC）权限提升",
+    "Requires manual confirmation.": "需要手动确认。",
+    "Save rule to always allow a one-time administrator (UAC) elevation?": "保存规则以始终允许单次管理员（UAC）权限提升？",
+    "Save rule to always allow access to this resource?": "保存规则以始终允许访问此资源？",
+    "Save rule to always allow executing actions on this URL?": "保存规则以始终允许在此 URL 上执行操作？",
+    "Save rule to always allow read access to this path?": "保存规则以始终允许读取此路径？",
+    "Save rule to always allow reading this URL?": "保存规则以始终允许读取此 URL？",
+    "Save rule to always allow running this command outside the sandbox?": "保存规则以始终允许在沙箱外运行此命令？",
+    "Save rule to always allow running this command?": "保存规则以始终允许运行此命令？",
+    "Save rule to always allow using this MCP tool?": "保存规则以始终允许使用此 MCP 工具？",
+    "Skip": "跳过",
+    "Skip All": "全部跳过",
+    "Yes, allow": "是，允许",
+    "Yes, allow this time": "是，仅允许这一次",
+    "Yes, and always allow": "是，并始终允许",
+    "Yes, and always allow in this conversation": "是，并始终在当前对话中允许",
+    "Yes, and always allow in this project": "是，并在此项目中始终允许",
+    "Yes, and always allow in this workspace": "是，并在此工作区中始终允许",
+    "Yes, and always allow when not in a project": "是，并在非项目环境下始终允许",
+    "Yes, save rule": "是，保存规则",
+    "Yes, save rule in this project": "是，并在此项目中保存规则",
+    "Yes, save rule when not in a project": "是，并在非项目环境下保存规则"
   },
   "patterns": [
+    {
+      "source": "^Save rule to always allow (.+)\\?$",
+      "target": "保存规则以始终允许 $1？",
+      "flags": "u"
+    },
+    {
+      "source": "^Allow (.+)\\?$",
+      "target": "允许 $1？",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, and always allow '(.+)' in this conversation$",
+      "target": "是，并始终在当前对话中允许“$1”",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, and always allow '(.+)' when not in a project$",
+      "target": "是，并在非项目环境下始终允许“$1”",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, and always allow '(.+)' in this project$",
+      "target": "是，并在此项目中始终允许“$1”",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, and always allow '(.+)' in this workspace$",
+      "target": "是，并在此工作区中始终允许“$1”",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, and always allow '(.+)'$",
+      "target": "是，并始终允许“$1”",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, save rule for '(.+)' in this conversation$",
+      "target": "是，并在当前对话中为“$1”保存规则",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, save rule for '(.+)' when not in a project$",
+      "target": "是，并在非项目环境下为“$1”保存规则",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, save rule for '(.+)' in this project$",
+      "target": "是，并在此项目中为“$1”保存规则",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, save rule for '(.+)' in this workspace$",
+      "target": "是，并在此工作区中为“$1”保存规则",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, save rule for '(.+)' globally$",
+      "target": "是，并全局为“$1”保存规则",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, save rule for '(.+)'$",
+      "target": "是，并为“$1”保存规则",
+      "flags": "u"
+    },
+    {
+      "source": "^Requesting permission to (.+)$",
+      "target": "正在请求权限以$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Conflicts with your configured Ask permission: (.+)$",
+      "target": "与已配置的“询问”权限冲突：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Requires manual confirmation: (.+)$",
+      "target": "需要手动确认：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Agent needs permission to execute JavaScript on (.+)$",
+      "target": "智能体需要权限以在 $1 上执行 JavaScript",
+      "flags": "u"
+    },
+    {
+      "source": "^Agent needs permission to act on (.+)$",
+      "target": "智能体需要权限以在 $1 上执行操作",
+      "flags": "u"
+    },
     {
       "source": "^(Alt\\+Enter|\\u2325\\u23ce)\\s+On empty prompt,\\s*sends next in queue$",
       "target": "$1 在输入为空时，发送队列中的下一条消息",
