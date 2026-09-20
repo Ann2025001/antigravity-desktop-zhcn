@@ -201,9 +201,15 @@ test("untranslated collector correctly distinguishes exact and pattern covered s
   assert.equal(exactCheck.status, "exact-covered");
   assert.equal(exactCheck.translated, "通用");
 
-  const patternCheck = classifyTextCoverage("Updated 5 mins ago", dictionary);
+  const patternCheck = classifyTextCoverage(
+    "Yes, and always allow 'my-custom-tool' in this conversation",
+    dictionary,
+  );
   assert.equal(patternCheck.status, "pattern-covered");
-  assert.match(patternCheck.translated, /^更新于/);
+  assert.equal(
+    patternCheck.translated,
+    "是，并始终在当前对话中允许“my-custom-tool”",
+  );
 
   const unknownCheck = classifyTextCoverage(
     "Unseen Feature Button Text",
@@ -276,4 +282,97 @@ test("untranslated collector aggregates candidates and outputs structured report
   assert.match(mdReport, /# Antigravity 未翻译英文 UI 采集报告 \(2\.15\.0\)/);
   assert.match(mdReport, /Advanced Experimental Studio/);
   assert.match(mdReport, /Export Workspace Bundle/);
+});
+
+test("dynamic popup / portal UI elements are collected while project name is preserved", async () => {
+  // Test dynamic menu item inside popover portal
+  const isMenuUi = isPotentialEnglishUi("Create New Branch", {
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']", "[data-radix-popper-content-wrapper]"],
+  });
+  assert.equal(isMenuUi, true);
+
+  // Project name with custom identifier should not be matched by exact or patterns
+  const dictionary = await loadDomTranslations();
+  const projectNameCoverage = classifyTextCoverage(
+    "wonderful-davinci",
+    dictionary,
+  );
+  assert.equal(projectNameCoverage.status, "untranslated");
+  assert.equal(projectNameCoverage.translated, null);
+});
+
+test("closed loop: New Project and Quick Start are detected when untranslated and disappear when exact covered", () => {
+  // 1. Mock dictionary without New Project and Quick Start
+  const partialDict = {
+    exact: {},
+    patterns: [
+      {
+        source: "^New\\s+(.+)$",
+        target: "新建 $1",
+        flags: "u",
+      },
+    ],
+  };
+
+  const collector1 = new UntranslatedCollector({
+    dictionary: partialDict,
+    appVersion: "2.15.0",
+  });
+
+  collector1.record({
+    text: "New Project",
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']"],
+  });
+  collector1.record({
+    text: "Quick Start",
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']"],
+  });
+
+  const candidatesBefore = collector1.getCandidates({
+    status: "all-untranslated",
+  });
+  assert.equal(candidatesBefore.length, 2);
+  assert.equal(candidatesBefore[0].text, "New Project");
+  assert.equal(candidatesBefore[0].status, "partial-untranslated");
+  assert.equal(candidatesBefore[0].translated, "新建 Project");
+  assert.equal(candidatesBefore[1].text, "Quick Start");
+  assert.equal(candidatesBefore[1].status, "untranslated");
+
+  // 2. Mock dictionary with exact translations added
+  const fullDict = {
+    exact: {
+      "New Project": "新建项目",
+      "Quick Start": "快速开始",
+    },
+    patterns: partialDict.patterns,
+  };
+
+  const collector2 = new UntranslatedCollector({
+    dictionary: fullDict,
+    appVersion: "2.15.0",
+  });
+
+  collector2.record({
+    text: "New Project",
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']"],
+  });
+  collector2.record({
+    text: "Quick Start",
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']"],
+  });
+
+  const candidatesAfter = collector2.getCandidates({
+    status: "all-untranslated",
+  });
+  assert.equal(candidatesAfter.length, 0);
 });

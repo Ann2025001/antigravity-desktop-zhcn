@@ -1358,7 +1358,15 @@
     "Yes, save rule in this project": "是，并在此项目中保存规则",
     "Yes, save rule when not in a project": "是，并在非项目环境下保存规则",
     "Allow write access to this path?": "允许写入此路径？",
-    "Save rule to always allow write access to this path?": "保存规则以始终允许写入此路径？"
+    "Save rule to always allow write access to this path?": "保存规则以始终允许写入此路径？",
+    "New Project": "新建项目",
+    "Quick Start": "快速开始",
+    "Select a folder to create a new project.": "选择文件夹以创建新项目。",
+    "Instantly create a new project and folder to start building.": "立即创建新项目与文件夹并开始构建。",
+    "CitC Workspace": "CitC 工作区",
+    "Work in a CitC workspace.": "在 CitC 工作区中工作。",
+    "Cog Workspace": "Cog 工作区",
+    "Work in a Cog workspace.": "在 Cog 工作区中工作。"
   },
   "patterns": [
     {

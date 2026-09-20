@@ -46,11 +46,15 @@ const ALLOWED_UI_TAGS = new Set([
   "H4",
   "H5",
   "H6",
+  "SPAN",
+  "DIV",
 ]);
 
 const ALLOWED_UI_ROLES = new Set([
   "button",
   "menuitem",
+  "menuitemcheckbox",
+  "menuitemradio",
   "tab",
   "dialog",
   "tooltip",
@@ -61,6 +65,9 @@ const ALLOWED_UI_ROLES = new Set([
   "heading",
   "option",
   "menu",
+  "listbox",
+  "combobox",
+  "popover",
 ]);
 
 const ALLOWED_UI_ATTRIBUTES = new Set(["aria-label", "title", "placeholder"]);
@@ -89,6 +96,7 @@ export function isPotentialEnglishUi(text, context = {}) {
     closestSelectors = [],
     isUserInput = false,
     isModelOutput = false,
+    isBundleScan = false,
   } = context;
 
   if (isUserInput || isModelOutput) return false;
@@ -103,18 +111,30 @@ export function isPotentialEnglishUi(text, context = {}) {
     return false;
   }
 
+  // Static bundle scan pass
+  if (isBundleScan || tagName === "STATIC_BUNDLE" || tagName === "BUNDLE") {
+    return true;
+  }
+
   if (!attributeName) {
     const upperTag = tagName.toUpperCase();
     const lowerRole = role.toLowerCase();
-    const isExplicitUiTag = ALLOWED_UI_TAGS.has(upperTag);
+    const isExplicitUiTag =
+      upperTag === "BUTTON" ||
+      upperTag === "LABEL" ||
+      upperTag === "TH" ||
+      upperTag === "DT" ||
+      upperTag === "OPTION" ||
+      upperTag === "SUMMARY" ||
+      /^H[1-6]$/.test(upperTag);
     const isExplicitUiRole = ALLOWED_UI_ROLES.has(lowerRole);
     const inUiContainer = closestSelectors.some((s) =>
-      /(?:dialog|modal|settings|toolbar|nav|menu|popup|toast|alert|sidebar|header)/i.test(
+      /(?:dialog|modal|settings|toolbar|nav|menu|popup|popover|dropdown|listbox|portal|toast|alert|sidebar|header)/i.test(
         s,
       ),
     );
 
-    // Reject raw paragraphs or generic div/span outside recognized UI containers
+    // If tag is generic span/div, require explicit UI role or container
     if (!isExplicitUiTag && !isExplicitUiRole && !inUiContainer) {
       return false;
     }
@@ -136,6 +156,22 @@ export function classifyTextCoverage(text, dictionary) {
   }
   const translated = translateDictionaryValue(core, dictionary);
   if (translated !== null && translated !== core) {
+    // Strip safely preserved variables (quoted tokens, URLs, paths) from translated string
+    const cleaned = translated
+      .replace(/[“"'][^”"']+[”"']/g, "")
+      .replace(/`[^`]+`/g, "")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/[a-zA-Z]:[\\\/]\S+/g, "")
+      .trim();
+
+    // If remaining text still contains standalone English words (e.g. "新建 Project"),
+    // flag as partial-untranslated
+    if (/[\u4e00-\u9fff]/.test(cleaned) && /\b[a-zA-Z]{2,}\b/.test(cleaned)) {
+      return {
+        status: "partial-untranslated",
+        translated,
+      };
+    }
     return {
       status: "pattern-covered",
       translated,
@@ -163,6 +199,8 @@ export class UntranslatedCollector {
     closestSelectors = [],
     isUserInput = false,
     isModelOutput = false,
+    isBundleScan = false,
+    sourceType = "runtime-dom",
   }) {
     if (
       !isPotentialEnglishUi(text, {
@@ -172,6 +210,7 @@ export class UntranslatedCollector {
         closestSelectors,
         isUserInput,
         isModelOutput,
+        isBundleScan,
       })
     ) {
       return false;
@@ -188,6 +227,7 @@ export class UntranslatedCollector {
       if (role) existing.roles.add(role.toLowerCase());
       if (attributeName) existing.attributes.add(attributeName.toLowerCase());
       if (contextPath) existing.contexts.add(contextPath);
+      if (sourceType) existing.sources.add(sourceType);
     } else {
       this.records.set(core, {
         text: core,
@@ -200,15 +240,24 @@ export class UntranslatedCollector {
         roles: new Set(role ? [role.toLowerCase()] : []),
         attributes: new Set(attributeName ? [attributeName.toLowerCase()] : []),
         contexts: new Set(contextPath ? [contextPath] : []),
+        sources: new Set(sourceType ? [sourceType] : []),
       });
     }
     return true;
   }
 
-  getCandidates({ status = "untranslated" } = {}) {
+  getCandidates({ status = "all-untranslated" } = {}) {
     const list = [];
     for (const record of this.records.values()) {
-      if (!status || record.status === status) {
+      let match = false;
+      if (status === "all-untranslated") {
+        match =
+          record.status === "untranslated" ||
+          record.status === "partial-untranslated";
+      } else if (!status || record.status === status) {
+        match = true;
+      }
+      if (match) {
         list.push({
           text: record.text,
           count: record.count,
@@ -220,6 +269,7 @@ export class UntranslatedCollector {
           roles: [...record.roles].sort(),
           attributes: [...record.attributes].sort(),
           contexts: [...record.contexts].sort(),
+          sources: [...record.sources].sort(),
         });
       }
     }
@@ -228,7 +278,8 @@ export class UntranslatedCollector {
 
   generateJsonReport({
     generatedAt = new Date().toISOString(),
-    filterStatus = "untranslated",
+    filterStatus = "all-untranslated",
+    scanSource = "runtime-dom",
   } = {}) {
     const candidates = this.getCandidates({ status: filterStatus });
     return {
@@ -236,6 +287,7 @@ export class UntranslatedCollector {
       type: "untranslated-ui-report",
       appVersion: this.appVersion,
       generatedAt,
+      scanSource,
       filterStatus,
       totalCandidates: candidates.length,
       candidates,
@@ -244,7 +296,8 @@ export class UntranslatedCollector {
 
   generateMarkdownReport({
     generatedAt = new Date().toISOString(),
-    filterStatus = "untranslated",
+    filterStatus = "all-untranslated",
+    scanSource = "runtime-dom",
   } = {}) {
     const candidates = this.getCandidates({ status: filterStatus });
     const lines = [
@@ -252,27 +305,34 @@ export class UntranslatedCollector {
       "",
       `- **客户端版本**: ${this.appVersion}`,
       `- **生成时间**: ${generatedAt}`,
-      `- **候选状态**: ${filterStatus}`,
-      `- **未翻译候选总数**: ${candidates.length}`,
+      `- **采集来源**: ${scanSource}`,
+      `- **候选筛选**: ${filterStatus} (包含完全未翻译与半中文残留)`,
+      `- **候选总数**: ${candidates.length}`,
       "",
       "> [!NOTE]",
       "> 此报告由维护者采集工具自动生成，仅供审阅与词库补充参考。请人工核对语境后再添加至 `config/dom-translations.json`。",
       "",
-      "| 序号 | 出现频次 | 原始英文 UI 文本 | 元素类型 / 属性 | 建议汉化 (待填) |",
-      "| :--- | :---: | :--- | :--- | :--- |",
+      "| 序号 | 出现频次 | 状态 | 原始英文 UI 文本 | 来源 / 元素类型 | 当前翻译 / 建议 |",
+      "| :--- | :---: | :---: | :--- | :--- | :--- |",
     ];
 
     if (candidates.length === 0) {
-      lines.push("| - | 0 | *(未发现未覆盖的英文 UI)* | - | - |");
+      lines.push("| - | 0 | - | *(未发现未覆盖的英文 UI)* | - | - |");
     } else {
       candidates.forEach((c, index) => {
         const types = [
+          ...c.sources,
           ...c.elementTypes,
           ...c.roles.map((r) => `role=${r}`),
           ...c.attributes.map((a) => `@${a}`),
         ].join(", ") || "text";
         const escapedText = c.text.replace(/\|/g, "\\|");
-        lines.push(`| ${index + 1} | ${c.count} | \`${escapedText}\` | \`${types}\` | |`);
+        const currentTrans = c.translated
+          ? `(当前: \`${c.translated.replace(/\|/g, "\\|")}\`)`
+          : "";
+        lines.push(
+          `| ${index + 1} | ${c.count} | \`${c.status}\` | \`${escapedText}\` | \`${types}\` | ${currentTrans} |`,
+        );
       });
     }
 

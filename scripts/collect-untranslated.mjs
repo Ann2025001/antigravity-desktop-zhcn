@@ -33,6 +33,7 @@ const explicitOutputDir = readOption("--output-dir");
 
 let appVersion = explicitVersion || "unknown";
 let uiBundleBuffer = null;
+let scanSource = "offline-bundle";
 
 try {
   const inspection = await inspectInstallation();
@@ -45,11 +46,13 @@ try {
 
 if (explicitUiPath) {
   uiBundleBuffer = await readFile(path.resolve(explicitUiPath));
+  scanSource = `offline-bundle (${path.basename(explicitUiPath)})`;
 } else {
   const port = await findLatestUiPort();
   if (port) {
     try {
       uiBundleBuffer = await fetchUiBundle(port);
+      scanSource = `live-runtime-bundle (https://127.0.0.1:${port}/main.js)`;
     } catch {
       // Live fetch fallback
     }
@@ -62,24 +65,41 @@ const collector = new UntranslatedCollector({
   appVersion,
 });
 
-// If UI bundle is available, extract static UI candidates from clean string literals
 if (uiBundleBuffer) {
   const bundleText = uiBundleBuffer.toString("utf8");
-  // Match single or double quoted strings of 2-80 characters
-  const stringLiteralRegex = /"([^"\r\n]{2,80})"|'([^'\r\n]{2,80})'/g;
+
+  // 1. High-confidence UI descriptor patterns (label, tooltipText, title, placeholder, etc.)
+  const uiKeyRegex =
+    /(?:label|tooltipText|title|placeholder|heading|buttonText|ariaLabel)\s*:\s*(?:[a-zA-Z0-9_$]+\s*\?\?\s*)?["']([^"'\r\n]{2,120})["']/g;
   let match;
+  while ((match = uiKeyRegex.exec(bundleText)) !== null) {
+    const candidate = match[1].trim();
+    if (
+      isPotentialEnglishUi(candidate, {
+        isBundleScan: true,
+        tagName: "UI_DESCRIPTOR",
+      })
+    ) {
+      collector.record({
+        text: candidate,
+        tagName: "descriptor",
+        sourceType: "bundle-descriptor",
+        contextPath: "bundle:uiKey",
+        isBundleScan: true,
+      });
+    }
+  }
+
+  // 2. String literal candidate scan
+  const stringLiteralRegex = /"([^"\r\n]{2,80})"|'([^'\r\n]{2,80})'/g;
   while ((match = stringLiteralRegex.exec(bundleText)) !== null) {
     const candidate = (match[1] || match[2] || "").trim();
     if (!candidate) continue;
 
-    // Strict UI heuristics for static bundle literals:
-    // Must start with an uppercase letter or special UI symbol
+    // Filter JS identifiers, error names, and technical terms
     if (!/^[A-Z][a-zA-Z0-9\s.,'?!()-]{1,80}$/.test(candidate)) continue;
-
-    // Filter out common JS keywords, identifiers, and camelCase
     if (
       /^[A-Z][a-z0-9]+[A-Z]/.test(candidate) ||
-      candidate.includes("http") ||
       candidate.includes("TypeError") ||
       candidate.includes("Error") ||
       candidate.includes("Object") ||
@@ -87,16 +107,26 @@ if (uiBundleBuffer) {
       candidate.includes("Promise") ||
       candidate.includes("Function") ||
       candidate.includes("Undefined") ||
-      candidate.includes("Null")
+      candidate.includes("Null") ||
+      candidate.includes("WebGL") ||
+      candidate.includes("HTTP") ||
+      candidate.includes("JSON")
     ) {
       continue;
     }
 
-    if (isPotentialEnglishUi(candidate, { tagName: "STATIC_BUNDLE" })) {
+    if (
+      isPotentialEnglishUi(candidate, {
+        isBundleScan: true,
+        tagName: "STATIC_BUNDLE",
+      })
+    ) {
       collector.record({
         text: candidate,
-        tagName: "bundle",
-        contextPath: "runtime/main.js",
+        tagName: "literal",
+        sourceType: "bundle-literal",
+        contextPath: "bundle:main.js",
+        isBundleScan: true,
       });
     }
   }
@@ -108,8 +138,16 @@ const outputDir = explicitOutputDir
   ? path.resolve(explicitOutputDir)
   : path.join(projectRoot, "reports");
 
-const jsonReport = collector.generateJsonReport({ generatedAt: now.toISOString() });
-const mdReport = collector.generateMarkdownReport({ generatedAt: now.toISOString() });
+const jsonReport = collector.generateJsonReport({
+  generatedAt: now.toISOString(),
+  scanSource,
+  filterStatus: "all-untranslated",
+});
+const mdReport = collector.generateMarkdownReport({
+  generatedAt: now.toISOString(),
+  scanSource,
+  filterStatus: "all-untranslated",
+});
 
 await mkdir(outputDir, { recursive: true });
 
@@ -121,7 +159,16 @@ await writeFile(mdPath, mdReport, "utf8");
 
 console.log(`\n=== 未翻译英文 UI 采集完成 ===`);
 console.log(`客户端版本: ${appVersion}`);
+console.log(`采集来源: ${scanSource}`);
 console.log(`未翻译候选总数: ${jsonReport.totalCandidates}`);
 console.log(`JSON 报告: ${jsonPath}`);
 console.log(`Markdown 报告: ${mdPath}`);
-console.log(`注意: 报告已生成在 reports/ 目录，仅供维护者与贡献者审阅，不会被 Git 默认跟踪。`);
+console.log(`注意: 报告已生成在 reports/ 目录（已被 .gitignore 忽略，不会提交到仓库）。`);
+
+if (jsonReport.totalCandidates > 0) {
+  console.log(`\n发现未覆盖候选词条 (Top 10):`);
+  jsonReport.candidates.slice(0, 10).forEach((c, idx) => {
+    const extra = c.translated ? ` (当前半中文: "${c.translated}")` : "";
+    console.log(`  [${idx + 1}] "${c.text}" [${c.status}]${extra}`);
+  });
+}
