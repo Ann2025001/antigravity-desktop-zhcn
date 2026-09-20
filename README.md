@@ -2,17 +2,17 @@
 
 面向 Windows 版 Google Antigravity Desktop 的中文本地化补丁工具。
 
-当前汉化词库包含 **1315 条精确中英词汇映射 + 138 条动态正则匹配规则**，覆盖设置菜单、权限预设、快捷键面板、交互弹窗与基础流程。
+当前汉化词库包含 **1355 条精确中英词汇映射 + 160 条动态正则匹配规则**，覆盖设置菜单、权限预设、快捷键面板、交互弹窗与基础流程。
 
 ---
 
 ## 📸 效果预览
 
-### 1. 智能体设置与权限配置页
-![智能体设置与权限配置页](docs/images/preview_settings.png)
+### 1. Antigravity 设置页面汉化效果
+![Antigravity 设置页面汉化效果](docs/images/antigravity-zhcn-settings.png)
 
-### 2. 主会话与对话交互界面
-![主会话与对话交互界面](docs/images/preview_main.png)
+### 2. Antigravity 主界面汉化效果
+![Antigravity 主界面汉化效果](docs/images/antigravity-zhcn-main.png)
 
 ---
 
@@ -71,6 +71,10 @@
 
 ---
 
-## 📜 致谢与开源协议
+## 📜 项目来源与贡献
 
-本项目基于 [chenmo00000/antigravity-desktop-zhcn](https://github.com/chenmo00000/antigravity-desktop-zhcn) 进行深度汉化、词库优化与维护，遵循 [MIT License](LICENSE) 协议开源。
+本项目是在社区开源项目 [chenmo00000/antigravity-desktop-zhcn](https://github.com/chenmo00000/antigravity-desktop-zhcn) 基础上继续迭代、修复和扩展，遵循 [MIT License](LICENSE) 协议开源。在此由衷感谢原项目与所有早期贡献者的基础工作。
+
+当前项目致力于长期跟随 Google Antigravity Desktop 新版本持续维护，完善中文本地化词库、版本兼容性与未翻译英文 UI 自动发现机制。
+
+欢迎社区开发者与用户共同参与维护！如果您在日常使用中发现任何漏翻、排版问题或新版客户端适配需求，欢迎通过 [GitHub Issues](../../issues) 提交反馈，或直接发起 [Pull Requests](../../pulls) 贡献翻译词条与优化改进。
