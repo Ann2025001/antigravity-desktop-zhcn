@@ -14,17 +14,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
-      - name: Validate JSON dictionaries & syntax
-        run: |
-          python -c "
-          import json, os
-          d = json.load(open('config/dom-translations.json', encoding='utf-8'))
-          print(f'Valid JSON dictionary with {len(d[\"exact\"])} exact entries and {len(d.get(\"patterns\", []))} patterns.')
-          "
-      - name: Test auto-patch engine syntax
-        run: |
-          python auto_patch_engine.py --help
+          node-version: '22.12.0'
+          cache: 'npm'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: npm run validate
