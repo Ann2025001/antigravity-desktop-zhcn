@@ -13,3 +13,8 @@ node_modules/
 *.key
 *.pfx
 *.p12
+
+# Python cache artifacts
+__pycache__/
+*.py[cod]
+
