@@ -279,7 +279,7 @@ test("untranslated collector aggregates candidates and outputs structured report
   assert.equal(jsonReport.appVersion, "2.15.0");
 
   const mdReport = collector.generateMarkdownReport();
-  assert.match(mdReport, /# Antigravity 未翻译英文 UI 采集报告 \(2\.15\.0\)/);
+  assert.match(mdReport, /# Antigravity 2\.15\.0 UI Localization Audit Report/);
   assert.match(mdReport, /Advanced Experimental Studio/);
   assert.match(mdReport, /Export Workspace Bundle/);
 });
@@ -375,4 +375,104 @@ test("closed loop: New Project and Quick Start are detected when untranslated an
     status: "all-untranslated",
   });
   assert.equal(candidatesAfter.length, 0);
+});
+
+test("tooltip collector detects Select a folder. when missing and removes when covered", () => {
+  const dictWithout = { exact: {}, patterns: [] };
+  const c1 = new UntranslatedCollector({ dictionary: dictWithout, appVersion: "2.15.0" });
+  c1.record({
+    text: "Select a folder.",
+    tagName: "DIV",
+    attributeName: "tooltip",
+    closestSelectors: ["[role='tooltip']"],
+  });
+  const before = c1.getCandidates({ status: "all-untranslated" });
+  assert.equal(before.length, 1);
+  assert.equal(before[0].text, "Select a folder.");
+
+  const dictWith = { exact: { "Select a folder.": "选择文件夹。" }, patterns: [] };
+  const c2 = new UntranslatedCollector({ dictionary: dictWith, appVersion: "2.15.0" });
+  c2.record({
+    text: "Select a folder.",
+    tagName: "DIV",
+    attributeName: "tooltip",
+    closestSelectors: ["[role='tooltip']"],
+  });
+  const after = c2.getCandidates({ status: "all-untranslated" });
+  assert.equal(after.length, 0);
+});
+
+test("context menu collector detects Copy Project Name when missing and removes when covered", () => {
+  const dictWithout = { exact: {}, patterns: [] };
+  const c1 = new UntranslatedCollector({ dictionary: dictWithout, appVersion: "2.15.0" });
+  c1.record({
+    text: "Copy Project Name",
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']", "[data-radix-popper-content-wrapper]"],
+  });
+  const before = c1.getCandidates({ status: "all-untranslated" });
+  assert.equal(before.length, 1);
+  assert.equal(before[0].text, "Copy Project Name");
+
+  const dictWith = { exact: { "Copy Project Name": "复制项目名称" }, patterns: [] };
+  const c2 = new UntranslatedCollector({ dictionary: dictWith, appVersion: "2.15.0" });
+  c2.record({
+    text: "Copy Project Name",
+    tagName: "DIV",
+    role: "menuitem",
+    closestSelectors: ["[role='menu']", "[data-radix-popper-content-wrapper]"],
+  });
+  const after = c2.getCandidates({ status: "all-untranslated" });
+  assert.equal(after.length, 0);
+});
+
+test("feedback page dynamic email pattern preserves user email without leaking to exact candidate", async () => {
+  const dictionary = await loadDomTranslations();
+  const coverage = classifyTextCoverage(
+    "Send feedback as developer@google.com",
+    dictionary,
+  );
+  assert.equal(coverage.status, "pattern-covered");
+  assert.equal(coverage.translated, "以 developer@google.com 身份发送反馈");
+
+  const c = new UntranslatedCollector({ dictionary, appVersion: "2.15.0" });
+  c.record({
+    text: "Send feedback as developer@google.com",
+    tagName: "LABEL",
+    role: "checkbox",
+    closestSelectors: ["[data-testid='settings-feedback']"],
+  });
+  const candidates = c.getCandidates({ status: "all-untranslated" });
+  assert.equal(candidates.length, 0);
+});
+
+test("feedback page form help texts and radio labels are captured when untranslated", () => {
+  const dictWithout = { exact: {}, patterns: [] };
+  const c = new UntranslatedCollector({ dictionary: dictWithout, appVersion: "2.15.0" });
+
+  c.record({
+    text: "Feedback Type",
+    tagName: "LABEL",
+    closestSelectors: ["[role='dialog']", "form"],
+  });
+  c.record({
+    text: "Bug Report",
+    tagName: "SPAN",
+    role: "radio",
+    closestSelectors: ["[role='dialog']", "form"],
+  });
+  c.record({
+    text: "Please describe the issue in detail. The more actionable your feedback, the quicker our team can address your request. Some helpful information includes:",
+    tagName: "P",
+    closestSelectors: ["[role='dialog']", "form"],
+  });
+  c.record({
+    text: "Describe the bug you encountered...",
+    attributeName: "placeholder",
+    closestSelectors: ["[role='dialog']", "form"],
+  });
+
+  const candidates = c.getCandidates({ status: "all-untranslated" });
+  assert.equal(candidates.length, 4);
 });

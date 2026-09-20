@@ -68,9 +68,9 @@ const collector = new UntranslatedCollector({
 if (uiBundleBuffer) {
   const bundleText = uiBundleBuffer.toString("utf8");
 
-  // 1. High-confidence UI descriptor patterns (label, tooltipText, title, placeholder, etc.)
+  // 1. Comprehensive UI descriptor regex (capturing keys like tooltipText, label, title, copyLabel, etc.)
   const uiKeyRegex =
-    /(?:label|tooltipText|title|placeholder|heading|buttonText|ariaLabel)\s*:\s*(?:[a-zA-Z0-9_$]+\s*\?\?\s*)?["']([^"'\r\n]{2,120})["']/g;
+    /(?:label|tooltipText|tooltipContent|title|placeholder|heading|buttonText|ariaLabel|copyLabel|settingsLabel|archiveLabel|searchPlaceholder)\s*:\s*(?:[a-zA-Z0-9_$]+\s*\?\?\s*)?["']([^"'\r\n]{2,300})["']/g;
   let match;
   while ((match = uiKeyRegex.exec(bundleText)) !== null) {
     const candidate = match[1].trim();
@@ -90,24 +90,20 @@ if (uiBundleBuffer) {
     }
   }
 
-  // 2. String literal candidate scan
-  const stringLiteralRegex = /"([^"\r\n]{2,80})"|'([^'\r\n]{2,80})'/g;
+  // 2. Help texts & UI string literals scan
+  const stringLiteralRegex = /"([^"\r\n]{2,200})"|'([^'\r\n]{2,200})'/g;
   while ((match = stringLiteralRegex.exec(bundleText)) !== null) {
     const candidate = (match[1] || match[2] || "").trim();
     if (!candidate) continue;
 
-    // Filter JS identifiers, error names, and technical terms
-    if (!/^[A-Z][a-zA-Z0-9\s.,'?!()-]{1,80}$/.test(candidate)) continue;
+    // Reject non-UI code / internal identifiers
     if (
-      /^[A-Z][a-z0-9]+[A-Z]/.test(candidate) ||
       candidate.includes("TypeError") ||
-      candidate.includes("Error") ||
-      candidate.includes("Object") ||
-      candidate.includes("Array") ||
-      candidate.includes("Promise") ||
-      candidate.includes("Function") ||
-      candidate.includes("Undefined") ||
-      candidate.includes("Null") ||
+      candidate.includes("Error:") ||
+      candidate.includes("Object.") ||
+      candidate.includes("Array.") ||
+      candidate.includes("Promise.") ||
+      candidate.includes("Function.") ||
       candidate.includes("WebGL") ||
       candidate.includes("HTTP") ||
       candidate.includes("JSON")
@@ -157,18 +153,12 @@ const mdPath = path.join(outputDir, `untranslated-${appVersion}-${dateStr}.md`);
 await writeFile(jsonPath, JSON.stringify(jsonReport, null, 2) + "\n", "utf8");
 await writeFile(mdPath, mdReport, "utf8");
 
-console.log(`\n=== 未翻译英文 UI 采集完成 ===`);
+const stats = jsonReport.statistics;
+console.log(`\n=== Antigravity 2.15.0 UI 采集与审计完成 ===`);
 console.log(`客户端版本: ${appVersion}`);
 console.log(`采集来源: ${scanSource}`);
+console.log(`词典覆盖统计: Exact [${stats.exactCovered}] | Pattern [${stats.patternCovered}] | 未翻译 [${stats.untranslated}] | 半中文 [${stats.partialUntranslated}]`);
 console.log(`未翻译候选总数: ${jsonReport.totalCandidates}`);
 console.log(`JSON 报告: ${jsonPath}`);
-console.log(`Markdown 报告: ${mdPath}`);
-console.log(`注意: 报告已生成在 reports/ 目录（已被 .gitignore 忽略，不会提交到仓库）。`);
-
-if (jsonReport.totalCandidates > 0) {
-  console.log(`\n发现未覆盖候选词条 (Top 10):`);
-  jsonReport.candidates.slice(0, 10).forEach((c, idx) => {
-    const extra = c.translated ? ` (当前半中文: "${c.translated}")` : "";
-    console.log(`  [${idx + 1}] "${c.text}" [${c.status}]${extra}`);
-  });
-}
+console.log(`Markdown 审计报告: ${mdPath}`);
+console.log(`注意: 报告已生成在 reports/ 目录（已被 .gitignore 忽略）。`);

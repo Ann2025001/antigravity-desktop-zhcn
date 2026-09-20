@@ -16,11 +16,15 @@ const SENSITIVE_TECH_PATTERNS = [
   // CLI / Shell commands
   /^(?:npm|npx|git|node|powershell|cmd|cat|grep|ls|cd|rm|cp|mv|echo|curl|chmod|pnpm|yarn|agy)\b/i,
   /\s--[a-z0-9-]+|\s-[a-z0-9]/i,
-  // Code tokens & JSON structures
+  // Code tokens & JSON / AST structures
   /=>|\bfunction\s*\(|\b(?:const|let|var|import|export|class|return|async|await)\b/,
-  /^\s*\{.*\}\s*$/,
-  /^\s*\[.*\]\s*$/,
+  /[{}\[\]\|\\<>=]/,
   /===|!==|\bconsole\.(?:log|error|warn)\b/,
+  /^(?:use client|use strict)$/i,
+  // CSS & Tailwind class tokens
+  /\b(?:text|bg|border|flex|items|justify|gap|rounded|hover|focus|font|w-|h-|p-|m-|opacity|space-|shrink|grow|truncate|z-)[a-z0-9]/i,
+  // Keyboard keys / DOM Event strings
+  /^(?:click|enter|select|input|change|keyup|keydown|blur|focus|ArrowDown|ArrowUp|ArrowLeft|ArrowRight|Backspace|End|Home|Escape|Tab|Space|Enter)$/i,
   // Hashes, UUIDs, Tokens, API Keys
   /^[0-9a-fA-F]{8,64}$/,
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
@@ -32,6 +36,29 @@ const SENSITIVE_TECH_PATTERNS = [
   // Pure digits and symbols
   /^[\d\s.,:;\/\-_=+*#%()[\]{}'"><&|!~`^$]+$/,
 ];
+
+const PRESERVED_ENGLISH_SET = new Set([
+  "GOOGLE3",
+  "CIDER",
+  "WEBGL",
+  "HTTP",
+  "JSON",
+  "UUID",
+  "SHA256",
+  "API",
+  "IDE",
+  "MCP",
+  "GITHUB",
+  "GEMINI",
+  "ANTIGRAVITY",
+  "URL",
+  "TOKEN",
+  "UNSPECIFIED",
+  "AS IS",
+  "SOFTWARE",
+  "CLOSED",
+  "ERROR",
+]);
 
 const ALLOWED_UI_TAGS = new Set([
   "BUTTON",
@@ -48,6 +75,8 @@ const ALLOWED_UI_TAGS = new Set([
   "H6",
   "SPAN",
   "DIV",
+  "P",
+  "LI",
 ]);
 
 const ALLOWED_UI_ROLES = new Set([
@@ -70,12 +99,18 @@ const ALLOWED_UI_ROLES = new Set([
   "popover",
 ]);
 
-const ALLOWED_UI_ATTRIBUTES = new Set(["aria-label", "title", "placeholder"]);
+const ALLOWED_UI_ATTRIBUTES = new Set([
+  "aria-label",
+  "title",
+  "placeholder",
+  "tooltip",
+  "data-tooltip",
+]);
 
 export function isPotentialEnglishUi(text, context = {}) {
   if (typeof text !== "string") return false;
   const core = text.trim();
-  if (core.length < 2 || core.length > 120) return false;
+  if (core.length < 2 || core.length > 300) return false;
 
   // Must contain English letters
   if (!/[a-zA-Z]/.test(core)) return false;
@@ -129,18 +164,37 @@ export function isPotentialEnglishUi(text, context = {}) {
       /^H[1-6]$/.test(upperTag);
     const isExplicitUiRole = ALLOWED_UI_ROLES.has(lowerRole);
     const inUiContainer = closestSelectors.some((s) =>
-      /(?:dialog|modal|settings|toolbar|nav|menu|popup|popover|dropdown|listbox|portal|toast|alert|sidebar|header)/i.test(
+      /(?:dialog|modal|settings|toolbar|nav|menu|popup|popover|dropdown|listbox|portal|toast|alert|sidebar|header|form|tooltip)/i.test(
         s,
       ),
     );
 
-    // If tag is generic span/div, require explicit UI role or container
+    // If tag is generic span/div/p/li, require explicit UI role or UI container
     if (!isExplicitUiTag && !isExplicitUiRole && !inUiContainer) {
       return false;
     }
   }
 
   return true;
+}
+
+export function classifyCandidateCategory(text) {
+  const upper = text.trim().toUpperCase();
+  if (PRESERVED_ENGLISH_SET.has(upper) || /^[A-Z0-9_-]{2,12}$/.test(text)) {
+    return "preserved-english";
+  }
+  if (
+    text.length > 30 ||
+    /^(?:Select|Please|Describe|Click|Enter|Attach|Use|For|Are you|How|What|Manage|Configure|Enable|Disable)\b/i.test(
+      text,
+    )
+  ) {
+    return "high-confidence-ui";
+  }
+  if (/^[A-Z][a-zA-Z0-9\s.,'?!()-]{2,40}$/.test(text)) {
+    return "high-confidence-ui";
+  }
+  return "needs-human-review";
 }
 
 export function classifyTextCoverage(text, dictionary) {
@@ -156,11 +210,12 @@ export function classifyTextCoverage(text, dictionary) {
   }
   const translated = translateDictionaryValue(core, dictionary);
   if (translated !== null && translated !== core) {
-    // Strip safely preserved variables (quoted tokens, URLs, paths) from translated string
+    // Strip safely preserved variables (quoted tokens, URLs, emails, paths) from translated string
     const cleaned = translated
       .replace(/[“"'][^”"']+[”"']/g, "")
       .replace(/`[^`]+`/g, "")
       .replace(/https?:\/\/\S+/g, "")
+      .replace(/[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/g, "")
       .replace(/[a-zA-Z]:[\\\/]\S+/g, "")
       .trim();
 
@@ -218,6 +273,7 @@ export class UntranslatedCollector {
 
     const core = text.trim();
     const coverage = classifyTextCoverage(core, this.dictionary);
+    const category = classifyCandidateCategory(core);
 
     const existing = this.records.get(core);
     if (existing) {
@@ -233,6 +289,7 @@ export class UntranslatedCollector {
         text: core,
         count: 1,
         status: coverage.status,
+        category,
         translated: coverage.translated,
         firstSeen: new Date().toISOString(),
         lastSeen: new Date().toISOString(),
@@ -246,22 +303,25 @@ export class UntranslatedCollector {
     return true;
   }
 
-  getCandidates({ status = "all-untranslated" } = {}) {
+  getCandidates({ status = "all-untranslated", category = null } = {}) {
     const list = [];
     for (const record of this.records.values()) {
-      let match = false;
+      let statusMatch = false;
       if (status === "all-untranslated") {
-        match =
+        statusMatch =
           record.status === "untranslated" ||
           record.status === "partial-untranslated";
       } else if (!status || record.status === status) {
-        match = true;
+        statusMatch = true;
       }
-      if (match) {
+      const categoryMatch = !category || record.category === category;
+
+      if (statusMatch && categoryMatch) {
         list.push({
           text: record.text,
           count: record.count,
           status: record.status,
+          category: record.category,
           translated: record.translated,
           firstSeen: record.firstSeen,
           lastSeen: record.lastSeen,
@@ -276,12 +336,35 @@ export class UntranslatedCollector {
     return list.sort((a, b) => b.count - a.count || a.text.localeCompare(b.text));
   }
 
+  getStatistics() {
+    let untranslated = 0;
+    let partialUntranslated = 0;
+    let exactCovered = 0;
+    let patternCovered = 0;
+
+    for (const record of this.records.values()) {
+      if (record.status === "untranslated") untranslated += 1;
+      else if (record.status === "partial-untranslated") partialUntranslated += 1;
+      else if (record.status === "exact-covered") exactCovered += 1;
+      else if (record.status === "pattern-covered") patternCovered += 1;
+    }
+
+    return {
+      totalRecorded: this.records.size,
+      untranslated,
+      partialUntranslated,
+      exactCovered,
+      patternCovered,
+    };
+  }
+
   generateJsonReport({
     generatedAt = new Date().toISOString(),
     filterStatus = "all-untranslated",
     scanSource = "runtime-dom",
   } = {}) {
     const candidates = this.getCandidates({ status: filterStatus });
+    const stats = this.getStatistics();
     return {
       schemaVersion: 1,
       type: "untranslated-ui-report",
@@ -289,6 +372,7 @@ export class UntranslatedCollector {
       generatedAt,
       scanSource,
       filterStatus,
+      statistics: stats,
       totalCandidates: candidates.length,
       candidates,
     };
@@ -299,40 +383,76 @@ export class UntranslatedCollector {
     filterStatus = "all-untranslated",
     scanSource = "runtime-dom",
   } = {}) {
-    const candidates = this.getCandidates({ status: filterStatus });
+    const highConf = this.getCandidates({
+      status: filterStatus,
+      category: "high-confidence-ui",
+    });
+    const needsReview = this.getCandidates({
+      status: filterStatus,
+      category: "needs-human-review",
+    });
+    const preserved = this.getCandidates({
+      status: filterStatus,
+      category: "preserved-english",
+    });
+    const stats = this.getStatistics();
+
     const lines = [
-      `# Antigravity 未翻译英文 UI 采集报告 (${this.appVersion})`,
+      `# Antigravity 2.15.0 UI Localization Audit Report`,
       "",
       `- **客户端版本**: ${this.appVersion}`,
       `- **生成时间**: ${generatedAt}`,
       `- **采集来源**: ${scanSource}`,
-      `- **候选筛选**: ${filterStatus} (包含完全未翻译与半中文残留)`,
-      `- **候选总数**: ${candidates.length}`,
+      `- **覆盖统计**: Exact 覆盖 \`${stats.exactCovered}\` 项 | Pattern 覆盖 \`${stats.patternCovered}\` 项 | 完全未翻译 \`${stats.untranslated}\` 项 | 半中文残留 \`${stats.partialUntranslated}\` 项`,
       "",
       "> [!NOTE]",
-      "> 此报告由维护者采集工具自动生成，仅供审阅与词库补充参考。请人工核对语境后再添加至 `config/dom-translations.json`。",
+      "> 此报告由维护者采集工具自动生成。已分类为【高置信度固定 UI】、【需要人工判断】与【应保留英文】，仅供词库维护与社区贡献参考。",
       "",
-      "| 序号 | 出现频次 | 状态 | 原始英文 UI 文本 | 来源 / 元素类型 | 当前翻译 / 建议 |",
-      "| :--- | :---: | :---: | :--- | :--- | :--- |",
+      "## 一、高置信度固定 UI 候选 (High-Confidence UI)",
+      "",
+      "| 序号 | 频次 | 状态 | 原始英文 UI 文本 | 来源 / 元素类型 | 建议汉化 |",
+      "| :---: | :---: | :---: | :--- | :--- | :--- |",
     ];
 
-    if (candidates.length === 0) {
-      lines.push("| - | 0 | - | *(未发现未覆盖的英文 UI)* | - | - |");
+    if (highConf.length === 0) {
+      lines.push("| - | 0 | - | *(无高置信度未翻译 UI)* | - | - |");
     } else {
-      candidates.forEach((c, index) => {
+      highConf.slice(0, 50).forEach((c, idx) => {
         const types = [
           ...c.sources,
           ...c.elementTypes,
           ...c.roles.map((r) => `role=${r}`),
           ...c.attributes.map((a) => `@${a}`),
         ].join(", ") || "text";
-        const escapedText = c.text.replace(/\|/g, "\\|");
-        const currentTrans = c.translated
-          ? `(当前: \`${c.translated.replace(/\|/g, "\\|")}\`)`
-          : "";
-        lines.push(
-          `| ${index + 1} | ${c.count} | \`${c.status}\` | \`${escapedText}\` | \`${types}\` | ${currentTrans} |`,
-        );
+        const trans = c.translated ? `(当前: \`${c.translated.replace(/\|/g, "\\|")}\`)` : "";
+        lines.push(`| ${idx + 1} | ${c.count} | \`${c.status}\` | \`${c.text.replace(/\|/g, "\\|")}\` | \`${types}\` | ${trans} |`);
+      });
+    }
+
+    lines.push("", "## 二、需要人工判断的词条 (Needs Human Review)", "");
+    lines.push("| 序号 | 频次 | 状态 | 原始英文 UI 文本 | 来源 / 元素类型 | 备注 |");
+    lines.push("| :---: | :---: | :---: | :--- | :--- | :--- |");
+    if (needsReview.length === 0) {
+      lines.push("| - | 0 | - | *(无)* | - | - |");
+    } else {
+      needsReview.slice(0, 50).forEach((c, idx) => {
+        const types = [
+          ...c.sources,
+          ...c.elementTypes,
+          ...c.roles.map((r) => `role=${r}`),
+        ].join(", ") || "text";
+        lines.push(`| ${idx + 1} | ${c.count} | \`${c.status}\` | \`${c.text.replace(/\|/g, "\\|")}\` | \`${types}\` | |`);
+      });
+    }
+
+    lines.push("", "## 三、建议保留英文的词条 (Preserved Technical / Brand Names)", "");
+    lines.push("| 序号 | 频次 | 标识符 / 术语 | 建议保留原因 |");
+    lines.push("| :---: | :---: | :--- | :--- |");
+    if (preserved.length === 0) {
+      lines.push("| - | 0 | *(无)* | - |");
+    } else {
+      preserved.slice(0, 30).forEach((c, idx) => {
+        lines.push(`| ${idx + 1} | ${c.count} | \`${c.text.replace(/\|/g, "\\|")}\` | 官方术语 / 协议 / 代码标识符 |`);
       });
     }
 
