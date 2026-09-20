@@ -3,7 +3,7 @@ import path from "node:path";
 import { getStateRoot } from "./paths.mjs";
 
 export const LATEST_RELEASE_URL =
-  "https://github.com/chenmo00000/antigravity-desktop-zhcn/releases/latest";
+  "https://github.com/Ann2025001/antigravity-desktop-zhcn/releases/latest";
 
 const adviceRules = [
   {

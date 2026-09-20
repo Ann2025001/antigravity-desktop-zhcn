@@ -12,7 +12,7 @@ import {
 
 const now = new Date("2026-08-09T00:00:00.000Z");
 const manifestUrl =
-  "https://raw.githubusercontent.com/chenmo00000/antigravity-desktop-zhcn/main/config/remote/compatibility-manifest.json";
+  "https://raw.githubusercontent.com/Ann2025001/antigravity-desktop-zhcn/main/config/remote/compatibility-manifest.json";
 
 function createSigner() {
   const { publicKey, privateKey } = generateKeyPairSync("ed25519");
