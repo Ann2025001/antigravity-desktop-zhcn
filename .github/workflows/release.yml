@@ -24,7 +24,7 @@ jobs:
       - name: Build portable ZIP
         shell: pwsh
         run: ./scripts/build-portable.ps1
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: antigravity-desktop-zhcn-portable-win-x64
           path: |
