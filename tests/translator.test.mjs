@@ -331,4 +331,27 @@ test("Antigravity 2.15.0 agent permission confirmation dialog strings and templa
   }
 });
 
+test("system tray and native menu strings are covered by exact and pattern rules", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    { source: "No agents running", expected: "无正在运行的智能体" },
+    { source: "Open Antigravity", expected: "打开 Antigravity" },
+    { source: "Quit", expected: "退出" },
+    { source: "New Window", expected: "新建窗口" },
+    { source: "Docs", expected: "文档" },
+    { source: "Check for Updates", expected: "检查更新" },
+    { source: "1 agent running", expected: "1 个智能体正在运行" },
+    { source: "3 agents running", expected: "3 个智能体正在运行" },
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `tray menu string translation mismatch for: ${source}`,
+    );
+  }
+});
+
 

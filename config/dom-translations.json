@@ -1421,9 +1421,33 @@
     "Files": "文件",
     "Changes": "更改",
     "Worktree": "工作树",
-    "Auto (detected)": "自动 (已检测)"
+    "Auto (detected)": "自动 (已检测)",
+    "No agents running": "无正在运行的智能体",
+    "Open Antigravity": "打开 Antigravity",
+    "Quit": "退出",
+    "New Window": "新建窗口",
+    "Docs": "文档",
+    "Check for Updates": "检查更新",
+    "Checking for Updates...": "正在检查更新...",
+    "Downloading Update...": "正在下载更新...",
+    "Restart to Update": "重启以更新"
   },
   "patterns": [
+    {
+      "source": "^(\\d+)\\s+agents?\\s+running$",
+      "target": "$1 个智能体正在运行",
+      "flags": "u"
+    },
+    {
+      "source": "^No\\s+agents?\\s+running$",
+      "target": "无正在运行的智能体",
+      "flags": "u"
+    },
+    {
+      "source": "^Open\\s+(.+)$",
+      "target": "打开 $1",
+      "flags": "u"
+    },
     {
       "source": "^Send feedback as (.+)$",
       "target": "以 $1 身份发送反馈",

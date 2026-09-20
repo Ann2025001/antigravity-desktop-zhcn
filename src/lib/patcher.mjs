@@ -67,6 +67,73 @@ const HANDLER_REPLACEMENT = `    });
             callback({ redirectURL: 'agy-zhcn://bundle/main.js' });
         }
     );
+
+    // Antigravity Desktop ZHCN: localize Electron native tray, dock, and application menus.
+    try {
+        const translateNativeMenuText = (text) => {
+            if (typeof text !== 'string') return text;
+            const trimmed = text.trim();
+            if (trimmed === 'No agents running') return '无正在运行的智能体';
+            if (trimmed === 'Quit') return '退出';
+            if (trimmed === 'New Window') return '新建窗口';
+            if (trimmed === 'Docs') return '文档';
+            if (trimmed === 'Check for Updates') return '检查更新';
+            if (trimmed === 'Checking for Updates...') return '正在检查更新...';
+            if (trimmed === 'Downloading Update...') return '正在下载更新...';
+            if (trimmed === 'Restart to Update') return '重启以更新';
+            if (trimmed.startsWith('Open ')) {
+                return '打开 ' + trimmed.slice(5);
+            }
+            if (/^(\\d+)\\s+agents?\\s+running$/i.test(trimmed)) {
+                return trimmed.replace(/^(\\d+)\\s+agents?\\s+running$/i, '$1 个智能体正在运行');
+            }
+            if (/^No\\s+agents?\\s+running$/i.test(trimmed)) {
+                return '无正在运行的智能体';
+            }
+            return text;
+        };
+
+        const transformMenuTemplate = (items) => {
+            if (!Array.isArray(items)) return items;
+            return items.map((item) => {
+                if (!item || typeof item !== 'object') return item;
+                const copy = { ...item };
+                if (typeof copy.label === 'string') {
+                    copy.label = translateNativeMenuText(copy.label);
+                }
+                if (Array.isArray(copy.submenu)) {
+                    copy.submenu = transformMenuTemplate(copy.submenu);
+                }
+                return copy;
+            });
+        };
+
+        if (electron_1.Menu && !electron_1.Menu.__zhcnPatched) {
+            electron_1.Menu.__zhcnPatched = true;
+            const origBuildFromTemplate = electron_1.Menu.buildFromTemplate;
+            electron_1.Menu.buildFromTemplate = function (template) {
+                return origBuildFromTemplate.call(this, transformMenuTemplate(template));
+            };
+        }
+
+        if (electron_1.MenuItem && !electron_1.MenuItem.__zhcnPatched) {
+            electron_1.MenuItem.__zhcnPatched = true;
+            const proto = electron_1.MenuItem.prototype;
+            const origDescriptor = Object.getOwnPropertyDescriptor(proto, 'label');
+            if (origDescriptor && origDescriptor.set) {
+                Object.defineProperty(proto, 'label', {
+                    get: origDescriptor.get,
+                    set: function (val) {
+                        return origDescriptor.set.call(this, translateNativeMenuText(val));
+                    },
+                    configurable: true,
+                    enumerable: true,
+                });
+            }
+        }
+    } catch (menuErr) {
+        console.error("Failed to hook native menu localization:", menuErr);
+    }
 }
 `;
 
