@@ -45,7 +45,7 @@ export function translateDictionaryValue(value, dictionary) {
   const trailing = value.match(/\s*$/u)?.[0] ?? "";
   const coreEnd = value.length - trailing.length;
   const core = value.slice(leading.length, coreEnd);
-  const exact = dictionary.exact[core];
+  const exact = dictionary?.exact?.[core];
   if (exact !== undefined) return leading + exact + trailing;
 
   for (const { regex, target } of compilePatternTranslations(dictionary)) {
@@ -120,6 +120,21 @@ export function createRuntimeOverlay(dictionary) {
     ".monaco-editor"
   ].join(",");
 
+  const collectorRecords = [];
+  const collector = {
+    enabled: Boolean(globalThis.__AGY_ZHCN_COLLECTOR__?.enabled),
+    dump() {
+      return [...collectorRecords];
+    },
+    clear() {
+      collectorRecords.length = 0;
+    },
+    record(entry) {
+      if (!this.enabled || !entry || typeof entry.text !== "string") return;
+      collectorRecords.push(entry);
+    }
+  };
+
   function isBlocked(element) {
     return Boolean(element?.closest?.(blockedSelector));
   }
@@ -152,6 +167,13 @@ export function createRuntimeOverlay(dictionary) {
     if (translated !== null && translated !== node.nodeValue) {
       node.nodeValue = translated;
       stats.translatedTextNodes += 1;
+    } else if (collector.enabled && translated === null && node.nodeValue?.trim()) {
+      collector.record({
+        text: node.nodeValue.trim(),
+        tagName: parent.tagName,
+        role: parent.getAttribute("role") || "",
+        attributeName: ""
+      });
     }
   }
 
@@ -164,6 +186,13 @@ export function createRuntimeOverlay(dictionary) {
       if (translated !== null && translated !== current) {
         element.setAttribute(attribute, translated);
         stats.translatedAttributes += 1;
+      } else if (collector.enabled && translated === null && current?.trim()) {
+        collector.record({
+          text: current.trim(),
+          tagName: element.tagName,
+          role: element.getAttribute("role") || "",
+          attributeName: attribute
+        });
       }
     }
   }
@@ -265,10 +294,12 @@ export function createRuntimeOverlay(dictionary) {
       attributes: true,
       attributeFilter: translatedAttributes
     });
+    globalThis.__AGY_ZHCN_COLLECTOR__ = collector;
     globalThis.__AGY_ZHCN__ = Object.freeze({
       version: "0.1.1",
       strategy: "dom-overlay",
-      stats
+      stats,
+      collector
     });
   }
 

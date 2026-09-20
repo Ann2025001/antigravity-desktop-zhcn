@@ -18,3 +18,8 @@ node_modules/
 __pycache__/
 *.py[cod]
 
+# Untranslated collector local reports
+reports/
+untranslated-*.json
+untranslated-*.md
+

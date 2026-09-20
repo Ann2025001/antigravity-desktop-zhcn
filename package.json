@@ -15,6 +15,7 @@
     "cleanup": "node src/cli.mjs cleanup",
     "purge": "node src/cli.mjs purge",
     "collect:compatibility": "node scripts/collect-compatibility-candidate.mjs",
+    "collect:untranslated": "node scripts/collect-untranslated.mjs",
     "compatibility:sign": "node scripts/sign-compatibility-manifest.mjs",
     "compatibility:verify": "node scripts/verify-remote-compatibility.mjs",
     "release:notes": "node scripts/generate-release-notes.mjs",
