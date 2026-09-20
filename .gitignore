@@ -1,0 +1,15 @@
+node_modules/
+.runtime/
+.codebase-memory/
+*.log
+*.tmp
+*.bak
+
+# Local secrets and signing material
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12

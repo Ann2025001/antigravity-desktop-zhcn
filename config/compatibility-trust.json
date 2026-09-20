@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "Ed25519",
+  "manifestUrl": "https://raw.githubusercontent.com/chenmo00000/antigravity-desktop-zhcn/main/config/remote/compatibility-manifest.json",
+  "publicKeySpkiBase64": "MCowBQYDK2VwAyEAhreCT9SwLi3DBT+G3lhDWyKhFwVlfFa+I8lFkCcs02A=",
+  "cacheTtlHours": 6
+}

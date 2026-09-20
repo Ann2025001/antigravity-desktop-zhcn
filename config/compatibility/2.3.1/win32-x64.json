@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "appVersion": "2.3.1",
+  "targets": [
+    {
+      "platform": "win32",
+      "arch": "x64",
+      "appVersion": "2.3.1",
+      "packageVersion": "2.3.1",
+      "appAsarSha256": "03AD11AF70CF19E0B0D64EC9AF053D5CEAD179626FD66589E9FB77D6EBB0126E",
+      "customSchemePath": "dist/customScheme.js",
+      "customSchemeSha256": "6A533F37C2C26D405CFD7BC0C2A629803BDBDD843924BD3306D4E6F1087A4E98",
+      "uiBundleSha256": "4399C5F213E672E2B03650F7488C4743CBCB43BF914FC2A655CFBCD409AC1D4E",
+      "uiBundleSize": 8049313,
+      "notes": "Verified against the official Windows x64 Antigravity Desktop 2.3.1 release and its isolated headless runtime UI on 2026-07-31."
+    }
+  ]
+}

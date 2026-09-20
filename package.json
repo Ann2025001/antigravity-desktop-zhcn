@@ -1,0 +1,30 @@
+{
+  "name": "antigravity-desktop-zhcn",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Windows Chinese localization patcher for Antigravity Desktop",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "check": "node src/cli.mjs check",
+    "preview": "node src/cli.mjs preview",
+    "install:zh": "node src/cli.mjs install",
+    "restore": "node src/cli.mjs restore",
+    "cleanup": "node src/cli.mjs cleanup",
+    "purge": "node src/cli.mjs purge",
+    "collect:compatibility": "node scripts/collect-compatibility-candidate.mjs",
+    "compatibility:sign": "node scripts/sign-compatibility-manifest.mjs",
+    "compatibility:verify": "node scripts/verify-remote-compatibility.mjs",
+    "release:notes": "node scripts/generate-release-notes.mjs",
+    "build:portable": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-portable.ps1",
+    "test": "node --test",
+    "validate": "node scripts/validate-project.mjs",
+    "validate:local": "node scripts/validate-local-installation.mjs"
+  },
+  "dependencies": {
+    "@electron/asar": "4.2.1"
+  },
+  "license": "MIT"
+}
