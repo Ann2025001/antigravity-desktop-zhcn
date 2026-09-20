@@ -224,14 +224,6 @@ test("Antigravity 2.15.0 agent permission confirmation dialog strings and templa
 
   const dynamicTemplates = [
     {
-      source: "Allow custom tool execution on target?",
-      expected: "允许 custom tool execution on target？",
-    },
-    {
-      source: "Save rule to always allow custom tool execution on target?",
-      expected: "保存规则以始终允许 custom tool execution on target？",
-    },
-    {
       source: "Yes, and always allow 'github.com' in this conversation",
       expected: "是，并始终在当前对话中允许“github.com”",
     },
@@ -277,7 +269,27 @@ test("Antigravity 2.15.0 agent permission confirmation dialog strings and templa
     },
     {
       source: "Requesting permission to read C:/app/src",
-      expected: "正在请求权限以read C:/app/src",
+      expected: "正在请求读取 C:/app/src 的权限",
+    },
+    {
+      source: "Requesting permission to write C:/app/src/main.rs",
+      expected: "正在请求写入 C:/app/src/main.rs 的权限",
+    },
+    {
+      source: "Requesting permission to run git status",
+      expected: "正在请求运行 git status 的权限",
+    },
+    {
+      source: "Requesting permission to run (unsandboxed) cargo build",
+      expected: "正在请求在沙箱外运行 cargo build 的权限",
+    },
+    {
+      source: "Requesting permission to use sqlite_query",
+      expected: "正在请求使用 sqlite_query 的权限",
+    },
+    {
+      source: "Requesting permission to grant administrator access for netsh",
+      expected: "正在请求为 netsh 提升管理员权限",
     },
     {
       source: "Conflicts with your configured Ask permission: read_file(/etc/hosts)",
@@ -305,4 +317,18 @@ test("Antigravity 2.15.0 agent permission confirmation dialog strings and templa
       `dynamic pattern translation mismatch for: ${source}`,
     );
   }
+
+  const unknownDynamicStrings = [
+    "Allow custom tool execution on target?",
+  ];
+  for (const source of unknownDynamicStrings) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      null,
+      `unknown permission string should not produce partial translation: ${source}`,
+    );
+  }
 });
+
+

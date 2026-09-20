@@ -1356,17 +1356,44 @@
     "Yes, and always allow when not in a project": "是，并在非项目环境下始终允许",
     "Yes, save rule": "是，保存规则",
     "Yes, save rule in this project": "是，并在此项目中保存规则",
-    "Yes, save rule when not in a project": "是，并在非项目环境下保存规则"
+    "Yes, save rule when not in a project": "是，并在非项目环境下保存规则",
+    "Allow write access to this path?": "允许写入此路径？",
+    "Save rule to always allow write access to this path?": "保存规则以始终允许写入此路径？"
   },
   "patterns": [
     {
-      "source": "^Save rule to always allow (.+)\\?$",
-      "target": "保存规则以始终允许 $1？",
+      "source": "^Requesting permission to run \\(unsandboxed\\) (.+)$",
+      "target": "正在请求在沙箱外运行 $1 的权限",
       "flags": "u"
     },
     {
-      "source": "^Allow (.+)\\?$",
-      "target": "允许 $1？",
+      "source": "^Requesting permission to read (.+)$",
+      "target": "正在请求读取 $1 的权限",
+      "flags": "u"
+    },
+    {
+      "source": "^Requesting permission to write (.+)$",
+      "target": "正在请求写入 $1 的权限",
+      "flags": "u"
+    },
+    {
+      "source": "^Requesting permission to run (.+)$",
+      "target": "正在请求运行 $1 的权限",
+      "flags": "u"
+    },
+    {
+      "source": "^Requesting permission to use (.+)$",
+      "target": "正在请求使用 $1 的权限",
+      "flags": "u"
+    },
+    {
+      "source": "^Requesting permission to grant administrator access for (.+)$",
+      "target": "正在请求为 $1 提升管理员权限",
+      "flags": "u"
+    },
+    {
+      "source": "^Requesting permission to access (.+)$",
+      "target": "正在请求访问 $1 的权限",
       "flags": "u"
     },
     {
@@ -1422,11 +1449,6 @@
     {
       "source": "^Yes, save rule for '(.+)'$",
       "target": "是，并为“$1”保存规则",
-      "flags": "u"
-    },
-    {
-      "source": "^Requesting permission to (.+)$",
-      "target": "正在请求权限以$1",
       "flags": "u"
     },
     {
