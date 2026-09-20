@@ -48,6 +48,8 @@
     "Auto-Open Edited Files": "自动打开已编辑文件",
     "Automation": "自动化",
     "Background": "背景",
+    "Background Task": "后台任务",
+    "Background Tasks": "后台任务",
     "Best of N Settings": "Best of N 设置",
     "Block all browser JavaScript execution.": "阻止执行所有浏览器 JavaScript。",
     "Browser": "浏览器",
@@ -59,6 +61,7 @@
     "Build With Google Plugins": "使用 Google 插件构建",
     "By using this app, you agree to its": "使用此应用即表示你同意其",
     "Cancel": "取消",
+    "Cannot start best-of-N mode: background tasks are still running.": "无法启动 Best of N 模式：后台任务仍在运行。",
     "Chat Settings": "聊天设置",
     "Check for Updates": "检查更新",
     "Choose a predefined security preset for the agent. This controls terminal auto-execution policy, and file access policy.": "为智能体选择预定义的安全预设。它会控制终端自动执行策略和文件访问策略。",
@@ -2205,52 +2208,77 @@
     },
     {
       "source": "^(\\d+)\\s+conversations?$",
-      "target": "\\1 个对话",
+      "target": "$1 个对话",
       "flags": "u"
     },
     {
       "source": "^(\\d+)\\s+files?\\s+changed$",
-      "target": "\\1 个文件已更改",
+      "target": "$1 个文件已更改",
       "flags": "u"
     },
     {
       "source": "^(\\d+)\\s+additions?,\\s*(\\d+)\\s+deletions?$",
-      "target": "+\\1 / -\\2 行",
+      "target": "+$1 / -$2 行",
       "flags": "u"
     },
     {
       "source": "^(\\d+)\\s+steps?\\s+completed$",
-      "target": "已完成 \\1 个步骤",
+      "target": "已完成 $1 个步骤",
       "flags": "u"
     },
     {
       "source": "^(\\d+)\\s+of\\s+(\\d+)\\s+steps?$",
-      "target": "第 \\1 / \\2 步",
+      "target": "第 $1 / $2 步",
       "flags": "u"
     },
     {
       "source": "^(\\d+)\\s+tasks?\\s+in\\s+queue$",
-      "target": "队列中共有 \\1 个任务",
+      "target": "队列中共有 $1 个任务",
       "flags": "u"
     },
     {
       "source": "^Last\\s+updated\\s+(.*)$",
-      "target": "上次更新于 \\1",
+      "target": "上次更新于 $1",
       "flags": "u"
     },
     {
       "source": "^Created\\s+(.*)$",
-      "target": "创建于 \\1",
+      "target": "创建于 $1",
       "flags": "u"
     },
     {
       "source": "^Expires\\s+in\\s+(.*)$",
-      "target": "\\1 后过期",
+      "target": "$1 后过期",
       "flags": "u"
     },
     {
       "source": "^Version\\s+([\\d\\.]+)$",
-      "target": "版本 \\1",
+      "target": "版本 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s+tasks?\\s+running$",
+      "target": "$1 个任务正在运行",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s+subagents?\\s+running$",
+      "target": "$1 个子智能体正在运行",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s+subagents?/tasks\\s+running$",
+      "target": "$1 个子智能体/任务正在运行",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s+subagents?\\s+blocked$",
+      "target": "$1 个子智能体受阻",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s+blocked$",
+      "target": "$1 个受阻",
       "flags": "u"
     }
   ]

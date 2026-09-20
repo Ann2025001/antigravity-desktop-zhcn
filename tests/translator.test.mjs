@@ -354,4 +354,32 @@ test("system tray and native menu strings are covered by exact and pattern rules
   }
 });
 
+test("task and subagent running and blocked dynamic status strings are covered", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    { source: "1 task running", expected: "1 个任务正在运行" },
+    { source: "2 tasks running", expected: "2 个任务正在运行" },
+    { source: "1 subagent running", expected: "1 个子智能体正在运行" },
+    { source: "3 subagents running", expected: "3 个子智能体正在运行" },
+    { source: "2 subagents/tasks running", expected: "2 个子智能体/任务正在运行" },
+    { source: "1 subagent blocked", expected: "1 个子智能体受阻" },
+    { source: "2 subagents blocked", expected: "2 个子智能体受阻" },
+    { source: "1 blocked", expected: "1 个受阻" },
+    { source: "3 blocked", expected: "3 个受阻" },
+    { source: "Background Task", expected: "后台任务" },
+    { source: "Background Tasks", expected: "后台任务" },
+    { source: "1 conversations", expected: "1 个对话" },
+    { source: "5 files changed", expected: "5 个文件发生变更" },
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `running status translation mismatch for: ${source}`,
+    );
+  }
+});
+
 

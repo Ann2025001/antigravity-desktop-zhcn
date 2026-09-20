@@ -32,10 +32,14 @@ export async function loadDomTranslations() {
   return data;
 }
 
+function normalizePatternTarget(target) {
+  return typeof target === "string" ? target.replace(/\\(\d)/g, "$$$1") : target;
+}
+
 function compilePatternTranslations(dictionary) {
   return (dictionary.patterns ?? []).map(({ source, target, flags = "u" }) => ({
     regex: new RegExp(source, flags),
-    target,
+    target: normalizePatternTarget(target),
   }));
 }
 
@@ -72,7 +76,11 @@ export function countBundleDictionaryHits(bundleText, dictionary) {
 
 export function createRuntimeOverlay(dictionary) {
   const serialized = JSON.stringify(dictionary.exact);
-  const serializedPatterns = JSON.stringify(dictionary.patterns ?? []);
+  const normalizedPatterns = (dictionary.patterns ?? []).map((p) => ({
+    ...p,
+    target: normalizePatternTarget(p.target),
+  }));
+  const serializedPatterns = JSON.stringify(normalizedPatterns);
   return `
 ;(() => {
   "use strict";
