@@ -2,7 +2,7 @@
 
 面向 Windows 版 Google Antigravity Desktop 的中文本地化补丁工具。
 
-当前汉化词库包含 **1355 条精确中英词汇映射 + 160 条动态正则匹配规则**，覆盖设置菜单、权限预设、快捷键面板、交互弹窗与基础流程。
+当前汉化词库包含 **1417 条精确中英词汇映射 + 161 条动态正则匹配规则**，覆盖设置菜单、权限预设、快捷键面板、交互弹窗与基础流程。
 
 ---
 
@@ -68,6 +68,7 @@
 - [系统架构设计 (Architecture)](docs/architecture.md)
 - [版本维护与适配指南 (Maintenance)](docs/maintenance.md)
 - [Release 构建与发布流程 (Releasing)](docs/releasing.md)
+- [社区贡献指南 (Contributing)](CONTRIBUTING.md)
 
 ---
 
@@ -77,4 +78,4 @@
 
 当前项目致力于长期跟随 Google Antigravity Desktop 新版本持续维护，完善中文本地化词库、版本兼容性与未翻译英文 UI 自动发现机制。
 
-欢迎社区开发者与用户共同参与维护！如果您在日常使用中发现任何漏翻、排版问题或新版客户端适配需求，欢迎通过 [GitHub Issues](../../issues) 提交反馈，或直接发起 [Pull Requests](../../pulls) 贡献翻译词条与优化改进。
+欢迎社区开发者与用户共同参与维护！具体参与方式请阅读 [社区贡献指南 (CONTRIBUTING.md)](CONTRIBUTING.md)。如果您在日常使用中发现任何漏翻、排版问题或新版客户端适配需求，欢迎通过 [GitHub Issues](../../issues) 提交反馈，或直接发起 [Pull Requests](../../pulls) 贡献翻译词条与优化改进。

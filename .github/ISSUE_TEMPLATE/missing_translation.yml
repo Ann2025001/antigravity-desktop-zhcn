@@ -1,0 +1,38 @@
+name: 🔍 漏翻 / 翻译优化建议
+description: 反馈 Antigravity 界面中未汉化的英文文本或提出更地道的翻译建议
+title: "【漏翻/翻译】: "
+labels: ["translation", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你帮助改进 Antigravity Desktop 的中文本地化！请尽可能提供详细的位置信息以便快速定位并收录。
+        ⚠️ **请注意保护个人隐私：截图中请遮盖个人邮箱、项目名称、敏感路径与对话正文。**
+  - type: input
+    id: original_text
+    attributes:
+      label: 原始英文文本
+      description: 界面中显示的原版英文内容（请尽量完整准确）
+      placeholder: 例如：Select a folder.
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: 出现位置 / 操作路径
+      description: 在客户端哪个界面或执行什么操作后出现
+      placeholder: 例如：项目选择下拉菜单 -> 鼠标悬停在“新建项目”上时的 Tooltip
+    validations:
+      required: true
+  - type: input
+    id: suggested_translation
+    attributes:
+      label: 建议的中文翻译（选填）
+      placeholder: 例如：选择文件夹。
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 界面截图 / 补充说明
+      description: 请直接将截图粘贴到此处（请注意遮挡敏感信息）
+    validations:
+      required: false

@@ -1,6 +1,6 @@
 {
   "name": "antigravity-desktop-zhcn",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Windows Chinese localization patcher for Antigravity Desktop",
   "type": "module",
@@ -14,6 +14,7 @@
     "restore": "node src/cli.mjs restore",
     "cleanup": "node src/cli.mjs cleanup",
     "purge": "node src/cli.mjs purge",
+    "maintain:update": "node scripts/maintain-update.mjs",
     "collect:compatibility": "node scripts/collect-compatibility-candidate.mjs",
     "collect:untranslated": "node scripts/collect-untranslated.mjs",
     "compatibility:sign": "node scripts/sign-compatibility-manifest.mjs",

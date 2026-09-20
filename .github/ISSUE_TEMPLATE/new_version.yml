@@ -1,0 +1,42 @@
+name: 📦 新版本兼容性适配请求
+description: 官方推送新版本后，请求登记新的版本指纹与兼容性白名单
+title: "【新版适配】: Antigravity v"
+labels: ["compatibility", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        当 Google Antigravity Desktop 推送新版本或新构建后，工具为保护客户端安全会主动拦截并拒绝注入。
+        请提供以下信息，维护者将尽快提取指纹并更新兼容白名单。
+  - type: input
+    id: app_version
+    attributes:
+      label: Antigravity 客户端版本号
+      placeholder: 例如：2.16.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os_platform
+    attributes:
+      label: 操作系统
+      options:
+        - Windows 11 (x64)
+        - Windows 10 (x64)
+        - Windows (arm64)
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: check_output
+    attributes:
+      label: 一键检查兼容性 输出信息
+      description: 请复制运行“一键检查兼容性.bat”时控制台输出的完整日志
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: 其他补充说明
+    validations:
+      required: false

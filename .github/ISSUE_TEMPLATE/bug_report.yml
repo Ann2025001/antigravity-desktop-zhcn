@@ -1,0 +1,47 @@
+name: 🐛 故障 / 异常报告
+description: 提交汉化安装失败、界面白屏、还原异常或功能损坏等缺陷
+title: "【故障】: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你反馈问题！为了快速定位故障原因，请详细填写以下环境信息与复现步骤。
+  - type: input
+    id: app_version
+    attributes:
+      label: Antigravity 版本号
+      placeholder: 例如：2.15.0
+    validations:
+      required: true
+  - type: dropdown
+    id: install_type
+    attributes:
+      label: 使用的汉化包类型
+      options:
+        - 便携免安装版 (Portable Release ZIP)
+        - 源码仓库版 (Git Clone / Source ZIP)
+    validations:
+      required: true
+  - type: textarea
+    id: error_description
+    attributes:
+      label: 异常现象与复现步骤
+      description: 描述具体发生了什么，以及如何触发该问题
+      placeholder: |
+        1. 双击运行“一键安装汉化.bat”
+        2. 启动 Antigravity 客户端
+        3. 出现白屏 / 报出错误代码...
+    validations:
+      required: true
+  - type: textarea
+    id: console_log
+    attributes:
+      label: 控制台输出日志（如有）
+      description: 运行 bat / 命令行时终端打印的文本
+      render: shell
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 截图信息（如有）
+      description: 截图前请确保抹去邮箱、Token、工程路径等私密信息
