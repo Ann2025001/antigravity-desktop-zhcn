@@ -193,6 +193,17 @@ export function patchCustomSchemeSource(source) {
     .replace(HANDLER_SUFFIX, HANDLER_REPLACEMENT);
 }
 
+export function patchLoadingOverlaySource(source) {
+  const normalized = source.replaceAll("\r\n", "\n");
+  if (normalized.includes("正在加载 Antigravity")) {
+    return normalized;
+  }
+  return normalized.replace(
+    '<div class="text">Loading Antigravity</div>',
+    '<div class="text">正在加载 Antigravity...</div>',
+  );
+}
+
 function createArchiveStreams({
   sourceAsarPath,
   sourceUnpackedPath,
@@ -200,7 +211,18 @@ function createArchiveStreams({
   dataOffset,
   replacementPath,
   replacementBuffer,
+  replacements,
 }) {
+  const replacementMap = new Map();
+  if (replacements instanceof Map) {
+    for (const [k, v] of replacements.entries()) replacementMap.set(k, v);
+  } else if (replacements && typeof replacements === "object") {
+    for (const [k, v] of Object.entries(replacements)) replacementMap.set(k, v);
+  }
+  if (replacementPath && replacementBuffer) {
+    replacementMap.set(replacementPath, replacementBuffer);
+  }
+
   const streams = [];
 
   function walk(directory, parentPath = "") {
@@ -232,11 +254,12 @@ function createArchiveStreams({
         continue;
       }
 
-      const isReplacement = archivePath === replacementPath;
-      const size = isReplacement ? replacementBuffer.length : Number(entry.size);
+      const repBuf = replacementMap.get(archivePath);
+      const isReplacement = Boolean(repBuf);
+      const size = isReplacement ? repBuf.length : Number(entry.size);
       const unpacked = Boolean(entry.unpacked);
       const streamGenerator = isReplacement
-        ? () => Readable.from(replacementBuffer)
+        ? () => Readable.from(repBuf)
         : unpacked
           ? () =>
               createReadStream(
@@ -356,13 +379,31 @@ export async function buildPatchedAsar({
     patchCustomSchemeSource(originalBuffer.toString("utf8")),
     "utf8",
   );
+
+  const replacements = new Map();
+  replacements.set(customSchemePath, patchedBuffer);
+
+  // If loadingOverlay.js exists, localize its initial loading text
+  const loadingOverlayPath = "dist/loadingOverlay.js";
+  const loadingEntry = getAsarEntry(header, loadingOverlayPath);
+  if (loadingEntry && !loadingEntry.unpacked) {
+    const rawLoadingBuffer = await readFileFromAsar(
+      sourceAsarPath,
+      loadingOverlayPath,
+    );
+    const patchedLoadingBuffer = Buffer.from(
+      patchLoadingOverlaySource(rawLoadingBuffer.toString("utf8")),
+      "utf8",
+    );
+    replacements.set(loadingOverlayPath, patchedLoadingBuffer);
+  }
+
   const streams = createArchiveStreams({
     sourceAsarPath,
     sourceUnpackedPath,
     header,
     dataOffset,
-    replacementPath: customSchemePath,
-    replacementBuffer: patchedBuffer,
+    replacements,
   });
 
   await mkdir(path.dirname(outputAsarPath), { recursive: true });

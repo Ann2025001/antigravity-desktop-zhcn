@@ -6,6 +6,7 @@ import path from "node:path";
 import {
   atomicReplaceFile,
   patchCustomSchemeSource,
+  patchLoadingOverlaySource,
 } from "../src/lib/patcher.mjs";
 import { sha256Buffer } from "../src/lib/hash.mjs";
 
@@ -97,3 +98,11 @@ test("atomicReplaceFile refuses an unexpected current file", async () => {
     await rm(tempRoot, { recursive: true, force: true });
   }
 });
+
+test("patchLoadingOverlaySource localizes the initial loading screen text", () => {
+  const fixture = `<div class="text">Loading Antigravity</div>`;
+  const patched = patchLoadingOverlaySource(fixture);
+  assert.match(patched, /正在加载 Antigravity/);
+  assert.equal(patchLoadingOverlaySource(patched), patched);
+});
+
