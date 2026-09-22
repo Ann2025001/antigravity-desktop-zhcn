@@ -382,4 +382,80 @@ test("task and subagent running and blocked dynamic status strings are covered",
   }
 });
 
+test("desktop screenshots UI audit items are fully covered", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    // Tooltips with keyboard shortcuts
+    { source: "Select Project Ctrl+;", expected: "选择项目 Ctrl+;" },
+    { source: "Select Model Ctrl+/", expected: "选择模型 Ctrl+/" },
+    { source: "Record Audio Ctrl+M", expected: "录制音频 Ctrl+M" },
+    { source: "Send message Enter", expected: "发送消息 Enter" },
+    { source: "Queue message Enter", expected: "排队消息 Enter" },
+
+    // IDE install tooltip
+    {
+      source: "Install Antigravity IDE to run and edit your workspace scripts.",
+      expected: "安装 Antigravity IDE 以运行和编辑工作区脚本。",
+    },
+
+    // Reset countdown patterns (no partial English)
+    { source: "Resets in 4h 42m", expected: "将在 4 小时 42 分钟后重置" },
+    { source: "Resets in 11h 48m", expected: "将在 11 小时 48 分钟后重置" },
+    { source: "Resets in 6d 12h", expected: "将在 6 天 12 小时后重置" },
+    { source: "Resets in 2d 5h", expected: "将在 2 天 5 小时后重置" },
+    { source: "Resets in 30m", expected: "将在 30 分钟后重置" },
+
+    // Slash command descriptions
+    {
+      source: "Run until the specified goal is completely finished.",
+      expected: "运行直至指定目标完全完成。",
+    },
+    {
+      source: "Run an instruction on a recurring schedule or as a one-time timer.",
+      expected: "按循环计划或作为一次性定时器运行指令。",
+    },
+    {
+      source: "Invoke a browser agent for web tasks.",
+      expected: "调用浏览器智能体执行网页任务。",
+    },
+    {
+      source: "Interview me to align on a plan.",
+      expected: "通过问答访谈与我对齐方案。",
+    },
+    {
+      source: "Invoke a team of agents to autonomously tackle large projects.",
+      expected: "调用智能体团队自主处理大型项目。",
+    },
+    {
+      source: "Reflect on recent successes or corrections to capture reusable skills or rules.",
+      expected: "反思近期的成功经验或纠错记录，沉淀可复用的技能或规则。",
+    },
+    {
+      source: "Invoke the Boost multi-agent orchestrator for complex tasks.",
+      expected: "调用 Boost 多智能体编排器处理复杂任务。",
+    },
+    {
+      source: "Ask a quick question without interrupting the main conversation.",
+      expected: "快速提问而不中断主对话。",
+    },
+
+    // Add context popup menu items
+    { source: "Media", expected: "媒体" },
+    { source: "Mentions", expected: "提及" },
+    { source: "Screen Recording", expected: "屏幕录制" },
+    { source: "Screenshot", expected: "屏幕截图" },
+    { source: "Console logs", expected: "控制台日志" },
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `screenshot audit translation mismatch for: ${source}`,
+    );
+  }
+});
+
+
 

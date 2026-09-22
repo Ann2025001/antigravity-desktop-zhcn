@@ -111,9 +111,31 @@ const HANDLER_REPLACEMENT = `    });
         if (electron_1.Menu && !electron_1.Menu.__zhcnPatched) {
             electron_1.Menu.__zhcnPatched = true;
             const origBuildFromTemplate = electron_1.Menu.buildFromTemplate;
-            electron_1.Menu.buildFromTemplate = function (template) {
-                return origBuildFromTemplate.call(this, transformMenuTemplate(template));
-            };
+            if (typeof origBuildFromTemplate === 'function') {
+                electron_1.Menu.buildFromTemplate = function (template) {
+                    return origBuildFromTemplate.call(this, transformMenuTemplate(template));
+                };
+            }
+            if (electron_1.Menu.prototype) {
+                const origAppend = electron_1.Menu.prototype.append;
+                if (typeof origAppend === 'function') {
+                    electron_1.Menu.prototype.append = function (menuItem) {
+                        if (menuItem && typeof menuItem.label === 'string') {
+                            menuItem.label = translateNativeMenuText(menuItem.label);
+                        }
+                        return origAppend.call(this, menuItem);
+                    };
+                }
+                const origInsert = electron_1.Menu.prototype.insert;
+                if (typeof origInsert === 'function') {
+                    electron_1.Menu.prototype.insert = function (pos, menuItem) {
+                        if (menuItem && typeof menuItem.label === 'string') {
+                            menuItem.label = translateNativeMenuText(menuItem.label);
+                        }
+                        return origInsert.call(this, pos, menuItem);
+                    };
+                }
+            }
         }
 
         if (electron_1.MenuItem && !electron_1.MenuItem.__zhcnPatched) {
@@ -129,6 +151,23 @@ const HANDLER_REPLACEMENT = `    });
                     configurable: true,
                     enumerable: true,
                 });
+            }
+        }
+
+        if (electron_1.Tray && electron_1.Tray.prototype && !electron_1.Tray.__zhcnPatched) {
+            electron_1.Tray.__zhcnPatched = true;
+            const origSetContextMenu = electron_1.Tray.prototype.setContextMenu;
+            if (typeof origSetContextMenu === 'function') {
+                electron_1.Tray.prototype.setContextMenu = function (menu) {
+                    if (menu && Array.isArray(menu.items)) {
+                        for (const item of menu.items) {
+                            if (item && typeof item.label === 'string') {
+                                item.label = translateNativeMenuText(item.label);
+                            }
+                        }
+                    }
+                    return origSetContextMenu.call(this, menu);
+                };
             }
         }
     } catch (menuErr) {
