@@ -457,5 +457,30 @@ test("desktop screenshots UI audit items are fully covered", async () => {
   }
 });
 
+test("welcome and onboarding authentication strings are fully covered", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    { source: "Welcome to Antigravity", expected: "欢迎使用 Antigravity" },
+    { source: "Sign in", expected: "登录" },
+    { source: "Awaiting Authentication...", expected: "正在等待身份验证..." },
+    { source: "Awaiting Authentication…", expected: "正在等待身份验证…" },
+    { source: "Use business account", expected: "使用企业账号" },
+    { source: "Having trouble? Let us know", expected: "遇到问题？请告诉我们" },
+    { source: "Continue with Google", expected: "通过 Google 继续" },
+    { source: "Success, Continuing...", expected: "成功，正在继续..." },
+    { source: "Sign in with business account", expected: "使用企业账号登录" },
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `onboarding translation mismatch for: ${source}`,
+    );
+  }
+});
+
+
 
 
