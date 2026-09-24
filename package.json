@@ -26,7 +26,7 @@
     "validate:local": "node scripts/validate-local-installation.mjs"
   },
   "dependencies": {
-    "@electron/asar": "4.2.1"
+    "@electron/asar": "4.3.0"
   },
   "license": "MIT"
 }
