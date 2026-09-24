@@ -102,6 +102,8 @@ try {
     }
     foreach ($file in @(
         "一键汉化.bat",
+        "自动跟进更新.bat",
+        "启动 Antigravity（自动汉化）.bat",
         "一键检查兼容性.bat",
         "生成汉化预览.bat",
         "一键恢复英文.bat",

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "appVersion": "2.16.0",
+  "targets": [
+    {
+      "platform": "win32",
+      "arch": "x64",
+      "appVersion": "2.16.0",
+      "packageVersion": "2.16.0",
+      "appAsarSha256": "053E8DCE84698F8DC295BA7CAA9D1E3879E49DA3F63A9B54159EEF43D607E24E",
+      "customSchemePath": "dist/customScheme.js",
+      "customSchemeSha256": "6A533F37C2C26D405CFD7BC0C2A629803BDBDD843924BD3306D4E6F1087A4E98",
+      "uiBundleSha256": "30397F5FC7E79EB1209DC3A5EC9549516BC619F6F9582BE894B01ED81C4C5E9F",
+      "uiBundleSize": 9466854,
+      "notes": "Verified locally on Windows x64: automatic follow-up, original-backup, atomic-install, restart, and hash verification completed on 2026-09-24."
+    }
+  ]
+}

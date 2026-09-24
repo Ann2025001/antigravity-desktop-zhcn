@@ -1,7 +1,7 @@
 ﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("Check", "Preview", "Install", "Restore", "Cleanup", "Purge")]
+    [ValidateSet("Check", "Preview", "Install", "AutoUpdate", "Restore", "Cleanup", "Purge")]
     [string]$Action
 )
 
@@ -41,7 +41,7 @@ if ($nodeVersion -lt [version]"22.12.0") {
     Stop-WithMessage "Node.js 版本过低：$nodeVersionText；需要 22.12.0 或更高版本。"
 }
 
-if ($Action -eq "Install") {
+if ($Action -eq "Install" -or $Action -eq "AutoUpdate") {
     $asarPackage = Join-Path $ProjectRoot "node_modules\@electron\asar\package.json"
     $asarReady = $false
     if (Test-Path -LiteralPath $asarPackage) {
@@ -75,6 +75,10 @@ if ($Action -eq "Install") {
     }
 }
 
-$cliAction = $Action.ToLowerInvariant()
-& $nodePath (Join-Path $ProjectRoot "src\cli.mjs") $cliAction
+if ($Action -eq "AutoUpdate") {
+    & $nodePath (Join-Path $ProjectRoot "scripts\auto-follow-update.mjs")
+} else {
+    $cliAction = $Action.ToLowerInvariant()
+    & $nodePath (Join-Path $ProjectRoot "src\cli.mjs") $cliAction
+}
 exit $LASTEXITCODE
