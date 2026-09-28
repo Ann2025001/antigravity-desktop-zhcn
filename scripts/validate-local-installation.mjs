@@ -135,13 +135,13 @@ for (const [archivePath, original] of originalEntries) {
   if (!patched) {
     throw new Error(`新 ASAR 缺少条目：${archivePath}`);
   }
-  if (archivePath === target.customSchemePath) {
+  if (archivePath === target.customSchemePath || archivePath === "dist/loadingOverlay.js") {
     if (
       original.type !== patched.type ||
       original.unpacked !== patched.unpacked ||
       patched.size <= original.size
     ) {
-      throw new Error("customScheme.js 元数据变化异常。");
+      throw new Error(`${archivePath} 元数据变化异常。`);
     }
     continue;
   }

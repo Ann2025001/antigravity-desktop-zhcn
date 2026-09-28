@@ -36,17 +36,18 @@ export function buildReleaseCompatibilityNotes(manifest) {
   }
 
   const lines = [
-    "## 🚀 Antigravity Desktop 中文汉化补丁 v1.0.0",
+    "## 🚀 Antigravity Desktop 中文汉化补丁 v1.3.0",
     "",
-    "面向 Windows 版 Google Antigravity Desktop 的中文本地化补丁工具正式发布。",
+    "面向 Windows 版 Google Antigravity Desktop 的中文本地化补丁工具最新发布。",
     "",
     "### 🌟 本次发布核心亮点",
     "",
+    "- **官方 2.17.0 深度适配**：正式加入对最新 Google Antigravity Desktop 2.17.0 Windows x64 的完整指纹兼容白名单与自动备份/无损还原机制。",
+    "- **引导与登录界面汉化**：完整汉化 Antigravity 欢迎引导、账户登录、等待身份验证、企业账号、帮助排查等各类多状态界面。",
     "- **全面汉化覆盖**：内置 1799 条精确翻译规则与 185 条动态正则匹配规则，深度覆盖主界面、设置菜单、权限预设、快捷键面板、浏览器智能体操作与交互弹窗。",
-    "- **原生菜单与托盘支持**：除 DOM 渲染层外，新增对 Electron 主进程系统托盘（System Tray）与原生上下文菜单的自动汉化注入。",
+    "- **原生菜单与托盘支持**：除 DOM 渲染层外，持续注入 Electron 主进程系统托盘（System Tray）与原生上下文菜单的自动汉化。",
     "- **安全指纹与无损还原**：基于客户端 `app.asar` SHA-256 哈希进行严格版本白名单匹配；首次安装自动备份官方原版，支持一键无损恢复英文。",
     "- **开箱即用便携包**：发布包内置独立的 Node.js 运行时与锁定依赖，普通用户无需配置任何开发环境即可直接运行。",
-    "- **自动化维护体系**：内置 Untranslated Collector 未翻译 UI 发现体系与 CI 自动化校验，支持社区协同持续跟进官方后续新版本。",
     "",
     "### 📦 支持的 Antigravity Desktop 版本",
     "",
