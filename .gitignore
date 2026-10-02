@@ -1,5 +1,7 @@
 node_modules/
 .runtime/
+runtime/
+BUILD_INFO.json
 .codebase-memory/
 *.log
 *.tmp

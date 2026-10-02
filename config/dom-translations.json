@@ -760,7 +760,7 @@
     "General": "通用",
     "General Feedback": "一般反馈",
     "General settings and workspace preferences.": "通用设置与工作区偏好。",
-    "Generated image": "已生成图像",
+    "Generated image": "已生成图片",
     "Generated image:": "已生成图像：",
     "Generating": "生成中",
     "Generating.": "生成中...",
@@ -825,7 +825,7 @@
     "Include unstaged changes": "包含未暂存的更改",
     "Info": "信息",
     "Inherit": "继承",
-    "Inherit Global": "继承全局",
+    "Inherit Global": "继承全局设置",
     "Inherited": "已继承",
     "Inherits from": "继承自",
     "Inherits from global settings. Local permissions have higher priority.": "继承全局设置。本地权限具有更高优先级。",
@@ -1017,7 +1017,7 @@
     "No browser pages open": "未打开任何浏览器页面",
     "No build files are updated.": "没有更新任何构建文件。",
     "No changes detected": "未检测到更改",
-    "No changes to amend": "没有可追加的更改",
+    "No changes to amend": "没有需要修补的更改",
     "No commit to amend": "没有可追加的提交",
     "No commits to push": "没有可推送的提交",
     "No content available for this resource": "该资源无可用的内容",
@@ -1032,10 +1032,10 @@
     "No groups yet": "暂无分组",
     "No handlers configured for": "未配置处理程序：",
     "No hooks configured in this plugin.": "此插件中未配置钩子。",
-    "No items found": "未找到任何项目",
+    "No items found": "未找到任何项",
     "No Javascript Result Output": "无 JavaScript 结果输出",
     "No matching flags": "未找到匹配的标志",
-    "No matching results": "没有匹配的结果",
+    "No matching results": "暂无匹配结果",
     "No MCP servers configured in this plugin.": "此插件中未配置 MCP 服务器。",
     "No MCP servers found": "未找到 MCP 服务器",
     "No MCP servers found for": "未找到匹配的 MCP 服务器：",
@@ -1046,7 +1046,7 @@
     "No Models Available": "无可用模型",
     "No models available": "无可用模型",
     "No more older messages": "没有更早的消息",
-    "No pending tasks in the current queue.": "当前队列中没有待处理任务。",
+    "No pending tasks in the current queue.": "当前队列中暂无待处理任务。",
     "No permissions configured.": "尚未配置任何权限。",
     "No Project": "未选择项目",
     "No project selected": "未选择项目",
@@ -1317,7 +1317,7 @@
     "Run now": "立即运行",
     "Run on startup": "启动时运行",
     "Run until the specified goal is completely finished.": "运行直至指定目标完全完成。",
-    "Running": "运行中",
+    "Running": "正在运行",
     "running": "运行中",
     "Running command": "正在运行命令",
     "Running command...": "正在运行命令...",
@@ -1689,7 +1689,7 @@
     "use_global": "继承全局",
     "Used MCP tool": "已使用 MCP 工具",
     "Used MCP tool:": "已使用 MCP 工具：",
-    "Used tool": "已使用工具",
+    "Used tool": "已调用工具",
     "Used tool:": "已使用工具：",
     "Useful for tasks that require file access across your full machine. The agent has full read and write access to all local files, but all proposed terminal commands require manual review and approval before running.": "适用于需要跨整台设备访问文件的任务。智能体对所有本地文件拥有完全读写权限，但所有拟执行的终端命令在运行前均需人工评审与批准。",
     "Useful for typical development with an emphasis on security. It prioritizes safety over speed by requiring manual approval for all terminal commands and files outside the project directory.": "适用于注重安全性的常规开发场景。它通过要求对项目目录外的所有终端命令和文件进行手动批准，将安全性置于执行速度之上。",
@@ -1802,9 +1802,353 @@
     "Zoom": "缩放",
     "Zoom In": "放大",
     "Zoom Level": "缩放级别",
-    "Zoom Out": "缩小"
+    "Zoom Out": "缩小",
+    "The breakdown below shows token usage from customizations like rules, skills, and MCP. If a budget is exceeded, large rules are demoted to path pointers and large customizations are excluded automatically.": "下面的明细显示了规则、技能和 MCP 等自定义项的 Token 使用量。如果超出预算，大型规则将被降级为路径指针，大型自定义项将被自动排除。",
+    "Token Breakdown": "Token 明细",
+    "Token breakdown": "Token 明细",
+    "automation": "自动化",
+    "Interactive guide to design and create a scheduled background automation. Use this skill when the user wants to create an automated or recurring scheduled task (e.g. \"summarize my emails every morning\", \"every Monday send me a to-do list\"). Also triggered by the /automation slash command.": "设计并创建计划后台自动化的交互式指南。当用户想要创建自动化或周期性计划任务时使用此技能（例如“每天早晨总结我的邮件”、“每周一发送待办清单”）。也可通过 /automation 斜杠命令触发。",
+    "plugin": "插件管理",
+    "How to manage and create plugins — namespaced bundles of skills, agents, rules, MCP servers and hooks that install, enable and disable as a single unit. Use this skill when the user wants to enable, disable, install or uninstall a plugin, when they want to create a new plugin, or when a new customization should be packaged into a plugin rather than left loose. Also triggered by the /plugin slash command. Don't use for the underlying customization system itself — discovery roots, loading priority, or authoring a standalone skill, agent, rule, hook or MCP server outside a plugin; see the customizations guide skill for those.": "如何管理和创建插件 —— 包含技能、智能体、规则、MCP 服务和钩子的命名空间包，可作为单个单元进行安装、启用和禁用。当用户想要启用、禁用、安装或卸载插件，或者创建新插件、打包自定义项时使用此技能。也可通过 /plugin 斜杠命令触发。",
+    "ui-extension": "UI 扩展",
+    "Build, package, run, and debug UI extensions for Antigravity: interactive web panels that render in the side pane, served by a Node.js sidecar using the built-in Sidecar SDK.": "为 Antigravity 构建、打包、运行和调试 UI 扩展：在侧边栏面板中呈现的交互式 Web 面板，由使用内置 Sidecar SDK 的 Node.js Sidecar 提供支持。",
+    "Build, package, run, and debug UI extensions for Antigravity: interactive web\npanels that render in the side pane, served by a Node.js sidecar using the\nbuilt-in Sidecar SDK.": "为 Antigravity 构建、打包、运行和调试 UI 扩展：在侧边栏面板中呈现的交互式 Web 面板，由使用内置 Sidecar SDK 的 Node.js Sidecar 提供支持。",
+    "ui-plugin-navigation": "UI 插件导航",
+    "Discover UI plugin panels relevant to the current task and surface a one-click pill in chat to open (toggle) them in the side pane. Use when a running UI plugin's panel would help with what the user is doing, or right after the user enables a new UI plugin pane and a shortcut to open it is handy.": "发现与当前任务相关的 UI 插件面板，并在聊天中浮现一键胶囊按钮以便在侧边栏中打开（切换）它们。当运行中的 UI 插件面板对当前操作有帮助时使用。",
+    "Good Response": "回答很好",
+    "Bad Response": "回答不佳",
+    "Good response": "回答很好",
+    "Bad response": "回答不佳",
+    "Maximum number of attachments reached": "已达到附件数量上限",
+    "Maximum number of attachments reached.": "已达到附件数量上限。",
+    "Maximum of 5 attachments reached": "已达到最多 5 个附件的上限",
+    "Maximum of 5 attachments reached.": "已达到最多 5 个附件的上限。",
+    "Invalid media": "无效媒体",
+    "Invalid media.": "无效媒体。",
+    "Refreshing...": "正在刷新...",
+    "Refreshing": "正在刷新",
+    "Refreshed": "已刷新",
+    "Working...": "正在工作...",
+    "Ran": "已运行",
+    "Read": "已读取",
+    "Reading": "正在读取",
+    "Wrote": "已写入",
+    "Writing": "正在写入",
+    "Searched": "已搜索",
+    "Searching": "正在搜索",
+    "Scheduled": "已计划",
+    "Scheduling": "正在计划",
+    "Invoked": "已调用",
+    "Invoking": "正在调用",
+    "Killed task": "已终止任务",
+    "Killing task": "正在终止任务",
+    "Killed task:": "已终止任务：",
+    "Kill task": "终止任务",
+    "Listed tasks": "已列出任务",
+    "Listing tasks": "正在列出任务",
+    "Checked task status": "已检查任务状态",
+    "Checking task status": "正在检查任务状态",
+    "Sent input to task": "已发送输入到任务",
+    "Sending input to task": "正在发送输入到任务",
+    "1 task": "1 个任务",
+    "1 tasks": "1 个任务",
+    "task": "任务",
+    "tasks": "任务",
+    "There was a network issue connecting to the server, please try again.": "连接服务器时出现网络问题，请重试。",
+    "There was a network issue connecting to the server, please try again": "连接服务器时出现网络问题，请重试",
+    "The agent has encountered an internal error.": "智能体遇到内部错误。",
+    "Agent encountered an internal error.": "智能体遇到内部错误。",
+    "Error ID:": "错误 ID:",
+    "Unknown:": "未知错误:",
+    "Unknown": "未知错误",
+    "Connection timed out, please try again.": "连接超时，请重试。",
+    "Request timed out, please try again.": "请求超时，请重试。",
+    "Failed to connect to server, please try again.": "连接服务器失败，请重试。",
+    "Server error, please try again later.": "服务器错误，请稍后重试。",
+    "Artifacts": "工件",
+    "Uploads": "已上传附件",
+    "Goals": "长任务目标",
+    "No artifacts generated": "暂无已生成的工件",
+    "artifacts generated": "已生成的工件",
+    "No uploads": "暂无上传附件",
+    "No active terminals": "暂无活动终端",
+    "active terminals": "活动终端",
+    "No active terminals. Click + to create one.": "暂无活动终端，点击 + 创建。",
+    "Creating terminal...": "正在创建终端...",
+    "See all": "查看全部",
+    "See less": "收起",
+    "See more": "查看更多",
+    "Show finished": "显示已完成",
+    "Unknown: There was a network issue connecting to the server, please try again.": "未知错误：连接服务器时出现网络问题，请重试。",
+    "No matching items": "暂无匹配项",
+    "No events recorded": "暂无记录的事件",
+    "No events recorded.": "暂无记录的事件。",
+    "No subagents": "暂无子智能体",
+    "No changes to review": "暂无需要审查的更改",
+    "No file changes": "暂无文件更改",
+    "No background tasks": "暂无后台任务",
+    "No files or folders found": "未找到文件或文件夹",
+    "No internet. Agent features may not work.": "无网络连接，智能体功能可能无法正常工作。",
+    "subagents": "子智能体",
+    "Open Terminal": "打开终端",
+    "open terminal": "打开终端",
+    "This undo action will not make any code changes.": "此撤销操作不会产生任何代码变更。",
+    "Confirming this undo action will make the following changes:": "确认此撤销操作将应用以下更改：",
+    "Undo to this point": "撤销到此处",
+    "User cancelled agent execution.": "用户已取消智能体执行。",
+    "Agent execution failed.": "智能体执行失败。",
+    "Cannot revert this message": "无法还原此消息",
+    "Cannot revert to a message that was cleared to save space": "无法还原到为节省空间已被清理的消息",
+    "Cannot revert messages before or at the point where Best of N mode was triggered": "无法还原在触发多分支候选模式（Best of N）之前或之处的消息",
+    "Cannot revert messages with artifact comments": "无法还原带有工件评论的消息",
+    "Cannot revert messages with file diff comments": "无法还原带有文件差异评论的消息",
+    "Cannot revert messages with file comments": "无法还原带有文件评论的消息",
+    "Cannot revert messages while the agent is running": "智能体运行期间无法还原消息",
+    "Plan Review Policy": "计划评审策略",
+    "and select": "并选择",
+    "to have the agent generate a plan.": "可让智能体生成计划。",
+    "running 1 command": "正在运行 1 条命令",
+    "ran 1 command": "已运行 1 条命令",
+    "Cancel Step": "取消步骤",
+    "Cancel All": "全部取消",
+    "Cancel Render": "取消渲染"
   },
   "patterns": [
+    {
+      "source": "^There was a network issue connecting to the server, please try again\\.?$",
+      "target": "连接服务器时出现网络问题，请重试。",
+      "flags": "u"
+    },
+    {
+      "source": "^Unknown:\\s*There was a network issue connecting to the server, please try again\\.?$",
+      "target": "未知错误：连接服务器时出现网络问题，请重试。",
+      "flags": "u"
+    },
+    {
+      "source": "^Unknown:\\s*(.+)$",
+      "target": "未知错误：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Error ID:\\s*(.+)$",
+      "target": "错误 ID: $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+type\\s+.*$",
+      "target": "已运行：读取文件内容",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+config.*$",
+      "target": "已运行：配置 Git 参数",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+reset.*$",
+      "target": "已运行：对齐分支历史",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+checkout.*$",
+      "target": "已运行：切换/恢复分支文件",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+commit.*$",
+      "target": "已运行：提交代码更改",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+push.*$",
+      "target": "已运行：推送到 GitHub",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+fetch.*$",
+      "target": "已运行：拉取远程分支",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+git\\s+status.*$",
+      "target": "已运行：检查仓库状态",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+node\\s+--test.*$",
+      "target": "已运行：单元测试套件",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+npm\\s+run\\s+validate.*$",
+      "target": "已运行：项目规范校验",
+      "flags": "u"
+    },
+    {
+      "source": "^Ran\\s+npm\\s+test.*$",
+      "target": "已运行：全量自动化测试",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s*task$",
+      "target": "$1 个任务",
+      "flags": "u"
+    },
+    {
+      "source": "^(\\d+)\\s*tasks?$",
+      "target": "$1 个任务",
+      "flags": "u"
+    },
+    {
+      "source": "^Killing task\\s+(.+)$",
+      "target": "正在终止任务 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Killed task\\s+(.+)$",
+      "target": "已终止任务 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Explored\\s+(\\d+)\\s*tasks?$",
+      "target": "已探索 $1 个任务",
+      "flags": "u"
+    },
+    {
+      "source": "^Exploring\\s+(\\d+)\\s*tasks?$",
+      "target": "正在探索 $1 个任务",
+      "flags": "u"
+    },
+    {
+      "source": "^Searching\\s+(.+)$",
+      "target": "正在搜索 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Searched\\s+(.+)$",
+      "target": "已搜索 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Writing\\s+(.+)$",
+      "target": "正在写入 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Wrote\\s+(.+)$",
+      "target": "已写入 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Reading\\s+(.+)$",
+      "target": "正在读取 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Read\\s+(.+)$",
+      "target": "已读取 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Run command:\\s*(.+)$",
+      "target": "已运行命令：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Thinking for\\s+(.+)$",
+      "target": "思考耗时 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Thought for\\s+(.+)$",
+      "target": "思考耗时 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Thought for\\s+(\\d+)\\s*s$",
+      "target": "思考耗时 $1 秒",
+      "flags": "u"
+    },
+    {
+      "source": "^Thought for\\s+(\\d+)\\s*m\\s*(\\d+)\\s*s$",
+      "target": "思考耗时 $1 分钟 $2 秒",
+      "flags": "u"
+    },
+    {
+      "source": "^Working for\\s+(.+)$",
+      "target": "已工作 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Stopped after\\s+(\\d+)\\s*s$",
+      "target": "耗时 $1 秒后停止",
+      "flags": "u"
+    },
+    {
+      "source": "^Stopped after\\s+(\\d+)\\s*m$",
+      "target": "耗时 $1 分钟后停止",
+      "flags": "u"
+    },
+    {
+      "source": "^Stopped after\\s+(\\d+)\\s*h$",
+      "target": "耗时 $1 小时后停止",
+      "flags": "u"
+    },
+    {
+      "source": "^Stopped after\\s+(\\d+)\\s*m\\s*(\\d+)\\s*s$",
+      "target": "耗时 $1 分钟 $2 秒后停止",
+      "flags": "u"
+    },
+    {
+      "source": "^Stopped after\\s+(\\d+)\\s*h\\s*(\\d+)\\s*m$",
+      "target": "耗时 $1 小时 $2 分钟后停止",
+      "flags": "u"
+    },
+    {
+      "source": "^Stopped after\\s+(\\d+)\\s*h\\s*(\\d+)\\s*m\\s*(\\d+)\\s*s$",
+      "target": "耗时 $1 小时 $2 分钟 $3 秒后停止",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(.+)$",
+      "target": "工作耗时 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*ms$",
+      "target": "工作耗时 $1 毫秒",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*s$",
+      "target": "工作耗时 $1 秒",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*m$",
+      "target": "工作耗时 $1 分钟",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*h$",
+      "target": "工作耗时 $1 小时",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*m\\s*(\\d+)\\s*s$",
+      "target": "工作耗时 $1 分钟 $2 秒",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*h\\s*(\\d+)\\s*m$",
+      "target": "工作耗时 $1 小时 $2 分钟",
+      "flags": "u"
+    },
+    {
+      "source": "^Worked for\\s+(\\d+)\\s*h\\s*(\\d+)\\s*m\\s*(\\d+)\\s*s$",
+      "target": "工作耗时 $1 小时 $2 分钟 $3 秒",
+      "flags": "u"
+    },
     {
       "source": "^(\\d+)\\s+agents?\\s+running$",
       "target": "$1 个智能体正在运行",
@@ -2728,6 +3072,31 @@
     {
       "source": "^(\\d+)\\s*secs?\\s+ago$",
       "target": "$1 秒前",
+      "flags": "u"
+    },
+    {
+      "source": "^See all \\((\\d+)\\)$",
+      "target": "查看全部 ($1)",
+      "flags": "u"
+    },
+    {
+      "source": "^Show finished \\((\\d+)\\)$",
+      "target": "显示已完成 ($1)",
+      "flags": "u"
+    },
+    {
+      "source": "^Media \\((.+)\\)$",
+      "target": "媒体 ($1)",
+      "flags": "u"
+    },
+    {
+      "source": "^Today (\\d{1,2}:\\d{2}(?:\\s*(?:AM|PM))?)$",
+      "target": "今天 $1",
+      "flags": "u"
+    },
+    {
+      "source": "^Yesterday (\\d{1,2}:\\d{2}(?:\\s*(?:AM|PM))?)$",
+      "target": "昨天 $1",
       "flags": "u"
     }
   ]

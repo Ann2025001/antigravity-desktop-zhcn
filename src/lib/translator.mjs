@@ -107,7 +107,7 @@ export function createRuntimeOverlay(dictionary) {
     "pre",
     ".monaco-editor"
   ].join(",");
-  const translatedAttributes = ["aria-label", "title", "placeholder"];
+  const translatedAttributes = ["aria-label", "title", "placeholder", "data-tooltip", "data-title"];
   const pendingRoots = new Set();
   let scheduled = false;
   const stats = {
@@ -321,7 +321,99 @@ export function createRuntimeOverlay(dictionary) {
 }
 
 export function createLocalizedBundle(sourceBuffer, dictionary) {
-  const sourceText = sourceBuffer.toString("utf8");
+  let sourceText = sourceBuffer.toString("utf8");
+
+  // 原生深度汉化注入：工作耗时、时间单位、动作前缀等
+  sourceText = sourceText.replaceAll(
+    '${l.killed?"Stopped after":"Worked for"}',
+    '${l.killed?"耗时后停止":"工作耗时"}'
+  );
+  sourceText = sourceText.replaceAll(
+    'l.terminatedEarly?"Stopped after":"Worked for"',
+    'l.terminatedEarly?"耗时后停止":"工作耗时"'
+  );
+  sourceText = sourceText.replace(
+    'if(a<60)return`${a}s`;var b=Math.floor(a/60);if(b<60)return`${b}m`;',
+    'if(a<60)return`${a} 秒`;var b=Math.floor(a/60);if(b<60)return`${b} 分钟`;'
+  );
+  sourceText = sourceText.replaceAll('`Ran command: \\`${a}\\``', '`已运行命令：\\`${a}\\``');
+  sourceText = sourceText.replaceAll('"Ran command"', '"已运行命令"');
+  sourceText = sourceText.replaceAll('"Ran command:"', '"已运行命令："');
+  sourceText = sourceText.replaceAll(
+    '(a=b?.titlePrefix)?`${a} ${c}`:c',
+    '(a=(b?.titlePrefix==="Ran"?"已运行":b?.titlePrefix==="Running"?"正在运行":b?.titlePrefix==="Edited"?"已编辑":b?.titlePrefix==="Created"?"已创建":b?.titlePrefix==="Viewed"?"已查看":b?.titlePrefix==="Killed task"?"已终止任务":b?.titlePrefix==="Killing task"?"正在终止任务":b?.titlePrefix))?`${a} ${c}`:c'
+  );
+  sourceText = sourceText.replaceAll(
+    'a.push(`${c?"Exploring":"Explored"} ${f}`)',
+    'a.push(`${c?"正在探索":"已探索"} ${f.replace(/(\\d+)\\s*tasks?/g, "$1 个任务").replace(/(\\d+)\\s*files?/g, "$1 个文件").replace(/(\\d+)\\s*commands?/g, "$1 条命令")}`)'
+  );
+  sourceText = sourceText.replaceAll('"Refreshing..."', '"正在刷新..."');
+  sourceText = sourceText.replaceAll('"Good Response"', '"回答很好"');
+  sourceText = sourceText.replaceAll('"Bad Response"', '"回答不佳"');
+
+  // 右侧栏栏目与空状态原生汉化
+  sourceText = sourceText.replaceAll('{id:"artifacts",title:"Artifacts"', '{id:"artifacts",title:"工件"');
+  sourceText = sourceText.replaceAll('{id:"uploads",title:"Uploads"', '{id:"uploads",title:"已上传附件"');
+  sourceText = sourceText.replaceAll('{id:"goals",title:"Goals"', '{id:"goals",title:"目标"');
+  sourceText = sourceText.replaceAll('emptyText:e="No artifacts generated"', 'emptyText:e="暂无已生成的工件"');
+  sourceText = sourceText.replaceAll('emptyText:"No uploads"', 'emptyText:"暂无上传附件"');
+  sourceText = sourceText.replaceAll('h.length===0?z.createElement(uW,null,"No active terminals")', 'h.length===0?z.createElement(uW,null,"暂无活动终端")');
+  sourceText = sourceText.replaceAll('"No active terminals. Click + to create one."', '"暂无活动终端，点击 + 创建。"');
+  sourceText = sourceText.replaceAll('content:"Cancel Task"', 'content:"取消任务"');
+  sourceText = sourceText.replaceAll('content:"Open Terminal"', 'content:"打开终端"');
+  sourceText = sourceText.replaceAll('"aria-label":"Open Terminal"', '"aria-label":"打开终端"');
+  sourceText = sourceText.replaceAll('"No subagents"', '"暂无子智能体"');
+  // 撤销与运行状态原生汉化
+  sourceText = sourceText.replaceAll('"This undo action will not make any code changes."', '"此撤销操作不会产生任何代码变更。"');
+  sourceText = sourceText.replaceAll('"Confirming this undo action will make the following changes:"', '"确认此撤销操作将应用以下更改："');
+  sourceText = sourceText.replaceAll('"Undo to this point"', '"撤销到此处"');
+  sourceText = sourceText.replaceAll('"User cancelled agent execution."', '"用户已取消智能体执行。"');
+  sourceText = sourceText.replaceAll('"Agent execution failed."', '"智能体执行失败。"');
+  sourceText = sourceText.replaceAll('"Cannot revert this message"', '"无法还原此消息"');
+  sourceText = sourceText.replaceAll('"Cannot revert to a message that was cleared to save space"', '"无法还原到为节省空间已被清理的消息"');
+  sourceText = sourceText.replaceAll('"Cannot revert messages while the agent is running"', '"智能体运行期间无法还原消息"');
+  // 计划评审策略原生汉化
+  sourceText = sourceText.replaceAll('label:"Plan Review Policy"', 'label:"计划评审策略"');
+  // 工作流状态汇总原生汉化（根治 running X commands 与半中半英状态）
+  sourceText = sourceText.replace(
+    'zX={files:["file","files"],folders:["folder","folders"],edits:["file","files"],searches:["search","searches"],terminal:["command","commands"],tasks:["task","tasks"],web:["page","pages"],browser:["browser","browsers"],images:["image","images"],actions:["action","actions"],artifacts:["artifact","artifacts"]}',
+    'zX={files:["个文件","个文件"],folders:["个文件夹","个文件夹"],edits:["处编辑","处编辑"],searches:["次搜索","次搜索"],terminal:["条命令","条命令"],tasks:["个任务","个任务"],web:["个网页","个网页"],browser:["个浏览器操作","个浏览器操作"],images:["张图片","张图片"],actions:["次操作","次操作"],artifacts:["个工件","个工件"]}'
+  );
+  sourceText = sourceText.replaceAll('f=c?g?"Running":"running":g?"Ran":"ran";', 'f=c?"正在运行":"已运行";');
+  sourceText = sourceText.replaceAll('${c?"Editing":"Edited"} ${BX(a)||"files"}', '${c?"正在编辑":"已编辑"} ${BX(a)||"个文件"}');
+  sourceText = sourceText.replaceAll('${e.length===1?"command":"commands"}', '"条命令"');
+  sourceText = sourceText.replaceAll('b?`${c?"Exploring":"Explored"} ${b}`:c?"Working":"Done"', 'b?`${c?"正在探索":"已探索"} ${b}`:c?"工作中":"已完成"');
+
+  sourceText = sourceText.replace(
+    `z.createElement("span",null,"Type"," ",z.createElement("code",{className:"px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-[11px] border border-border"},"/")," ","and select"," ",z.createElement("code",{className:"px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-[11px] border border-border"},\n"plan")," ","to have the agent generate a plan.")`,
+    `z.createElement("span",null,"输入 "," ",z.createElement("code",{className:"px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-[11px] border border-border"},"/")," 并选择 ",z.createElement("code",{className:"px-1.5 py-0.5 rounded bg-secondary text-foreground font-mono text-[11px] border border-border"},\n"plan")," 可让智能体生成计划。")`
+  );
+
+
+  sourceText = sourceText.replaceAll('"aria-label":"Cancel Task"', '"aria-label":"取消任务"');
+
+  // 查看全部与折叠展开原生汉化
+  sourceText = sourceText.replaceAll('D?"See less":`See all (${c})`', 'D?"收起":`查看全部 (${c})`');
+  sourceText = sourceText.replaceAll('da?`See all (${aa.items.length})`:"See less"', 'da?`查看全部 (${aa.items.length})`:"收起"');
+  sourceText = sourceText.replaceAll('n?g?"Show less":"See less":g?`Show finished (${q})`:`See all (${e})`', 'n?g?"收起":"收起":g?`显示已完成 (${q})`:`查看全部 (${e})`');
+  sourceText = sourceText.replaceAll('h?"See less":`See all (${c.length})`', 'h?"收起":`查看全部 (${c.length})`');
+  sourceText = sourceText.replaceAll('"See all (",c.length,")"', '"查看全部 (",c.length,")"');
+  sourceText = sourceText.replaceAll('k===10?`See all (${e.length})`:"See less"', 'k===10?`查看全部 (${e.length})`:"收起"');
+
+  // 媒体名称与中文日期时间原生汉化
+  sourceText = sourceText.replace(
+    'c=a.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",hour12:!0})',
+    'c=(a.getHours()<12?"上午 ":"下午 ")+(a.getHours()%12||12)+":"+String(a.getMinutes()).padStart(2,"0")'
+  );
+  sourceText = sourceText.replace(
+    'if(a.toDateString()===b.toDateString())return`Today ${c}`;var e=new Date(b);e.setDate(e.getDate()-1);return a.toDateString()===e.toDateString()?`Yesterday ${c}`:a.getFullYear()===b.getFullYear()?`${a.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${c}`:`${a.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})} ${c}`',
+    'if(a.toDateString()===b.toDateString())return`今天 ${c}`;var e=new Date(b);e.setDate(e.getDate()-1);return a.toDateString()===e.toDateString()?`昨天 ${c}`:a.getFullYear()===b.getFullYear()?`${a.getMonth()+1}月${a.getDate()}日 ${c}`:`${a.getFullYear()}年${a.getMonth()+1}月${a.getDate()}日 ${c}`'
+  );
+  sourceText = sourceText.replace(
+    'if(WLa.test(a))return"Scratchpad";var [,b,c]=a.match(/^(.+?)_(\\d{13})$/)||[null,a,null];a=b.replace(/[_-]/g," ").replace(/([a-z])([A-Z])/g,"$1 $2").split(/\\s+/).filter(e=>e.length>0).map(e=>e.charAt(0).toUpperCase()+e.slice(1).toLowerCase()).join(" ");return c?`${a} (${$La(c)})`:a',
+    'if(WLa.test(a))return"便签本";var [,b,c]=a.match(/^(.+?)_(\\d{13})$/)||[null,a,null];a=b.replace(/[_-]/g," ").replace(/([a-z])([A-Z])/g,"$1 $2").split(/\\s+/).filter(e=>e.length>0).map(e=>e.charAt(0).toUpperCase()+e.slice(1).toLowerCase()).join(" ");a=(a==="Media"?"媒体":a==="Screenshot"?"屏幕截图":a==="Scratchpad"?"便签本":a);return c?`${a} (${$La(c)})`:a'
+  );
+
   const overlay = createRuntimeOverlay(dictionary);
   const localized = Buffer.from(`${sourceText}\n${overlay}`, "utf8");
   return {

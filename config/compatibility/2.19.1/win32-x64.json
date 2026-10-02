@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "appVersion": "2.19.1",
+  "targets": [
+    {
+      "platform": "win32",
+      "arch": "x64",
+      "appVersion": "2.19.1",
+      "packageVersion": "2.19.1",
+      "appAsarSha256": "ABA6EE2F28F02819CE86203FA1DFF8C7BF43F3ABE596D27F86DD4C09ABA25AF2",
+      "customSchemePath": "dist/customScheme.js",
+      "customSchemeSha256": "E290AD426A8CB52DBD5B7A61E71A40AFE745F4DA759AF038D1B6A253C34B1059",
+      "uiBundleSha256": "47F36ABAABD34F7D54A95DF40D942B609C02DB9F5C04D56B124A048571B9F16D",
+      "uiBundleSize": 9623670,
+      "notes": "Verified locally on Windows x64 for Antigravity 2.19.1."
+    }
+  ]
+}
