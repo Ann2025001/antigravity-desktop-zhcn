@@ -1,3 +1,18 @@
+import fs from "node:fs";
+import path from "node:path";
+import { projectRoot } from "./paths.mjs";
+
+function getPackageVersion() {
+  try {
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(projectRoot, "package.json"), "utf8"),
+    );
+    return pkg.version || "1.5.0";
+  } catch {
+    return "1.5.0";
+  }
+}
+
 function compareVersionsDescending(left, right) {
   return right.localeCompare(left, undefined, { numeric: true });
 }
@@ -35,18 +50,19 @@ export function buildReleaseCompatibilityNotes(manifest) {
     throw new Error("兼容性清单没有可发布的目标版本。");
   }
 
+  const version = getPackageVersion();
   const lines = [
-    "## 🚀 Antigravity Desktop 中文汉化补丁 v1.3.0",
+    `## 🚀 Antigravity Desktop 中文汉化补丁 v${version}`,
     "",
     "面向 Windows 版 Google Antigravity Desktop 的中文本地化补丁工具最新发布。",
     "",
     "### 🌟 本次发布核心亮点",
     "",
-    "- **官方 2.17.0 深度适配**：正式加入对最新 Google Antigravity Desktop 2.17.0 Windows x64 的完整指纹兼容白名单与自动备份/无损还原机制。",
-    "- **引导与登录界面汉化**：完整汉化 Antigravity 欢迎引导、账户登录、等待身份验证、企业账号、帮助排查等各类多状态界面。",
-    "- **全面汉化覆盖**：内置 1799 条精确翻译规则与 185 条动态正则匹配规则，深度覆盖主界面、设置菜单、权限预设、快捷键面板、浏览器智能体操作与交互弹窗。",
+    "- **模型生命周期与公告全自动动态汉化**：采用纯声明式规则引擎，内置 1~12 月份动态日期与模型名称模式捕获，自动支持未来任意第三方模型（包括 GPT-OSS、Claude、Gemini、Llama 等）的下线、弃用及计划变更提示，自动格式化为规范中文日期。",
+    "- **深度工作流与关键交互汉化**：全面汉化技能迁移引导、弃用工作流迁移、Google3 项目迁移以及不可撤销、未保存更改等核心对话框。",
+    "- **官方 2.19.1 深度适配**：完整支持 Antigravity Desktop 2.19.1 最新版本及历史所有主流版本，严格版本白名单匹配与一键无损还原机制。",
+    "- **规则库大幅扩充**：内置 1,942 条精确翻译规则与 262 条动态正则匹配规则，深度覆盖主界面、设置菜单、权限预设、快捷键面板、对话审查流与交互弹窗。",
     "- **原生菜单与托盘支持**：除 DOM 渲染层外，持续注入 Electron 主进程系统托盘（System Tray）与原生上下文菜单的自动汉化。",
-    "- **安全指纹与无损还原**：基于客户端 `app.asar` SHA-256 哈希进行严格版本白名单匹配；首次安装自动备份官方原版，支持一键无损恢复英文。",
     "- **开箱即用便携包**：发布包内置独立的 Node.js 运行时与锁定依赖，普通用户无需配置任何开发环境即可直接运行。",
     "",
     "### 📦 支持的 Antigravity Desktop 版本",
