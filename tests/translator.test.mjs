@@ -481,6 +481,45 @@ test("welcome and onboarding authentication strings are fully covered", async ()
   }
 });
 
+test("third-party model access notice and notifications are covered by exact and pattern rules", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    { source: "Changes to third-party model access", expected: "第三方模型访问权限变更" },
+    { source: "Third-party model access", expected: "第三方模型访问" },
+    { source: "Notice", expected: "提示" },
+    {
+      source: "Opus 5.5 and Sonnet 5.5 are available on paid Pro and Ultra plans. Third-party model access will no longer be available on your current plan starting on November 2, 2026.",
+      expected: "Opus 5.5 与 Sonnet 5.5 仅适用于付费的 Pro 和 Ultra 方案。自 2026 年 11 月 2 日起，你当前的方案将不再支持第三方模型访问。"
+    },
+    {
+      source: "Sonnet 5.5 is now available on paid Pro and Ultra plans. Third-party model access will no longer be available on your current plan starting on November 2, 2026.",
+      expected: "Sonnet 5.5 现已在付费 Pro 与 Ultra 方案中可用。自 2026 年 11 月 2 日起，你当前的方案将不再支持访问第三方模型。"
+    },
+    {
+      source: "Opus 5.5 is now available on paid Pro and Ultra plans. Third-party model access will no longer be available on your current plan starting on November 2, 2026.",
+      expected: "Opus 5.5 现已在付费 Pro 与 Ultra 方案中可用。自 2026 年 11 月 2 日起，你当前的方案将不再支持访问第三方模型。"
+    },
+    {
+      source: "GPT-OSS 120B is now available on paid Pro and Ultra plans. Third-party model access will no longer be available on your current plan starting on December 1, 2026.",
+      expected: "GPT-OSS 120B 现已在付费 Pro 与 Ultra 方案中可用。自 December 1, 2026 起，你当前的方案将不再支持访问第三方模型。"
+    },
+    {
+      source: "Third-party model access will no longer be available on your current plan starting on November 2, 2026.",
+      expected: "自 2026 年 11 月 2 日起，你当前的方案将不再支持访问第三方模型。"
+    }
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `third-party notice translation mismatch for: ${source}`,
+    );
+  }
+});
+
+
 
 
 

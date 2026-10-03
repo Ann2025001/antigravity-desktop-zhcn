@@ -49,14 +49,25 @@ export function translateDictionaryValue(value, dictionary) {
   const trailing = value.match(/\s*$/u)?.[0] ?? "";
   const coreEnd = value.length - trailing.length;
   const core = value.slice(leading.length, coreEnd);
-  const exact = dictionary?.exact?.[core];
+  let exact = dictionary?.exact?.[core];
   if (exact !== undefined) return leading + exact + trailing;
+
+  const normalizedCore = core.replace(/\s+/g, " ");
+  if (normalizedCore !== core) {
+    exact = dictionary?.exact?.[normalizedCore];
+    if (exact !== undefined) return leading + exact + trailing;
+  }
 
   for (const { regex, target } of compilePatternTranslations(dictionary)) {
     regex.lastIndex = 0;
-    if (!regex.test(core)) continue;
-    regex.lastIndex = 0;
-    return leading + core.replace(regex, target) + trailing;
+    if (regex.test(core)) {
+      regex.lastIndex = 0;
+      return leading + core.replace(regex, target) + trailing;
+    }
+    if (normalizedCore !== core && regex.test(normalizedCore)) {
+      regex.lastIndex = 0;
+      return leading + normalizedCore.replace(regex, target) + trailing;
+    }
   }
   return null;
 }
@@ -157,13 +168,25 @@ export function createRuntimeOverlay(dictionary) {
     const trailing = value.match(/\\s*$/u)?.[0] ?? "";
     const coreEnd = value.length - trailing.length;
     const core = value.slice(leading.length, coreEnd);
-    const exact = exactTranslations.get(core);
+    let exact = exactTranslations.get(core);
     if (exact !== undefined) return leading + exact + trailing;
+
+    const normalizedCore = core.replace(/\\s+/g, " ");
+    if (normalizedCore !== core) {
+      exact = exactTranslations.get(normalizedCore);
+      if (exact !== undefined) return leading + exact + trailing;
+    }
+
     for (const { regex, target } of patternTranslations) {
       regex.lastIndex = 0;
-      if (!regex.test(core)) continue;
-      regex.lastIndex = 0;
-      return leading + core.replace(regex, target) + trailing;
+      if (regex.test(core)) {
+        regex.lastIndex = 0;
+        return leading + core.replace(regex, target) + trailing;
+      }
+      if (normalizedCore !== core && regex.test(normalizedCore)) {
+        regex.lastIndex = 0;
+        return leading + normalizedCore.replace(regex, target) + trailing;
+      }
     }
     return null;
   }
