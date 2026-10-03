@@ -824,7 +824,10 @@
     "Good Response": "回答很好",
     "Good response": "回答很好",
     "Google Drive": "谷歌云端硬盘",
+    "Google3 projects are deprecated. Learn more": "Google3 项目已被弃用。了解更多",
     "Got it": "知道了",
+    "GPT-OSS will be removed from Antigravity on November 2, 2026": "GPT-OSS 将于 2026 年 11 月 2 日从 Antigravity 中移除",
+    "GPT-OSS will be removed from Antigravity on November 2, 2026.": "GPT-OSS 将于 2026 年 11 月 2 日从 Antigravity 中移除。",
     "Grant one-time administrator access": "授予一次性管理员权限",
     "Group By Project": "按项目分组",
     "Group By Workspace": "按工作区分组",
@@ -864,17 +867,17 @@
     "Include unstaged changes": "包含未暂存的更改",
     "Info": "信息",
     "Inherit": "继承",
-    "Inherit Global": "继承全局设置",
+    "Inherit Global": "继承全局",
     "Inherited": "已继承",
     "Inherits from": "继承自",
     "Inherits from global settings. Local permissions have higher priority.": "继承全局设置。本地权限具有更高优先级。",
-    "Inherits from global settings. Local permissions have higher priority. Learn more.": "继承全局设置。本地权限具有更高优先级。了解更多。",
-    "Inherits your Global Permissions when working in this project.": "在当前项目中工作时继承你的全局权限。",
+    "Inherits from global settings. Local permissions have higher priority. Learn more.": "继承自全局设置。本地权限具有更高优先级。了解更多。",
+    "Inherits your Global Permissions when working in this project.": "在此项目中工作时继承你的全局权限。",
     "Inline Actions": "内联操作",
     "Inline Widget": "内联小组件",
     "Input required": "需要输入",
     "Insert into prompt": "插入到提示词",
-    "Inside of Project": "项目内",
+    "Inside of Project": "项目内部",
     "Inside of project": "项目内",
     "Install": "安装",
     "Install Antigravity IDE to run and edit your workspace scripts": "安装 Antigravity IDE 以运行和编辑工作区脚本。",
@@ -974,10 +977,10 @@
     "Manage Rules": "管理规则",
     "Manage Skills": "管理技能",
     "Manage skills, instructions, and agent customizations.": "管理技能、指令与智能体自定义内容。",
-    "Manage your conversations from the companion website.": "从配套网页端管理你的对话。",
+    "Manage your conversations from the companion website.": "从配套网站管理你的对话。",
     "Manage your model quota and AI credits.": "管理你的模型额度与 AI 点数。",
-    "Manage your model quota and credits.": "管理你的模型额度和 AI 点数。",
-    "Manage your plan, credentials, and general preferences.": "管理你的套餐、凭据和通用偏好设置。",
+    "Manage your model quota and credits.": "管理你的模型额度与点数。",
+    "Manage your plan, credentials, and general preferences.": "管理你的方案、凭据和常规偏好设置。",
     "Managed by your organization": "由你的组织管理",
     "Manually customize individual settings.": "手动自定义各项设置。",
     "Mark all as read": "全部标记为已读",
@@ -1008,6 +1011,7 @@
     "Mentions": "提及",
     "mentions": "提及",
     "Message input": "消息输入框",
+    "Migrate with Agent": "使用智能体迁移",
     "migrate-workflows": "工作流迁移",
     "Minimize": "最小化",
     "Model": "模型",
@@ -1046,6 +1050,7 @@
     "Network Permissions": "网络权限",
     "Never": "从不",
     "New": "新建",
+    "New chats will be grouped by workspace.": "新对话将按工作区分组。",
     "New Conversation": "新建对话",
     "New conversation": "新建对话",
     "New Conversation in Project": "在项目中新建对话",
@@ -1136,7 +1141,7 @@
     "No uploads": "暂无上传附件",
     "None": "无",
     "Normal Mode": "常规模式",
-    "Not in Project": "未归属项目",
+    "Not in Project": "未在项目中",
     "Not now": "暂不",
     "Not Signed In": "未登录",
     "Nothing to display": "暂无内容显示",
@@ -1144,7 +1149,7 @@
     "Notification Settings": "通知设置",
     "Notifications": "通知",
     "now": "刚刚",
-    "Now that you've created a project, configure your project's agent settings or start a conversation.": "项目创建成功！现在可以配置项目智能体设置，或者直接开始对话。",
+    "Now that you've created a project, configure your project's agent settings or start a conversation.": "创建项目后，你可以配置项目的智能体设置或发起对话。",
     "of the customization budget is available.": "的自定义预算仍可用。",
     "Older": "更早",
     "On empty prompt, sends next in queue": "在输入为空时，发送队列中的下一条消息",
@@ -1260,11 +1265,13 @@
     "Previous": "上一步",
     "Previous 30 Days": "过去 30 天",
     "Previous 7 Days": "过去 7 天",
+    "Previous chats live under a deprecated Google3 Project": "历史对话位于已弃用的 Google3 项目下",
     "Previous match": "上一个匹配",
     "Previous match (Shift+Enter)": "上一个匹配 (Shift+Enter)",
     "Previous Page": "上一页",
     "Previous Pane Tab": "上一个窗格标签页",
     "Previous question": "上一个问题",
+    "Privacy Notice": "隐私声明",
     "Proceed in Sandbox": "在沙箱中继续",
     "Proceed with Plan": "继续执行方案",
     "Product Skin": "产品皮肤",
@@ -1331,7 +1338,7 @@
     "Reflect on recent successes or corrections to capture reusable skills or rules.": "反思近期的成功经验或纠错记录，沉淀可复用的技能或规则。",
     "Refresh": "刷新",
     "Refresh MCP servers": "刷新 MCP 服务器",
-    "Refresh quota and credits data": "刷新额度和点数数据",
+    "Refresh quota and credits data": "刷新额度与点数数据",
     "Refresh skills paths": "刷新技能路径",
     "Refreshed": "已刷新",
     "Refreshed Browser page": "已刷新浏览器页面",
@@ -1513,6 +1520,7 @@
     "Select Worktree": "选择工作树",
     "Select your license": "选择你的许可证",
     "Select...": "选择...",
+    "Selected model does not support this media type": "所选模型不支持此媒体类型",
     "Selected Option in Browser": "已在浏览器中选择选项",
     "Selecting Option in Browser": "正在浏览器中选择选项",
     "Selection Actions": "选区操作",
@@ -1673,7 +1681,9 @@
     "The browser subagent has been disabled by your administrator. Contact your administrator to enable browser use.": "管理员已禁用浏览器子智能体。请联系管理员以启用浏览器功能。",
     "The conversation has been successfully archived.": "对话已成功归档。",
     "The conversation has been successfully deleted.": "对话已成功删除。",
-    "The customization budget is available.": "自定义预算仍可用。",
+    "The conversation was compacted to fit within the context window.": "对话已被压缩以适配上下文窗口。",
+    "The conversation was compacted while generating this response.": "生成此响应时对话已被压缩。",
+    "The customization budget is available.": "自定义预算可用。",
     "The Google3 project is deprecated": "Google3 项目已被弃用",
     "The settings here only apply to conversations that are under Google3 Projects, which are deprecated. Any new conversations should be grouped by workspace and apply global settings.": "此处的设置仅适用于已弃用的 Google3 项目下的对话。任何新对话都应按工作区归组并应用全局设置。",
     "The workspace has been successfully created.": "工作区已成功创建。",
@@ -1687,7 +1697,7 @@
     "These settings can only be changed on the computer running the app, not from a remote session.": "这些设置只能在运行应用的计算机上修改，无法在远程会话中修改。",
     "Thinking": "思考中",
     "Thinking Budget": "思考预算",
-    "Thinking for": "已思考",
+    "Thinking for": "思考耗时",
     "Thinking...": "正在思考...",
     "Third-party model access": "第三方模型访问",
     "Third-Party Model Access": "第三方模型访问",
@@ -1794,6 +1804,7 @@
     "Updated:": "更新于：",
     "Updater": "更新器",
     "Updates": "更新",
+    "Updates to your sidebar": "侧边栏更新",
     "Updating...": "正在更新...",
     "Upgrade": "升级",
     "Upgrade Subscription": "升级订阅",
@@ -1887,9 +1898,9 @@
     "Window": "窗口",
     "Work in a CitC workspace.": "在 CitC 工作区中工作。",
     "Work in a Cog workspace.": "在 Cog 工作区中工作。",
-    "Work with local agents from another device.": "从另一台设备与本地智能体协作。",
+    "Work with local agents from another device.": "从其他设备使用本地智能体。",
     "Workflows": "工作流 (Workflows)",
-    "Workflows are being deprecated in favor of skills. You can use the agent to migrate your workflows.": "工作流已逐步弃用并迁移为技能。你可以使用智能体迁移工作流。",
+    "Workflows are being deprecated in favor of skills. You can use the agent to migrate your workflows.": "工作流已被弃用并由技能取代。你可以使用智能体迁移你的工作流。",
     "Working": "工作中",
     "Working.": "工作中...",
     "Working...": "正在工作...",
@@ -1922,14 +1933,14 @@
     "yesterday": "昨天",
     "Yesterday": "昨天",
     "You can prompt the model to try again or start a new conversation if the error persists.": "如果错误持续存在，你可以提示模型重试或开启新会话。",
-    "You can upgrade to a Google AI Ultra plan to receive higher rate limits.": "你可以升级到 Google AI Ultra 套餐，以获得更高的速率限制。",
-    "You can upgrade to a Google AI Ultra plan to receive the highest rate limits.": "你可以升级到 Google AI Ultra 套餐，以获得最高的速率限制。",
+    "You can upgrade to a Google AI Ultra plan to receive higher rate limits.": "你可以升级到 Google AI Ultra 方案以获得更高的速率限制。",
+    "You can upgrade to a Google AI Ultra plan to receive the highest rate limits.": "你可以升级到 Google AI Ultra 方案以获得最高的速率限制。",
     "You don't have any projects created. Please create a project first.": "你尚未创建任何项目。请先创建一个项目。",
-    "You have unsaved changes. Do you want to discard them?": "你有未保存的更改，是否放弃？",
+    "You have unsaved changes. Do you want to discard them?": "你有未保存的更改。确定要放弃吗？",
     "Your administrator has disabled MCP servers for this workspace.": "管理员已在此工作区禁用 MCP 服务器。",
     "Your AI credits balance is too low to continue.": "你的 AI 点数余额过低，无法继续。",
     "Your model does not support this media. Please select a different model to send this message, or remove the media.": "你当前的模型不支持此多媒体格式。请切换其他模型发送此消息，或移除多媒体附件。",
-    "Your Plan:": "当前套餐：",
+    "Your Plan:": "你的方案：",
     "Your quota for this model is running low.": "此模型的配额即将耗尽。",
     "Zoom": "缩放",
     "Zoom In": "放大",
@@ -3145,6 +3156,106 @@
     {
       "source": "^(.+?) (?:is|are) available on paid Pro and Ultra plans\\.?$",
       "target": "$1 适用于付费 Pro 与 Ultra 方案。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on January\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 1 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on February\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 2 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on March\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 3 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on April\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 4 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on May\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 5 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on June\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 6 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on July\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 7 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on August\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 8 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on September\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 9 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on October\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 10 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on November\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 11 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity on December\\s+(\\d{1,2})(?:st|nd|rd|th)?,?\\s*(\\d{4})\\.?$",
+      "target": "$1 将于 $3 年 12 月 $2 日从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be removed from Antigravity\\.?$",
+      "target": "$1 将从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) is scheduled to be removed from Antigravity\\.?$",
+      "target": "$1 计划从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) has been removed from Antigravity\\.?$",
+      "target": "$1 已从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) has been deprecated\\.?$",
+      "target": "$1 已被弃用。",
+      "flags": "u"
+    },
+    {
+      "source": "^Upgrade to (.+?) to continue using (.+?)\\.?$",
+      "target": "升级到 $1 以继续使用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Upgrade to (.+?) to access (.+?)\\.?$",
+      "target": "升级到 $1 以访问 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^You can upgrade to a (.+?) plan to receive (.+?)\\.?$",
+      "target": "你可以升级到 $1 方案以获得 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Selected model does not support (.+?)\\.?$",
+      "target": "所选模型不支持 $1。",
       "flags": "u"
     }
   ]

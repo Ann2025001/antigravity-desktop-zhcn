@@ -506,6 +506,38 @@ test("third-party model access notice and notifications are covered by exact and
     {
       source: "Third-party model access will no longer be available on your current plan starting on November 2, 2026.",
       expected: "自 2026 年 11 月 2 日起，你当前的方案将不再支持访问第三方模型。"
+    },
+    {
+      source: "GPT-OSS will be removed from Antigravity on November 2, 2026.",
+      expected: "GPT-OSS 将于 2026 年 11 月 2 日从 Antigravity 中移除。"
+    },
+    {
+      source: "Claude 3.5 Sonnet will be removed from Antigravity on December 15, 2026.",
+      expected: "Claude 3.5 Sonnet 将于 2026 年 12 月 15 日从 Antigravity 中移除。"
+    },
+    {
+      source: "Gemini 1.5 Pro will be removed from Antigravity on January 1, 2027.",
+      expected: "Gemini 1.5 Pro 将于 2027 年 1 月 1 日从 Antigravity 中移除。"
+    },
+    {
+      source: "Llama 3 70B will be removed from Antigravity on March 31, 2027.",
+      expected: "Llama 3 70B 将于 2027 年 3 月 31 日从 Antigravity 中移除。"
+    },
+    {
+      source: "Mistral Large will be removed from Antigravity.",
+      expected: "Mistral Large 将从 Antigravity 中移除。"
+    },
+    {
+      source: "Upgrade to Google AI Ultra to continue using Opus 4.6.",
+      expected: "升级到 Google AI Ultra 以继续使用 Opus 4.6。"
+    },
+    {
+      source: "Manage your model quota and AI credits.",
+      expected: "管理你的模型额度与 AI 点数。"
+    },
+    {
+      source: "Selected model does not support this media type",
+      expected: "所选模型不支持此媒体类型"
     }
   ];
 
