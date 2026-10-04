@@ -1963,7 +1963,24 @@
     "View migration guide": "查看迁移指南",
     "Migrate now": "立即迁移",
     "Switch model": "切换模型",
-    "Select alternative model": "选择备用模型"
+    "Select alternative model": "选择备用模型",
+    "Security Notice & Data Use": "安全须知与数据使用",
+    "Terms of Service & Data Use": "服务条款与数据使用",
+    "AI coding agents are known to have certain security limitations. Users should be aware of potential risks, including data exfiltration and possible code execution. Avoid processing highly sensitive data and verify all the actions taken by the agent.": "AI 编程智能体存在一定的安全局限性。用户应当了解潜在风险，包括数据渗漏和可能的代码执行。请避免处理高度敏感的数据，并核验智能体执行的所有操作。",
+    "AI coding agents are known to have certain security risks, including autonomous code execution, data exfiltration, prompt injection and supply chain risks. Ensure that you monitor and verify all actions taken by the agent.": "AI 编程智能体存在一定的安全风险，包括自主代码执行、数据渗漏、提示词注入和供应链风险。请确保你监控并核验智能体执行的所有操作。",
+    "Yes, I agree to help improve": "是的，我同意帮助改进",
+    "by allowing Google to collect and use my Interactions data, subject to the": "（允许 Google 收集并使用我的互动数据），须遵守",
+    "Google Privacy Policy": "Google 隐私权政策",
+    "Google Terms of Service": "Google 服务条款",
+    ". I understand I can choose to opt out later whenever I want via my settings.": "。我知晓自己随时可以在设置中选择退出。",
+    "I understand I can choose to opt out later whenever I want via my settings.": "我知晓自己随时可以在设置中选择退出。",
+    "I understand I can choose to opt out later whenever I want via my settings": "我知晓自己随时可以在设置中选择退出",
+    "Finish": "完成",
+    "Terms and Privacy:": "条款与隐私：",
+    "Telemetry data will be handled in accordance with the Google Privacy Policy.": "遥测数据将根据 Google 隐私权政策进行处理。",
+    "Use theme to be imported with settings": "使用随设置导入的主题",
+    "Light preview": "浅色预览",
+    "Dark preview": "深色预览"
   },
   "patterns": [
     {
@@ -3659,6 +3676,36 @@
     {
       "source": "^Learn more about (.+)$",
       "target": "了解有关 $1 的更多信息",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, I agree to help improve (.+?) by allowing Google to collect and use my Interactions data, subject to the$",
+      "target": "是的，我同意通过允许 Google 收集并使用我的互动数据来帮助改进 $1，须遵守",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, I agree to help improve (.+?) by allowing Google to collect and use my Interactions data, subject to the (.+?)(?: and | 和 )(?:Google Privacy Policy|Google 隐私权政策)\\. I understand I can choose to opt out later whenever I want via my settings\\.?$",
+      "target": "是的，我同意通过允许 Google 收集并使用我的互动数据来帮助改进 $1，须遵守 $2 和 Google 隐私权政策。我知晓自己随时可以在设置中选择退出。",
+      "flags": "u"
+    },
+    {
+      "source": "^Yes, I'd like to receive product updates, tips, and promotions from Google (.+?) via email\\.?$",
+      "target": "是的，我希望通过电子邮件接收来自 Google $1 的产品更新、技巧与促销信息。",
+      "flags": "u"
+    },
+    {
+      "source": "^For (.+?), (.+?) does not collect any of your prompts, content, or model responses but will still collect general usage patterns \\(e\\.g\\., feature adoption, active user counts\\)\\.?$",
+      "target": "对于 $1，$2 不会收集你的任何提示词、内容或模型响应，但仍会收集常规使用模式（例如功能采用率、活跃用户数）。",
+      "flags": "u"
+    },
+    {
+      "source": "^Google (.+?) Privacy Policy$",
+      "target": "Google $1 隐私权政策",
+      "flags": "u"
+    },
+    {
+      "source": "^(?:\\.\\s*)?I understand I can choose to opt out later whenever I want via my settings\\.?$",
+      "target": "。我知晓自己随时可以在设置中选择退出。",
       "flags": "u"
     }
   ]

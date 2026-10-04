@@ -467,8 +467,34 @@ test("welcome and onboarding authentication strings are fully covered", async ()
     { source: "Use business account", expected: "使用企业账号" },
     { source: "Having trouble? Let us know", expected: "遇到问题？请告诉我们" },
     { source: "Continue with Google", expected: "通过 Google 继续" },
-    { source: "Success, Continuing...", expected: "成功，正在继续..." },
     { source: "Sign in with business account", expected: "使用企业账号登录" },
+    { source: "Security Notice & Data Use", expected: "安全须知与数据使用" },
+    {
+      source: "AI coding agents are known to have certain security limitations. Users should be aware of potential risks, including data exfiltration and possible code execution. Avoid processing highly sensitive data and verify all the actions taken by the agent.",
+      expected: "AI 编程智能体存在一定的安全局限性。用户应当了解潜在风险，包括数据渗漏和可能的代码执行。请避免处理高度敏感的数据，并核验智能体执行的所有操作。"
+    },
+    { source: "Finish", expected: "完成" },
+    { source: "Google Privacy Policy", expected: "Google 隐私权政策" },
+    {
+      source: "Yes, I agree to help improve Antigravity by allowing Google to collect and use my Interactions data, subject to the Google Antigravity 服务条款 and Google Privacy Policy. I understand I can choose to opt out later whenever I want via my settings.",
+      expected: "是的，我同意通过允许 Google 收集并使用我的互动数据来帮助改进 Antigravity，须遵守 Google Antigravity 服务条款 和 Google 隐私权政策。我知晓自己随时可以在设置中选择退出。"
+    },
+    {
+      source: "Yes, I agree to help improve ",
+      expected: "是的，我同意帮助改进 "
+    },
+    {
+      source: " by allowing Google to collect and use my Interactions data, subject to the",
+      expected: " （允许 Google 收集并使用我的互动数据），须遵守"
+    },
+    {
+      source: ". I understand I can choose to opt out later whenever I want via my settings.",
+      expected: "。我知晓自己随时可以在设置中选择退出。"
+    },
+    {
+      source: "Yes, I'd like to receive product updates, tips, and promotions from Google Antigravity via email.",
+      expected: "是的，我希望通过电子邮件接收来自 Google Antigravity 的产品更新、技巧与促销信息。"
+    }
   ];
 
   for (const { source, expected } of testCases) {
