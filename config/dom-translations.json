@@ -3684,7 +3684,7 @@
       "flags": "u"
     },
     {
-      "source": "^Yes, I agree to help improve (.+?) by allowing Google to collect and use my Interactions data, subject to the (.+?)(?: and | 和 )(?:Google Privacy Policy|Google 隐私权政策)\\. I understand I can choose to opt out later whenever I want via my settings\\.?$",
+      "source": "^Yes, I agree to help improve (.+?) by allowing Google to collect and use my Interactions data, subject to the (.+?) and Google Privacy Policy\\. I understand I can choose to opt out later whenever I want via my settings\\.?$",
       "target": "是的，我同意通过允许 Google 收集并使用我的互动数据来帮助改进 $1，须遵守 $2 和 Google 隐私权政策。我知晓自己随时可以在设置中选择退出。",
       "flags": "u"
     },

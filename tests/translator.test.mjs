@@ -476,8 +476,8 @@ test("welcome and onboarding authentication strings are fully covered", async ()
     { source: "Finish", expected: "完成" },
     { source: "Google Privacy Policy", expected: "Google 隐私权政策" },
     {
-      source: "Yes, I agree to help improve Antigravity by allowing Google to collect and use my Interactions data, subject to the Google Antigravity 服务条款 and Google Privacy Policy. I understand I can choose to opt out later whenever I want via my settings.",
-      expected: "是的，我同意通过允许 Google 收集并使用我的互动数据来帮助改进 Antigravity，须遵守 Google Antigravity 服务条款 和 Google 隐私权政策。我知晓自己随时可以在设置中选择退出。"
+      source: "Yes, I agree to help improve Antigravity by allowing Google to collect and use my Interactions data, subject to the Google Antigravity Terms of Service and Google Privacy Policy. I understand I can choose to opt out later whenever I want via my settings.",
+      expected: "是的，我同意通过允许 Google 收集并使用我的互动数据来帮助改进 Antigravity，须遵守 Google Antigravity Terms of Service 和 Google 隐私权政策。我知晓自己随时可以在设置中选择退出。"
     },
     {
       source: "Yes, I agree to help improve ",
