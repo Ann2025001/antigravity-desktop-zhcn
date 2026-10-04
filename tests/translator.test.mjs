@@ -538,6 +538,78 @@ test("third-party model access notice and notifications are covered by exact and
     {
       source: "Selected model does not support this media type",
       expected: "所选模型不支持此媒体类型"
+    },
+    {
+      source: "Gemini 3.6 & 3.7 Flash Deprecation",
+      expected: "Gemini 3.6 & 3.7 Flash 弃用通知"
+    },
+    {
+      source: "Make sure you are using Gemini 3.8 Flash! We will be turning down Gemini 3.6 Flash and Gemini 3.7 Flash shortly.",
+      expected: "请确保你正在使用 Gemini 3.8 Flash！我们将很快停用 Gemini 3.6 Flash 和 Gemini 3.7 Flash。"
+    },
+    {
+      source: "Make sure you are using Gemini 3.8 Flash!",
+      expected: "请确保你正在使用 Gemini 3.8 Flash！"
+    },
+    {
+      source: "We will be turning down Gemini 3.6 Flash shortly.",
+      expected: "我们将很快停用 Gemini 3.6 Flash。"
+    },
+    {
+      source: "Claude 3.5 Sonnet Deprecation",
+      expected: "Claude 3.5 Sonnet 弃用通知"
+    },
+    {
+      source: "Make sure you are using Claude 3.7 Sonnet! We will be turning down Claude 3.5 Sonnet shortly.",
+      expected: "请确保你正在使用 Claude 3.7 Sonnet！我们将很快停用 Claude 3.5 Sonnet。"
+    },
+    {
+      source: "GPT-4o Sunset",
+      expected: "GPT-4o 下线通知"
+    },
+    {
+      source: "Support for Mistral Large is ending shortly.",
+      expected: "对 Mistral Large 的支持即将终止。"
+    },
+    {
+      source: "Llama 3 70B will be retired shortly.",
+      expected: "Llama 3 70B 即将退役。"
+    },
+    {
+      source: "Please switch to Gemini 2.0 Flash! Gemini 1.5 Flash will be turned down shortly.",
+      expected: "请切换到 Gemini 2.0 Flash！Gemini 1.5 Flash 即将停用。"
+    },
+    {
+      source: "Gemini 1.5 Pro Discontinuation",
+      expected: "Gemini 1.5 Pro 终止支持通知"
+    },
+    {
+      source: "Gemini 1.5 Flash End of Life",
+      expected: "Gemini 1.5 Flash 生命周期结束通知"
+    },
+    {
+      source: "Model Deprecation Notice",
+      expected: "模型弃用通知"
+    },
+    {
+      source: "We will be retiring GPT-4 shortly.",
+      expected: "我们将很快退役 GPT-4。"
+    },
+    {
+      source: "Claude 3 Haiku will be deprecated shortly.",
+      expected: "Claude 3 Haiku 即将弃用。"
+    },
+    {
+      source: "Mistral Medium is no longer available.",
+      expected: "Mistral Medium 已不再可用。"
+    },
+    {
+      source: "We recommend switching to Claude 3.7 Sonnet! Claude 3.5 Sonnet will be turned down shortly.",
+      expected: "我们建议切换到 Claude 3.7 Sonnet！Claude 3.5 Sonnet 即将停用。"
+    },
+    {
+      source: "Consider upgrading to Gemini 3.8 Flash.",
+      expected: "请考虑升级到 Gemini 3.8 Flash。"
     }
   ];
 

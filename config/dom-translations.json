@@ -1945,7 +1945,25 @@
     "Zoom": "缩放",
     "Zoom In": "放大",
     "Zoom Level": "缩放级别",
-    "Zoom Out": "缩小"
+    "Zoom Out": "缩小",
+    "Gemini 3.6 & 3.7 Flash Deprecation": "Gemini 3.6 & 3.7 Flash 弃用通知",
+    "Make sure you are using Gemini 3.8 Flash! We will be turning down Gemini 3.6 Flash and Gemini 3.7 Flash shortly.": "请确保你正在使用 Gemini 3.8 Flash！我们将很快停用 Gemini 3.6 Flash 和 Gemini 3.7 Flash。",
+    "Make sure you are using Gemini 3.8 Flash!": "请确保你正在使用 Gemini 3.8 Flash！",
+    "We will be turning down Gemini 3.6 Flash and Gemini 3.7 Flash shortly.": "我们将很快停用 Gemini 3.6 Flash 和 Gemini 3.7 Flash。",
+    "We will be turning down Gemini 3.6 Flash and Gemini 3.7 Flash shortly": "我们将很快停用 Gemini 3.6 Flash 和 Gemini 3.7 Flash",
+    "Dismiss notification": "忽略通知",
+    "Dismiss alert": "忽略警告",
+    "Dismiss banner": "忽略横幅",
+    "Dismiss all notifications": "忽略所有通知",
+    "Do not show this again": "不再显示此提示",
+    "Don't show this again": "不再显示此提示",
+    "Don't show again": "不再显示",
+    "Remind me later": "稍后提醒我",
+    "Read the announcement": "阅读官方公告",
+    "View migration guide": "查看迁移指南",
+    "Migrate now": "立即迁移",
+    "Switch model": "切换模型",
+    "Select alternative model": "选择备用模型"
   },
   "patterns": [
     {
@@ -3256,6 +3274,391 @@
     {
       "source": "^Selected model does not support (.+?)\\.?$",
       "target": "所选模型不支持 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+Deprecation$",
+      "target": "$1 弃用通知",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+Retirement$",
+      "target": "$1 停用通知",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+Sunset$",
+      "target": "$1 下线通知",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+Discontinuation$",
+      "target": "$1 终止支持通知",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+(?:End of Life|EOL)$",
+      "target": "$1 生命周期结束通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Deprecation of (.+)$",
+      "target": "$1 弃用通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Retirement of (.+)$",
+      "target": "$1 停用通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Sunsetting (.+)$",
+      "target": "下线 $1 通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Discontinuation of (.+)$",
+      "target": "终止支持 $1 通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Upcoming Deprecation:\\s*(.+)$",
+      "target": "即将弃用：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Upcoming Retirement:\\s*(.+)$",
+      "target": "即将停用：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Upcoming Sunset:\\s*(.+)$",
+      "target": "即将下线：$1",
+      "flags": "u"
+    },
+    {
+      "source": "^Model Deprecation Notice$",
+      "target": "模型弃用通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Model Retirement Notice$",
+      "target": "模型停用通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Model Sunset Notice$",
+      "target": "模型下线通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Model Update Notice$",
+      "target": "模型更新通知",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be turning down (.+?)\\s+and\\s+(.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快停用 $2 和 $3。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be retiring (.+?)\\s+and\\s+(.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快退役 $2 和 $3。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be deprecating (.+?)\\s+and\\s+(.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快弃用 $2 和 $3。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*(.+?)\\s+and\\s+(.+?) will be turned down shortly\\.?$",
+      "target": "请确保你正在使用 $1！$2 和 $3 即将停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be turning down (.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快停用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will turn down (.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快停用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be retiring (.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快退役 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be deprecating (.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快弃用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be sunsetting (.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快下线 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*We will be removing (.+?) shortly\\.?$",
+      "target": "请确保你正在使用 $1！我们将很快移除 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*(.+?) will be turned down shortly\\.?$",
+      "target": "请确保你正在使用 $1！$2 即将停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*(.+?) will be retired shortly\\.?$",
+      "target": "请确保你正在使用 $1！$2 即将退役。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*(.+?) will be deprecated shortly\\.?$",
+      "target": "请确保你正在使用 $1！$2 即将弃用。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*(.+?) will be sunset shortly\\.?$",
+      "target": "请确保你正在使用 $1！$2 即将下线。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.\\s+)\\s*(.+?) will be removed from Antigravity(?: shortly)?\\.?$",
+      "target": "请确保你正在使用 $1！$2 即将从 Antigravity 中移除。",
+      "flags": "u"
+    },
+    {
+      "source": "^Please switch to (.+?)(?:!|\\.\\s+)\\s*We will be turning down (.+?) shortly\\.?$",
+      "target": "请切换到 $1！我们将很快停用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^Please switch to (.+?)(?:!|\\.\\s+)\\s*(.+?) will be turned down shortly\\.?$",
+      "target": "请切换到 $1！$2 即将停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^We recommend switching to (.+?)(?:!|\\.\\s+)\\s*We will be turning down (.+?) shortly\\.?$",
+      "target": "我们建议切换到 $1！我们将很快停用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^We recommend switching to (.+?)(?:!|\\.\\s+)\\s*(.+?) will be turned down shortly\\.?$",
+      "target": "我们建议切换到 $1！$2 即将停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^Make sure you are using (.+?)(?:!|\\.)$",
+      "target": "请确保你正在使用 $1！",
+      "flags": "u"
+    },
+    {
+      "source": "^Please ensure you are using (.+?)(?:!|\\.)$",
+      "target": "请确保你使用的是 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Please switch to (.+?)(?:!|\\.)$",
+      "target": "请切换到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Please migrate to (.+?)(?:!|\\.)$",
+      "target": "请迁移到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We recommend switching to (.+?)(?:!|\\.)$",
+      "target": "我们建议切换到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We recommend using (.+?)(?:!|\\.)$",
+      "target": "我们建议使用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Be sure to switch to (.+?)(?:!|\\.)$",
+      "target": "请务必切换到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Be sure to update to (.+?)(?:!|\\.)$",
+      "target": "请务必更新到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Consider switching to (.+?)(?:!|\\.)$",
+      "target": "请考虑切换到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Consider upgrading to (.+?)(?:!|\\.)$",
+      "target": "请考虑升级到 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^Consider migrating to (.+?)(?:!|\\.)$",
+      "target": "请考虑迁移至 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be turning down (.+?)\\s+and\\s+(.+?) shortly\\.?$",
+      "target": "我们将很快停用 $1 和 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be turning down (.+?) shortly\\.?$",
+      "target": "我们将很快停用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will turn down (.+?) shortly\\.?$",
+      "target": "我们将很快停用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We are turning down (.+?) shortly\\.?$",
+      "target": "我们将很快停用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be turning down (.+?)\\.?$",
+      "target": "我们将停用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be retiring (.+?) shortly\\.?$",
+      "target": "我们将很快退役 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be deprecating (.+?) shortly\\.?$",
+      "target": "我们将很快弃用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be sunsetting (.+?) shortly\\.?$",
+      "target": "我们将很快下线 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We will be removing (.+?) shortly\\.?$",
+      "target": "我们将很快移除 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We are deprecating (.+?)\\.?$",
+      "target": "我们正在弃用 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We are sunsetting (.+?)\\.?$",
+      "target": "我们正在下线 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^We are retiring (.+?)\\.?$",
+      "target": "我们正在退役 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be turned down shortly\\.?$",
+      "target": "$1 即将停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be turned down\\.?$",
+      "target": "$1 将被停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be retired shortly\\.?$",
+      "target": "$1 即将退役。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be retired\\.?$",
+      "target": "$1 将退役。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be deprecated shortly\\.?$",
+      "target": "$1 即将弃用。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be sunset shortly\\.?$",
+      "target": "$1 即将下线。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be discontinued shortly\\.?$",
+      "target": "$1 即将终止服务。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) will be discontinued\\.?$",
+      "target": "$1 将终止服务。",
+      "flags": "u"
+    },
+    {
+      "source": "^Support for (.+?) will end shortly\\.?$",
+      "target": "对 $1 的支持即将终止。",
+      "flags": "u"
+    },
+    {
+      "source": "^Support for (.+?) is ending shortly\\.?$",
+      "target": "对 $1 的支持即将终止。",
+      "flags": "u"
+    },
+    {
+      "source": "^Support for (.+?) has ended\\.?$",
+      "target": "对 $1 的支持已终止。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) is being deprecated in favor of (.+?)\\.?$",
+      "target": "$1 已被弃用，建议改用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) are being deprecated in favor of (.+?)\\.?$",
+      "target": "$1 已被弃用，建议改用 $2。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) is scheduled to be retired\\.?$",
+      "target": "$1 计划退役。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) is scheduled to be turned down\\.?$",
+      "target": "$1 计划停用。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) is no longer supported\\.?$",
+      "target": "不再支持 $1。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) is no longer available\\.?$",
+      "target": "$1 已不再可用。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?) are no longer available\\.?$",
+      "target": "$1 已不再可用。",
+      "flags": "u"
+    },
+    {
+      "source": "^Learn more about (.+)$",
+      "target": "了解有关 $1 的更多信息",
       "flags": "u"
     }
   ]
