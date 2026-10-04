@@ -1796,7 +1796,7 @@
     "Update": "更新",
     "Update Anyway": "仍要更新",
     "Update available": "有可用更新",
-    "Update Available": "有可用更新",
+    "Update Available": "发现新版本",
     "Updated": "更新于",
     "Updated at": "更新于",
     "Updated At": "更新时间",
@@ -1980,7 +1980,24 @@
     "Telemetry data will be handled in accordance with the Google Privacy Policy.": "遥测数据将根据 Google 隐私权政策进行处理。",
     "Use theme to be imported with settings": "使用随设置导入的主题",
     "Light preview": "浅色预览",
-    "Dark preview": "深色预览"
+    "Dark preview": "深色预览",
+    "No updates available": "没有可用的更新",
+    "No updates available.": "没有可用的更新。",
+    "No update available": "没有可用的更新",
+    "No update available.": "没有可用的更新。",
+    "Update Not Available": "没有可用的更新",
+    "Update Downloaded": "更新已下载",
+    "Update Error": "更新失败",
+    "Update Failed": "更新失败",
+    "Update check failed": "检查更新失败",
+    "There are no updates available at this time.": "当前没有可用的更新。",
+    "You are running the latest version.": "您当前已是最新版本。",
+    "A new version is available. Would you like to download it now?": "发现新版本。您想现在下载吗？",
+    "A new version has been downloaded. Restart the application to apply the updates.": "新版本已下载完成。重启应用程序以应用更新。",
+    "Confirm Quit": "确认退出",
+    "Are you sure you want to quit?": "确定要退出吗？",
+    "There may be agents or background tasks running.": "可能有正在运行的智能体或后台任务。",
+    "Quit Antigravity": "退出 Antigravity"
   },
   "patterns": [
     {
@@ -3706,6 +3723,16 @@
     {
       "source": "^(?:\\.\\s*)?I understand I can choose to opt out later whenever I want via my settings\\.?$",
       "target": "。我知晓自己随时可以在设置中选择退出。",
+      "flags": "u"
+    },
+    {
+      "source": "^Version ([0-9a-zA-Z._-]+) is available\\\\.?$",
+      "target": "版本  现已可用。",
+      "flags": "u"
+    },
+    {
+      "source": "^A new version ([0-9a-zA-Z._-]+) is available\\\\.?$",
+      "target": "发现新版本  可用。",
       "flags": "u"
     }
   ]

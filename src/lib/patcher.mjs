@@ -173,6 +173,223 @@ const HANDLER_REPLACEMENT = `    });
     } catch (menuErr) {
         console.error("Failed to hook native menu localization:", menuErr);
     }
+
+    // Antigravity Desktop ZHCN: localize Electron native dialogs (showMessageBox, showErrorBox).
+    try {
+        const path = require("path");
+        const fs = require("fs");
+        let externalDialogRules = null;
+        let lastExternalDialogCheck = 0;
+
+        const loadExternalDialogRules = () => {
+            const now = Date.now();
+            if (externalDialogRules && (now - lastExternalDialogCheck) < 5000) {
+                return externalDialogRules;
+            }
+            lastExternalDialogCheck = now;
+            try {
+                const userData = electron_1.app && typeof electron_1.app.getPath === 'function' ? electron_1.app.getPath('userData') : '';
+                if (userData) {
+                    const ruleFile = path.join(userData, 'agy_zhcn_dialog.json');
+                    if (fs.existsSync(ruleFile)) {
+                        const raw = fs.readFileSync(ruleFile, 'utf8');
+                        externalDialogRules = JSON.parse(raw);
+                        return externalDialogRules;
+                    }
+                }
+            } catch (_loadErr) {}
+            return null;
+        };
+
+        const nativeDialogExactMap = {
+            'Check for Updates': '检查更新',
+            'Checking for Updates...': '正在检查更新...',
+            'Checking for updates...': '正在检查更新...',
+            'Downloading Update...': '正在下载更新...',
+            'Downloading update...': '正在下载更新...',
+            'Restart to Update': '重启以更新',
+            'No updates available': '没有可用的更新',
+            'No updates available.': '没有可用的更新。',
+            'No update available': '没有可用的更新',
+            'No update available.': '没有可用的更新。',
+            'Update Available': '发现新版本',
+            'Update available': '发现新版本',
+            'Update Not Available': '没有可用的更新',
+            'Update not available': '没有可用的更新',
+            'Update Downloaded': '更新已下载',
+            'Update downloaded': '更新已下载',
+            'Update Error': '更新失败',
+            'Update error': '更新失败',
+            'Update Failed': '更新失败',
+            'Update failed': '更新失败',
+            'Update check failed': '检查更新失败',
+            'There are no updates available at this time.': '当前没有可用的更新。',
+            'You are running the latest version.': '您当前已是最新版本。',
+            'A new version is available. Would you like to download it now?': '发现新版本。您想现在下载吗？',
+            'A new version has been downloaded. Restart the application to apply the updates.': '新版本已下载完成。重启应用程序以应用更新。',
+            'Confirm Quit': '确认退出',
+            'Are you sure you want to quit?': '确定要退出吗？',
+            'There may be agents or background tasks running.': '可能有正在运行的智能体或后台任务。',
+            'Quit Antigravity': '退出 Antigravity',
+            'WSL distro not found': '未找到 WSL 发行版',
+            'Antigravity opened on Windows instead.': 'Antigravity 已在 Windows 环境中打开。',
+            'Binary not found': '未找到二进制执行文件',
+            'WSL setup failed': 'WSL 配置失败',
+            'Startup failed': '启动失败',
+            'Cannot open folder': '无法打开文件夹',
+            'Folder is on the Windows filesystem': '文件夹位于 Windows 文件系统中',
+            'Open workspace': '打开工作区',
+            'Error': '错误',
+            'Warning': '警告',
+            'Information': '提示',
+            'Question': '提示',
+            'OK': '确定',
+            'Ok': '确定',
+            'Cancel': '取消',
+            'Yes': '是',
+            'No': '否',
+            'Retry': '重试',
+            'Ignore': '忽略',
+            'Close': '关闭',
+            'Quit': '退出',
+            'Restart': '重启',
+            'Later': '稍后',
+            'Install and Relaunch': '安装并重启',
+            'Install and Restart': '安装并重启',
+            'Download': '下载',
+            'Download Now': '立即下载',
+            'Learn More': '了解更多',
+            'Open Settings': '打开设置',
+            'Open Folder': '打开文件夹',
+            'Open Workspace': '打开工作区',
+            'Continue': '继续'
+        };
+
+        const nativeDialogPatterns = [
+            { reg: /^A new version\s+([0-9a-zA-Z._-]+)\s+is available/i, rep: '发现新版本 $1 可用' },
+            { reg: /^Version\s+([0-9a-zA-Z._-]+)\s+is available/i, rep: '版本 $1 现已可用' },
+            { reg: /^Downloading\s+(?:update\s+)?([0-9]+(?:\.[0-9]+)?%)/i, rep: '正在下载更新 ($1)' },
+            { reg: /^An error occurred(?::\s*(.*))?$/i, rep: '$1' ? '发生错误：$1' : '发生错误' },
+            { reg: /^Failed to check for updates(?::\s*(.*))?$/i, rep: '$1' ? '检查更新失败：$1' : '检查更新失败' },
+            { reg: /^Failed to download update(?::\s*(.*))?$/i, rep: '$1' ? '下载更新失败：$1' : '下载更新失败' },
+            { reg: /^There is no update available at this time\.?$/i, rep: '当前没有可用的更新。' },
+            { reg: /^You are already on the latest version\.?$/i, rep: '您当前已是最新版本。' }
+        ];
+
+        const translateDialogText = (text) => {
+            if (typeof text !== 'string') return text;
+            const trimmed = text.trim();
+            if (!trimmed) return text;
+
+            // 1. 外部动态配置优先
+            const ext = loadExternalDialogRules();
+            if (ext) {
+                if (ext.exact && typeof ext.exact[trimmed] === 'string') {
+                    return ext.exact[trimmed];
+                }
+                if (Array.isArray(ext.patterns)) {
+                    for (const p of ext.patterns) {
+                        try {
+                            const r = new RegExp(p.pattern, p.flags || 'i');
+                            if (r.test(trimmed)) {
+                                return trimmed.replace(r, p.replacement);
+                            }
+                        } catch (_err) {}
+                    }
+                }
+            }
+
+            // 2. 内置精确翻译
+            if (nativeDialogExactMap[trimmed]) {
+                return nativeDialogExactMap[trimmed];
+            }
+
+            // 3. 内置模式正则
+            for (const item of nativeDialogPatterns) {
+                if (item.reg.test(trimmed)) {
+                    return trimmed.replace(item.reg, item.rep);
+                }
+            }
+
+            // 4. 泛化词组替换兜底（处理复合短语）
+            let result = text;
+            let replaced = false;
+            for (const [k, v] of Object.entries(nativeDialogExactMap)) {
+                if (k.length >= 4 && result.includes(k)) {
+                    result = result.split(k).join(v);
+                    replaced = true;
+                }
+            }
+            if (replaced) return result;
+
+            return text;
+        };
+
+        const localizeDialogOptions = (opts) => {
+            if (!opts || typeof opts !== 'object') return opts;
+            const copy = { ...opts };
+            if (typeof copy.title === 'string') {
+                copy.title = translateDialogText(copy.title);
+            }
+            if (typeof copy.message === 'string') {
+                copy.message = translateDialogText(copy.message);
+            }
+            if (typeof copy.detail === 'string') {
+                copy.detail = translateDialogText(copy.detail);
+            }
+            if (typeof copy.checkboxLabel === 'string') {
+                copy.checkboxLabel = translateDialogText(copy.checkboxLabel);
+            }
+            if (Array.isArray(copy.buttons)) {
+                copy.buttons = copy.buttons.map((btn) => {
+                    if (typeof btn === 'string') {
+                        return translateDialogText(btn);
+                    }
+                    return btn;
+                });
+            }
+            return copy;
+        };
+
+        if (electron_1.dialog && !electron_1.dialog.__zhcnPatched) {
+            electron_1.dialog.__zhcnPatched = true;
+
+            const origShowMessageBox = electron_1.dialog.showMessageBox;
+            if (typeof origShowMessageBox === 'function') {
+                electron_1.dialog.showMessageBox = function (arg1, arg2) {
+                    if (arg2 !== undefined && typeof arg2 === 'object') {
+                        return origShowMessageBox.call(this, arg1, localizeDialogOptions(arg2));
+                    }
+                    if (arg1 && typeof arg1 === 'object' && !arg1.webContents) {
+                        return origShowMessageBox.call(this, localizeDialogOptions(arg1));
+                    }
+                    return origShowMessageBox.call(this, arg1, arg2);
+                };
+            }
+
+            const origShowMessageBoxSync = electron_1.dialog.showMessageBoxSync;
+            if (typeof origShowMessageBoxSync === 'function') {
+                electron_1.dialog.showMessageBoxSync = function (arg1, arg2) {
+                    if (arg2 !== undefined && typeof arg2 === 'object') {
+                        return origShowMessageBoxSync.call(this, arg1, localizeDialogOptions(arg2));
+                    }
+                    if (arg1 && typeof arg1 === 'object' && !arg1.webContents) {
+                        return origShowMessageBoxSync.call(this, localizeDialogOptions(arg1));
+                    }
+                    return origShowMessageBoxSync.call(this, arg1, arg2);
+                };
+            }
+
+            const origShowErrorBox = electron_1.dialog.showErrorBox;
+            if (typeof origShowErrorBox === 'function') {
+                electron_1.dialog.showErrorBox = function (title, content) {
+                    return origShowErrorBox.call(this, translateDialogText(title), translateDialogText(content));
+                };
+            }
+        }
+    } catch (dialogErr) {
+        console.error("Failed to hook native dialog localization:", dialogErr);
+    }
 }
 `;
 

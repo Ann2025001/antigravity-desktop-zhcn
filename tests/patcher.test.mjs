@@ -106,3 +106,14 @@ test("patchLoadingOverlaySource localizes the initial loading screen text", () =
   assert.equal(patchLoadingOverlaySource(patched), patched);
 });
 
+test("patchCustomSchemeSource injects native dialog interception and localization", () => {
+  const patched = patchCustomSchemeSource(fixture);
+  assert.match(patched, /electron_1\.dialog/);
+  assert.match(patched, /origShowMessageBox/);
+  assert.match(patched, /origShowMessageBoxSync/);
+  assert.match(patched, /origShowErrorBox/);
+  assert.match(patched, /No updates available/);
+  assert.match(patched, /Check for Updates/);
+  assert.match(patched, /agy_zhcn_dialog\.json/);
+});
+

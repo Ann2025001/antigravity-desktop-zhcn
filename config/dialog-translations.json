@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "maintainer": "antigravity-desktop-zhcn contributors",
+  "description": "Antigravity Electron native dialog dynamic translations for main process interception",
+  "exact": {
+    "Check for Updates": "检查更新",
+    "Checking for Updates...": "正在检查更新...",
+    "Checking for updates...": "正在检查更新...",
+    "Downloading Update...": "正在下载更新...",
+    "Downloading update...": "正在下载更新...",
+    "Restart to Update": "重启以更新",
+    "No updates available": "没有可用的更新",
+    "No updates available.": "没有可用的更新。",
+    "No update available": "没有可用的更新",
+    "No update available.": "没有可用的更新。",
+    "Update Available": "发现新版本",
+    "Update available": "发现新版本",
+    "Update Not Available": "没有可用的更新",
+    "Update not available": "没有可用的更新",
+    "Update Downloaded": "更新已下载",
+    "Update downloaded": "更新已下载",
+    "Update Error": "更新失败",
+    "Update error": "更新失败",
+    "Update Failed": "更新失败",
+    "Update failed": "更新失败",
+    "Update check failed": "检查更新失败",
+    "There are no updates available at this time.": "当前没有可用的更新。",
+    "You are running the latest version.": "您当前已是最新版本。",
+    "A new version is available. Would you like to download it now?": "发现新版本。您想现在下载吗？",
+    "A new version has been downloaded. Restart the application to apply the updates.": "新版本已下载完成。重启应用程序以应用更新。",
+    "Confirm Quit": "确认退出",
+    "Are you sure you want to quit?": "确定要退出吗？",
+    "There may be agents or background tasks running.": "可能有正在运行的智能体或后台任务。",
+    "Quit Antigravity": "退出 Antigravity",
+    "WSL distro not found": "未找到 WSL 发行版",
+    "Antigravity opened on Windows instead.": "Antigravity 已在 Windows 环境中打开。",
+    "Binary not found": "未找到二进制执行文件",
+    "WSL setup failed": "WSL 配置失败",
+    "Startup failed": "启动失败",
+    "Cannot open folder": "无法打开文件夹",
+    "Folder is on the Windows filesystem": "文件夹位于 Windows 文件系统中",
+    "Open workspace": "打开工作区",
+    "Error": "错误",
+    "Warning": "警告",
+    "Information": "提示",
+    "Question": "提示",
+    "OK": "确定",
+    "Ok": "确定",
+    "Cancel": "取消",
+    "Yes": "是",
+    "No": "否",
+    "Retry": "重试",
+    "Ignore": "忽略",
+    "Close": "关闭",
+    "Quit": "退出",
+    "Restart": "重启",
+    "Later": "稍后",
+    "Install and Relaunch": "安装并重启",
+    "Install and Restart": "安装并重启",
+    "Download": "下载",
+    "Download Now": "立即下载",
+    "Learn More": "了解更多",
+    "Open Settings": "打开设置",
+    "Open Folder": "打开文件夹",
+    "Open Workspace": "打开工作区",
+    "Continue": "继续"
+  },
+  "patterns": [
+    {
+      "pattern": "^A new version\\s+([0-9a-zA-Z._-]+)\\s+is available",
+      "flags": "i",
+      "replacement": "发现新版本 $1 可用"
+    },
+    {
+      "pattern": "^Version\\s+([0-9a-zA-Z._-]+)\\s+is available",
+      "flags": "i",
+      "replacement": "版本 $1 现已可用"
+    },
+    {
+      "pattern": "^Downloading\\s+(?:update\\s+)?([0-9]+(?:\\.[0-9]+)?%)",
+      "flags": "i",
+      "replacement": "正在下载更新 ($1)"
+    },
+    {
+      "pattern": "^An error occurred(?::\\s*(.*))?$",
+      "flags": "i",
+      "replacement": "发生错误：$1"
+    },
+    {
+      "pattern": "^Failed to check for updates(?::\\s*(.*))?$",
+      "flags": "i",
+      "replacement": "检查更新失败：$1"
+    },
+    {
+      "pattern": "^Failed to download update(?::\\s*(.*))?$",
+      "flags": "i",
+      "replacement": "下载更新失败：$1"
+    },
+    {
+      "pattern": "^There is no update available at this time\\.?$",
+      "flags": "i",
+      "replacement": "当前没有可用的更新。"
+    },
+    {
+      "pattern": "^You are already on the latest version\\.?$",
+      "flags": "i",
+      "replacement": "您当前已是最新版本。"
+    }
+  ]
+}

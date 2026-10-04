@@ -38,6 +38,7 @@ import {
   getAntigravityUserDataRoot,
   getRuntimePreviewRoot,
   getStateRoot,
+  projectRoot,
 } from "./lib/paths.mjs";
 import { sha256File } from "./lib/hash.mjs";
 import {
@@ -60,6 +61,20 @@ import {
 } from "./lib/diagnostics.mjs";
 
 const INSTALLED_BUNDLE_NAME = "agy_zhcn_ui_main.js";
+const INSTALLED_DIALOG_RULES_NAME = "agy_zhcn_dialog.json";
+
+async function syncDialogRulesToUserData() {
+  try {
+    const sourcePath = path.join(projectRoot, "config", "dialog-translations.json");
+    const targetPath = path.join(
+      getAntigravityUserDataRoot(),
+      INSTALLED_DIALOG_RULES_NAME,
+    );
+    await copyFile(sourcePath, targetPath);
+  } catch (error) {
+    console.warn(`警告：原生弹窗规则文件同步失败（不影响主界面汉化）：${error.message}`);
+  }
+}
 
 function printStep(current, total, message) {
   console.log(`\n[${current}/${total}] ${message}`);
@@ -408,6 +423,7 @@ async function updateInstalledLocalization({
     await replacement.finalize().catch((error) => {
       console.warn(`警告：旧中文文件临时副本未能清理：${error.message}`);
     });
+    await syncDialogRulesToUserData();
   } catch (error) {
     if (replacement) {
       try {
@@ -608,6 +624,7 @@ async function install({ assumeYes = false } = {}) {
     await replacement.finalize().catch((error) => {
       console.warn(`警告：旧文件临时副本未能清理：${error.message}`);
     });
+    await syncDialogRulesToUserData();
   } catch (error) {
     const rollbackErrors = [];
     if (bundleResult?.rollback) {
