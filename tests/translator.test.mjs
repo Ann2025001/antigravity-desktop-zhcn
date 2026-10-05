@@ -649,6 +649,45 @@ test("third-party model access notice and notifications are covered by exact and
   }
 });
 
+test("new models and plans availability notifications are covered by exact and pattern rules", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    {
+      source: "New Models Available",
+      expected: "新模型现已推出",
+    },
+    {
+      source: "Models Available",
+      expected: "可用模型",
+    },
+    {
+      source: "Claude Opus 5.5 and Claude Sonnet 5.5 now available in your plan!",
+      expected: "Claude Opus 5.5 and Claude Sonnet 5.5 现已在你的订阅方案中可用！",
+    },
+    {
+      source: "Claude Opus 5.5 is now available in your plan",
+      expected: "Claude Opus 5.5 现已在你的订阅方案中可用！",
+    },
+    {
+      source: "Gemini 3.0 Pro available on your plan!",
+      expected: "Gemini 3.0 Pro 现已在你的订阅方案中可用！",
+    },
+    {
+      source: "GPT-5 is now available!",
+      expected: "GPT-5 现已可用！",
+    },
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `model availability translation mismatch for: ${source}`,
+    );
+  }
+});
+
 
 
 

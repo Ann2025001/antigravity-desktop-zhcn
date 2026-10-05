@@ -1997,7 +1997,27 @@
     "Confirm Quit": "确认退出",
     "Are you sure you want to quit?": "确定要退出吗？",
     "There may be agents or background tasks running.": "可能有正在运行的智能体或后台任务。",
-    "Quit Antigravity": "退出 Antigravity"
+    "Quit Antigravity": "退出 Antigravity",
+    "New Models Available": "新模型现已推出",
+    "New Models Available!": "新模型现已推出！",
+    "New Model Available": "新模型现已推出",
+    "New Model Available!": "新模型现已推出！",
+    "Models Available": "可用模型",
+    "Models Available!": "可用模型！",
+    "Model Available": "可用模型",
+    "Model Available!": "可用模型！",
+    "New Features Available": "新功能现已推出",
+    "New Features Available!": "新功能现已推出！",
+    "New features available": "新功能现已推出",
+    "New features available!": "新功能现已推出！",
+    "New Updates Available": "发现新更新",
+    "New updates available": "发现新更新",
+    "New Version Available": "新版本现已推出",
+    "New version available": "新版本现已推出",
+    "now available in your plan!": "现已在你的订阅方案中可用！",
+    "now available in your plan": "现已在你的订阅方案中可用",
+    "available in your plan!": "已在你的订阅方案中可用！",
+    "available in your plan": "已在你的订阅方案中可用"
   },
   "patterns": [
     {
@@ -3733,6 +3753,66 @@
     {
       "source": "^A new version ([0-9a-zA-Z._-]+) is available\\\\.?$",
       "target": "发现新版本  可用。",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available in your plan!?$",
+      "target": "$1 现已在你的订阅方案中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available on your plan!?$",
+      "target": "$1 现已在你的订阅方案中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available for your plan!?$",
+      "target": "$1 现已在你的订阅方案中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available with your plan!?$",
+      "target": "$1 现已在你的订阅方案中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available under your plan!?$",
+      "target": "$1 现已在你的订阅方案中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available in your subscription!?$",
+      "target": "$1 现已在你的订阅中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available on your subscription!?$",
+      "target": "$1 现已在你的订阅中可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available for all users!?$",
+      "target": "$1 现已面向所有用户可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)(?:\\s+(?:is|are))?(?:\\s+now)?\\s+available to all users!?$",
+      "target": "$1 现已面向所有用户可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+(?:is|are) now available!?$",
+      "target": "$1 现已可用！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+is now available to try!?$",
+      "target": "$1 现已可供体验！",
+      "flags": "u"
+    },
+    {
+      "source": "^(.+?)\\s+are now available to try!?$",
+      "target": "$1 现已可供体验！",
       "flags": "u"
     }
   ]
