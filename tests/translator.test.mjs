@@ -689,6 +689,48 @@ test("new models and plans availability notifications are covered by exact and p
   }
 });
 
+test("model quota policy description and comprehensive UI strings are covered", async () => {
+  const current = await loadDomTranslations();
+  const testCases = [
+    {
+      source:
+        "Within each group, models share a weekly limit and a 5-hour limit. Quota is consumed proportionally to the cost of the tokens. Thus, limits will last longer with shorter tasks or using more cost-effective models. The 5-hour limit smooths out aggregate demand to fairly distribute global capacity across all users, while your weekly limit is tied directly to your individual tier.",
+      expected:
+        "在每个组内，模型共享每周限额和 5 小时限额。配额根据 Token 的消耗成本按比例扣减。因此，对于耗时较短的任务或使用更高性价比的模型，配额使用时间将更持久。5 小时限额用于平滑总体请求峰值，以在所有用户间公平分配全局算力；而你的每周限额则直接与你的个人套餐级别挂钩。",
+    },
+    {
+      source: "Manage your model quota and credits.",
+      expected: "管理你的模型配额与点数。",
+    },
+    {
+      source: "Enable AI Credit Overages",
+      expected: "允许超额使用 AI 点数",
+    },
+    {
+      source: "Your quota for this model is running low.",
+      expected: "你在此模型的配额即将耗尽。",
+    },
+    {
+      source: "Available AI Credits: 1,500",
+      expected: "可用 AI 点数：1,500",
+    },
+    {
+      source: "Shared with: Gemini 3.8 Flash",
+      expected: "共享对象：Gemini 3.8 Flash",
+    },
+  ];
+
+  for (const { source, expected } of testCases) {
+    const translated = translateDictionaryValue(source, current);
+    assert.equal(
+      translated,
+      expected,
+      `quota and UI translation mismatch for: ${source}`,
+    );
+  }
+});
+
+
 
 
 
