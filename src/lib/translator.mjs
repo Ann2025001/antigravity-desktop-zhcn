@@ -110,7 +110,9 @@ export function createRuntimeOverlay(dictionary) {
     "[contenteditable='true']",
     "[data-lexical-editor='true']",
     ".monaco-editor",
-    "[data-testid^='model-selector-']"
+    "[data-testid='model-selector-item']",
+    "[data-testid='model-selector-effort-group']",
+    "[data-testid='model-selector-effort-option']"
   ].join(",");
   const blockedAttributeSelector = [
     "script",
@@ -118,7 +120,7 @@ export function createRuntimeOverlay(dictionary) {
     "code",
     "pre",
     ".monaco-editor",
-    "[data-testid^='model-selector-']"
+    "[data-testid='model-selector-item']"
   ].join(",");
   const translatedAttributes = ["aria-label", "title", "placeholder", "data-tooltip", "data-title"];
   const pendingRoots = new Set();
