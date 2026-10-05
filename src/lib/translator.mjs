@@ -110,9 +110,11 @@ export function createRuntimeOverlay(dictionary) {
     "[contenteditable='true']",
     "[data-lexical-editor='true']",
     ".monaco-editor",
+    "[data-model-selector-list]",
     "[data-testid='model-selector-item']",
     "[data-testid='model-selector-effort-group']",
-    "[data-testid='model-selector-effort-option']"
+    "[data-testid='model-selector-effort-option']",
+    ".overscroll-y-none.scrollbar-none"
   ].join(",");
   const blockedAttributeSelector = [
     "script",
@@ -120,7 +122,9 @@ export function createRuntimeOverlay(dictionary) {
     "code",
     "pre",
     ".monaco-editor",
-    "[data-testid='model-selector-item']"
+    "[data-model-selector-list]",
+    "[data-testid='model-selector-item']",
+    ".overscroll-y-none.scrollbar-none"
   ].join(",");
   const translatedAttributes = ["aria-label", "title", "placeholder", "data-tooltip", "data-title"];
   const pendingRoots = new Set();
@@ -401,6 +405,11 @@ export function createLocalizedBundle(sourceBuffer, dictionary) {
   sourceText = sourceText.replaceAll('"Cannot revert messages while the agent is running"', '"智能体运行期间无法还原消息"');
   // 计划评审策略原生汉化
   sourceText = sourceText.replaceAll('label:"Plan Review Policy"', 'label:"计划评审策略"');
+  // 标记模型选择器选项列表容器，使其内部全部保持英文原样
+  sourceText = sourceText.replace(
+    'return z.createElement("div",{className:"relative flex flex-col flex-grow min-h-0"},',
+    'return z.createElement("div",{"data-model-selector-list":"true",className:"relative flex flex-col flex-grow min-h-0"},'
+  );
   // 工作流状态汇总原生汉化（根治 running X commands 与半中半英状态）
   sourceText = sourceText.replace(
     'zX={files:["file","files"],folders:["folder","folders"],edits:["file","files"],searches:["search","searches"],terminal:["command","commands"],tasks:["task","tasks"],web:["page","pages"],browser:["browser","browsers"],images:["image","images"],actions:["action","actions"],artifacts:["artifact","artifacts"]}',
