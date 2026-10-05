@@ -109,14 +109,16 @@ export function createRuntimeOverlay(dictionary) {
     "input",
     "[contenteditable='true']",
     "[data-lexical-editor='true']",
-    ".monaco-editor"
+    ".monaco-editor",
+    "[data-testid^='model-selector-']"
   ].join(",");
   const blockedAttributeSelector = [
     "script",
     "style",
     "code",
     "pre",
-    ".monaco-editor"
+    ".monaco-editor",
+    "[data-testid^='model-selector-']"
   ].join(",");
   const translatedAttributes = ["aria-label", "title", "placeholder", "data-tooltip", "data-title"];
   const pendingRoots = new Set();

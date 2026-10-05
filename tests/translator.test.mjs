@@ -45,6 +45,7 @@ test("runtime overlay excludes editors and code-like regions", () => {
   assert.match(overlay, /monaco-editor/);
   assert.match(overlay, /blockedAttributeSelector/);
   assert.match(overlay, /isAttributeBlocked/);
+  assert.match(overlay, /model-selector/);
   assert.match(overlay, /Node\.TEXT_NODE/);
 });
 
